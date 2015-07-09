@@ -86,11 +86,6 @@
                 deviceId: $route.current.params.deviceId
               }).$promise;
             }
-          ],
-          operationsList: ['dataService',
-            function(dataService) {
-              return dataService.operations.query().$promise;
-            }
           ]
         }
       })

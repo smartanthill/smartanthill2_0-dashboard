@@ -23,7 +23,7 @@
     .controller('DeviceTrainItController', DeviceTrainItController);
 
   function DeviceTrainItController($q, $resource, $modalInstance,
-    dataService, device, operationsList, serialPortsList) {
+    dataService, device, serialPortsList) {
 
     var vm = this;
 
