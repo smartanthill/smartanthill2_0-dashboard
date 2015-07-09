@@ -22,8 +22,8 @@
     .module('siteApp')
     .controller('DeviceBodyPartController', DeviceBodyPartController);
 
-  function DeviceBodyPartController($modalInstance, initialState, pluginsList,
-    boardInfo) {
+  function DeviceBodyPartController($scope, $modalInstance, initialState,
+    pluginsList, boardInfo) {
 
     var vm = this;
 
@@ -31,12 +31,29 @@
     vm.item = initialState;
     vm.boardPins = getBoardPins();
     vm.selectPlugin = {};
-    vm.test = true;
 
     angular.forEach(vm.plugins, function(item) {
       if (item.id === initialState.pluginId) {
         vm.selectPlugin.selected = item;
       }
+    });
+
+    $scope.$watch('vm.selectPlugin.selected', function(newValue, oldValue) {
+      if (!angular.isObject(newValue) || newValue === oldValue) {
+        return;
+      }
+
+      vm.item.peripheral = {};
+      vm.item.options = {};
+
+      if (angular.isObject(vm.selectPlugin.selected.options)) {
+        angular.forEach(vm.selectPlugin.selected.options, function(item) {
+          if (!angular.isUndefined(item.default)) {
+            vm.item.options[item.name] = item.default;
+          }
+        });
+      }
+
     });
 
     // handlers
@@ -46,9 +63,8 @@
     ////////////
 
     function getBoardPins() {
-      var options = [],
+      var items = [],
         aliases;
-      console.log(boardInfo);
       angular.forEach(boardInfo.pins, function(number) {
         aliases = [];
         angular.forEach(boardInfo.pinsAlias, function(value, key) {
@@ -57,21 +73,21 @@
           }
         });
 
-        options.push({
+        items.push({
           'id': number,
           'name': (aliases.length ? number + ' (' + aliases.join(
             ', ') + ')' : number)
         });
       });
-      console.log(options);
-      return options;
+      return items;
     }
 
     function save() {
       $modalInstance.close({
         'name': vm.item.name,
         'pluginId': vm.selectPlugin.selected.id,
-        'peripheral': vm.item.peripheral
+        'peripheral': vm.item.peripheral,
+        'options': vm.item.options
       });
     }
 
