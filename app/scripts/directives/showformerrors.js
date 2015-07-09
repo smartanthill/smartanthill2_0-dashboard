@@ -40,8 +40,8 @@
           if (!oInput) {
             return;
           }
-          var inputName = oInput.attr('name');
-          oInput.bind('blur', function() {
+          oInput.bind('change blur', function() {
+            var inputName = oInput.attr('name');
             element.toggleClass('has-success', !formCtrl[inputName].$invalid);
             element.toggleClass('has-error', formCtrl[inputName].$invalid);
           });
