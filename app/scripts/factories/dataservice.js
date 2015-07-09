@@ -25,16 +25,16 @@
   function dataService($resource, siteConfig) {
     return {
       boards: boards(),
+      plugins: plugins(),
       devices: devices(),
       serialports: serialports(),
       settings: settings(),
-      operations: operations(),
       buildDeviceFirmware: buildDeviceFirmware,
       deviceUploadFirmware: deviceUploadFirmware
     };
 
-    function operations() {
-      return $resource(siteConfig.apiURL + 'operations');
+    function plugins() {
+      return $resource(siteConfig.apiURL + 'plugins');
     }
 
     function boards() {

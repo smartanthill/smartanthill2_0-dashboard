@@ -78,7 +78,7 @@
           },
           serialPortsList: ['dataService',
             function(dataService) {
-              return dataService.serialports.query();
+              return dataService.serialports.query().$promise;
             }
           ]
         }

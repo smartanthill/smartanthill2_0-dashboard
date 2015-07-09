@@ -1,0 +1,77 @@
+<h1 ng-show="!vm.editMode">New Device</h1>
+<h1 ng-show="vm.editMode">Edit Device #{{ vm.prevState.id }}</h1>
+
+<form name="deviceForm" ng-submit="vm.submitForm()" novalidate role="form">
+
+  <div class="form-group" show-form-errors>
+    <label class="control-label">ID</label>
+    <input
+      type="number"
+      name="id"
+      class="form-control"
+      required
+      min="1"
+      max="255"
+      ng-model="vm.device.id"
+      tooltip="Device Unique ID (like address) between 1 and 255"
+      tooltip-placement="right">
+  </div>
+
+  <div class="form-group" show-form-errors>
+    <label class="control-label">Name</label>
+    <input
+      type="text"
+      name="name"
+      class="form-control"
+      placeholder="Enter device name"
+      required
+      ng-model="vm.device.name"
+      ng-pattern="/^[a-z0-9\_\- ]+$/i"
+      tooltip="Examples: My first device, Kitchen node, Wireless board (allowed chars: [a-z0-9_- ])"
+      tooltip-placement="right">
+    </div>
+
+  <div class="form-group" show-form-errors>
+    <label class="control-label">Connection URL</label>
+    <input
+      type="text"
+      name="netrouter"
+      class="form-control"
+      placeholder="How device will be connected to SmartAnthill?"
+      required
+      ng-model="vm.device.network.router"
+      ng-pattern="/^serial(\:[a-z]+=[^\:]+)+$/"
+      tooltip="Examples: serial:port=/dev/ttyUSB0, serial:port=COM1:baudrate=9600"
+      tooltip-placement="right">
+  </div>
+
+  <div class="form-group" ng-class="{'has-success': vm.selectBoard.selected}" show-form-errors="vm.submitted && !vm.selectBoard.selected">
+    <label class="control-label">Board</label>
+    <ui-select ng-model="vm.selectBoard.selected" theme="bootstrap" ng-disabled="vm.device.bodyparts.length">
+      <ui-select-match required placeholder="Select or search a board in the list...">{{$select.selected.name}}</ui-select-match>
+      <ui-select-choices group-by="vm.boardGroupBy" repeat="item in vm.boards | filter: {name: $select.search}">
+        <div ng-bind-html="item.name | highlight: $select.search"></div>
+      </ui-select-choices>
+    </ui-select>
+  </div>
+
+  <div class="form-group" ng-class="{'has-success': vm.device.bodyparts.length}" ng-if="vm.selectBoard.selected">
+    <label class="control-label">Body Parts <button type="button" class="btn btn-success btn-xs" ng-click="vm.bodyPartModal()"><i class="fa fa-plus"></i> Add</button></label>
+    <ul class="list-group">
+      <li class="list-group-item" ng-repeat="item in vm.device.bodyparts">
+        <b>{{ item.name }}</B>
+        <i class="fa fa-times fa-lg pull-right" style="cursor: pointer" ng-click="vm.removeBodyPart($index)" tooltip="Remove"></i>
+        <i class="fa fa-pencil-square-o fa-lg pull-right" style="cursor: pointer" ng-click="vm.bodyPartModal($index)" tooltip="Edit"></i>
+        <div>{{ item | json }}</div>
+      </li>
+    </ul>
+  </div>
+
+  {{ vm.device | json }}
+  <br>
+
+  <button type="submit" class="btn btn-primary" ng-disabled="vm.disableSubmit || deviceForm.$invalid || !vm.selectBoard.selected || !vm.device.bodyparts.length">Submit</button>
+  <button type="button" class="btn btn-link" ng-click="vm.resetForm()">Reset</button>
+</form>
+
+<br class=clearfix>

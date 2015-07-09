@@ -32,12 +32,48 @@
         controllerAs: 'vm'
       })
       .when('/devices/add', {
-        templateUrl: 'views/device_addoredit.html',
-        controller: 'DeviceAddOrEditCtrl'
+        templateUrl: 'views/device-addoredit.html',
+        controller: 'DeviceAddOrEditController',
+        controllerAs: 'vm',
+        resolve: {
+          devicesList: ['dataService',
+            function(dataService) {
+              return dataService.devices.query().$promise;
+            }
+          ],
+          boardsList: ['dataService',
+            function(dataService) {
+              return dataService.boards.query().$promise;
+            }
+          ],
+          pluginsList: ['dataService',
+            function(dataService) {
+              return dataService.plugins.query().$promise;
+            }
+          ]
+        }
       })
       .when('/devices/:deviceId/edit', {
-        templateUrl: 'views/device_addoredit.html',
-        controller: 'DeviceAddOrEditCtrl'
+        templateUrl: 'views/device-addoredit.html',
+        controller: 'DeviceAddOrEditController',
+        controllerAs: 'vm',
+        resolve: {
+          devicesList: ['dataService',
+            function(dataService) {
+              return dataService.devices.query().$promise;
+            }
+          ],
+          boardsList: ['dataService',
+            function(dataService) {
+              return dataService.boards.query().$promise;
+            }
+          ],
+          pluginsList: ['dataService',
+            function(dataService) {
+              return dataService.plugins.query().$promise;
+            }
+          ]
+        }
       })
       .when('/devices/:deviceId', {
         templateUrl: 'views/device-info.html',
@@ -60,7 +96,15 @@
       })
       .when('/devices', {
         templateUrl: 'views/devices.html',
-        controller: 'DevicesCtrl'
+        controller: 'DevicesController',
+        controllerAs: 'vm',
+        resolve: {
+          devicesList: ['dataService',
+            function(dataService) {
+              return dataService.devices.query().$promise;
+            }
+          ]
+        }
       })
       .when('/network', {
         templateUrl: 'views/network.html',

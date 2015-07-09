@@ -1,0 +1,49 @@
+<div class="modal-header">
+  <h3 class="modal-title">Body Part</h3>
+</div>
+
+<div class="modal-body">
+
+  <form name="bodyPartForm" ng-submit="vm.submitForm()" novalidate role="form">
+    <div class="form-group" show-form-errors>
+      <label class="control-label">Name</label>
+      <input
+        type="text"
+        name="bodypart_name"
+        class="form-control"
+        placeholder="Enter Body Part name"
+        required
+        ng-model="vm.item.name"
+        ng-pattern="/^[a-z0-9\_\- ]+$/i"
+        tooltip="Examples: Led_1, Servo, Valve, Temp_Sensor (allowed chars: [a-z0-9_- ])"
+        tooltip-placement="right">
+    </div>
+
+    <div class="form-group" ng-class="{'has-success': vm.selectPlugin.selected}">
+      <label class="control-label">Plugin</label>
+      <ui-select ng-model="vm.selectPlugin.selected" theme="bootstrap">
+        <ui-select-match required placeholder="Select or search a plugin in the list...">{{$select.selected.name}}</ui-select-match>
+        <ui-select-choices repeat="item in vm.plugins | filter: $select.search">
+          <b><div ng-bind-html="item.name | highlight: $select.search"></div></b>
+          <small ng-bind-html="item.description | highlight: $select.search"></small>
+        </ui-select-choices>
+      </ui-select>
+    </div>
+
+    <div class="form-group" ng-repeat="pin in vm.selectPlugin.selected.peripheral">
+      <label class="control-label">{{ pin.title }}</label>
+      <select name="{{ pin.name }}" class="form-control" required ng-model="vm.item.peripheral[pin.name]" ng-options="item.id as item.name for item in vm.boardPins">
+      </select>
+    </div>
+
+    {{ vm.item | json }}
+
+  </form>
+
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="vm.save()" ng-disabled="bodyPartForm.$invalid || !vm.selectPlugin.selected">Save</button>
+  <button class="btn btn-default" ng-click="vm.cancel()">Cancel</button>
+</div>
+

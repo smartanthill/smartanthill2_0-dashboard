@@ -1,4 +1,4 @@
-<div ng-show="devices.length">
+<div ng-show="vm.devices.length">
   <h1>Device</h1>
   <p>
     <a href="#!/devices/add" class="btn btn-primary" role="button">New Device</a>
@@ -9,7 +9,7 @@
       <th>ID</th>
       <th>Name</th>
     </tr>
-    <tr ng-repeat="device in devices">
+    <tr ng-repeat="device in vm.devices">
       <td>
         {{device.id}}
       </td>
@@ -20,7 +20,7 @@
   </table>
 </div>
 
-<div class="jumbotron" ng-show="!devices.length">
+<div class="jumbotron" ng-show="!vm.devices.length">
   <h1>Devices</h1>
   <p>You devices list is empty.</p>
   <p><a href="#!/devices/add" class="btn btn-primary" role="button">Add new Device</a> </p>
