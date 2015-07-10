@@ -119,7 +119,14 @@
       .when('/console', {
         templateUrl: 'views/console.html',
         controller: 'ConsoleController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        resolve: {
+          Messages: ['dataService',
+            function(dataService) {
+              return dataService.consoleMessages().$promise;
+            }
+          ]
+        }
       })
       .when('/settings', {
         templateUrl: 'views/settings.html',

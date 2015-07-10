@@ -1,20 +1,78 @@
 <h1>Console</h1>
 
-<button ng-click="vm.tableParams.reload()" class="btn btn-default">Reload</button>
-<button ng-click="vm.tableParams.sorting({})" class="btn btn-default">Clear sorting</button>
+<div class="console-settings-row">
+  <button ng-click="vm.tableParams.reload()" class="btn btn-default">Reload data</button>
+  <button ng-click="vm.tableParams.sorting({})" class="btn btn-default">Clear sorting</button>
+  <button ng-click="vm.tableParams.filter({})" class="btn btn-default">Clear filters</button>
+
+  <button ng-click="vm.showAdvancedSettings = !vm.showAdvancedSettings"
+          type="button" class="btn btn-link">
+    Toggle advanced settings
+  </button>
+</div>
+<div id="advanced-settings" ng-show="vm.showAdvancedSettings">
+  <div class="console-settings-row">
+    <label>Choose update interval:</label>
+    <div class="btn-group">
+      <label class="btn btn-primary" ng-model="vm.updateInterval" btn-radio="'Disabled'">
+        Disabled
+      </label>
+      <label class="btn btn-primary" ng-model="vm.updateInterval" btn-radio="3">
+        3
+      </label>
+      <label class="btn btn-primary" ng-model="vm.updateInterval" btn-radio="5">
+        5
+      </label>
+      <label class="btn btn-primary" ng-model="vm.updateInterval" btn-radio="10">
+        10
+      </label>
+      <label class="btn btn-primary" ng-model="vm.updateInterval" btn-radio="15">
+        15
+      </label>
+      <label class="btn btn-primary" ng-model="vm.updateInterval" btn-radio="30">
+        30
+      </label>
+      <label class="btn btn-primary" ng-model="vm.updateInterval" btn-radio="60">
+        60
+      </label>
+    </div>
+  </div>
+
+  <div class="console-settings-row">
+    <label>Group by:</label>
+    <div class="btn-group">
+      <label class="btn btn-primary" ng-model="vm.groupBy" btn-radio="'system'">System</label>
+      <label class="btn btn-primary" ng-model="vm.groupBy" btn-radio="'level'">error.level</label>
+      <label class="btn btn-primary" ng-model="vm.groupBy" btn-radio="'none'">None</label>
+    </div>
+  </div>
+</div>
+
 <div class="clearfix"></div>
-<div loading-container="vm.tableParams.settings().$loading">
-  <table ng-table="vm.tableParams" class="table">
-    <tr ng-repeat="device in $data">
-      <td data-title="'ID'" sortable="id">
-        {{ device.id }}
-      </td>
-      <td data-title="'Name'" sortable="name">
-        <a href="#!/devices/{{device.id}}">{{ device.name }}</a>
-      </td>
-      <td data-title="'Board'" sortable="board_name">
-        {{ device.board_name }}
+
+<table ng-table="vm.tableParams" show-filter="true" class="table">
+  <tbody ng-repeat="group in $groups">
+    <tr class="ng-table-group">
+      <td colspan="{{ $columns.length }}">
+        <a href="" ng-click="group.$hideRows = !group.$hideRows">
+          <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+          <strong>{{ group.value }}</strong>
+        </a>
       </td>
     </tr>
-  </table>
-</div>
+    <tr ng-hide="group.$hideRows" ng-repeat="log_entry in group.data">
+      <td data-title="'Date'" sortable="'date'">
+        {{ log_entry.date * 1000 | date:'short'}}
+      </td>
+      <td data-title="'System'" sortable="'system'" filter="{ 'system': 'text' }">
+        {{ log_entry.system }}
+      </td>
+      <td data-title="'error.level'" sortable="'level'" filter="{ 'level': 'text' }">
+        {{ log_entry.level }}
+      </td>
+      <td data-title="'Message'" sortable="'message'" filter="{ 'message': 'text' }">
+        {{ log_entry.message }}
+      </td>
+    </tr>
+  </tbody>
+</table>

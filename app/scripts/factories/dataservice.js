@@ -30,7 +30,8 @@
       serialports: serialports(),
       settings: settings(),
       buildDeviceFirmware: buildDeviceFirmware,
-      deviceUploadFirmware: deviceUploadFirmware
+      deviceUploadFirmware: deviceUploadFirmware,
+      consoleMessages: consoleMessages
     };
 
     function plugins() {
@@ -67,6 +68,10 @@
       return $resource(siteConfig.apiURL + 'devices/:id/uploadfw', {
         id: deviceId
       }).save(data);
+    }
+
+    function consoleMessages(){
+      return $resource(siteConfig.apiURL + 'console').query();
     }
   }
 

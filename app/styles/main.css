@@ -58,3 +58,7 @@ footer hr {
 #bodyparts-table dt:after{
   content:": ";
 }
+
+.console-settings-row {
+  margin-bottom: 5px;
+}

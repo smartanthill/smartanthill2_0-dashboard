@@ -22,24 +22,58 @@
     .module('siteApp')
     .controller('ConsoleController', ConsoleController);
 
-  function ConsoleController(ngTableParams, dataService) {
+  function ConsoleController($scope, $interval, $filter, ngTableParams, notifyUser, dataService, siteConfig) {
     var vm = this;
+    vm.updateInterval = 10;  // seconds
+    vm.groupBy = 'level';
+    vm.showAdvancedSettings = false;
 
-    vm.tableParams = new ngTableParams({ // jshint ignore:line
-      count: -1,
+    vm.tableParams = new ngTableParams({
+      page: 1,
+      count: 10,
       sorting: {
-        id: 'asc'
+        date: 'asc'
       }
     }, {
-      total: 0,
-      counts: [],
       getData: function($defer, params) {
-        dataService.devices.query(params.url(), function(data) {
-          params.total(data.length);
-          $defer.resolve(data);
-        });
+        var data;
+        dataService.consoleMessages().$promise
+          .then(
+            function(result){
+              data = params.sorting() ?
+                $filter('orderBy')(result, params.orderBy()) : result;
+              data = params.filter() ?
+                $filter('filter')(data, params.filter()) : data;
+              params.total(data.length);
+              $defer.resolve(data.slice((params.page() - 1) * params.count(),
+                             params.page() * params.count()));
+            },
+            function(result, status){
+              notifyUser('error',
+                         'Error occurred during requesting console messages!');
+            }
+          );
+      },
+      groupBy: function(item) {
+        return item[vm.groupBy];
+      },
+    });
+
+    var updater;
+    $scope.$watch('vm.updateInterval', function(value){
+      if ( angular.isDefined(updater) ){
+        $interval.cancel(updater);
+        updater = undefined;
+      }
+      if (value != 'Disabled') {
+        updater = $interval(function() {
+          vm.tableParams.reload();
+        }, value * 1000);
       }
     });
-  }
 
+    $scope.$watch('vm.groupBy', function(value) {
+      vm.tableParams.reload();
+    });
+  };
 })();
