@@ -40,3 +40,21 @@
 footer hr {
   margin: 25px 0 10px 0;
 }
+
+#bodyparts-table td:last-child,
+#bodyparts-table th:last-child{
+  text-align: right;
+}
+
+#bodyparts-table dl {
+  margin-bottom: 5px;
+}
+
+#bodyparts-table dt,
+#bodyparts-table dd {
+  display: inline;
+}
+
+#bodyparts-table dt:after{
+  content:": ";
+}
