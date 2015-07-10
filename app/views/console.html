@@ -61,8 +61,8 @@
       </td>
     </tr>
     <tr ng-hide="group.$hideRows" ng-repeat="log_entry in group.data">
-      <td data-title="'Date'" sortable="'date'">
-        {{ log_entry.date * 1000 | date:'short'}}
+      <td data-title="'Date'" sortable="'date'" nowrap="nowrap">
+        {{ log_entry.date * 1000 | date:'medium'}}
       </td>
       <td data-title="'System'" sortable="'system'" filter="{ 'system': 'text' }">
         {{ log_entry.system }}

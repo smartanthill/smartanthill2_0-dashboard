@@ -33,7 +33,7 @@
       page: 1,
       count: 10,
       sorting: {
-        date: 'asc'
+        date: 'desc'
       }
     }, {
       getData: function($defer, params) {
