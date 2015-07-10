@@ -55,21 +55,51 @@
     </ui-select>
   </div>
 
-  <div class="form-group" ng-class="{'has-success': vm.device.bodyparts.length}" ng-if="vm.device.bodyparts.length">
-    <label class="control-label">Body Parts <button type="button" class="btn btn-success btn-xs" ng-click="vm.bodyPartModal()"><i class="fa fa-plus"></i> Add</button></label>
-    <ul class="list-group">
-      <li class="list-group-item" ng-repeat="item in vm.device.bodyparts">
-        <b>{{ item.name }}</B>
-        <i class="fa fa-times fa-lg pull-right" style="cursor: pointer" ng-click="vm.removeBodyPart($index)" tooltip="Remove"></i>
-        <i class="fa fa-pencil-square-o fa-lg pull-right" style="cursor: pointer" ng-click="vm.bodyPartModal($index)" tooltip="Edit"></i>
-        <div>{{ item | json }}</div>
-      </li>
-    </ul>
-  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        Body Parts
+        <button ng-if="vm.device.bodyparts.length" type="button" class="btn btn-success btn-xs" ng-click="vm.bodyPartModal()"><i class="fa fa-plus"></i> Add</button>
+      </h3>
+    </div>
 
-  <p ng-if="vm.selectBoard.selected && !vm.device.bodyparts.length">
-    <button type="button" class="btn btn-success" ng-click="vm.bodyPartModal()"><i class="fa fa-plus"></i> Add Body Part</button>
-  </p>
+    <div class="panel-body">
+      <button ng-if="!vm.device.bodyparts.length" ng-class="{disabled: !vm.selectBoard.selected}" type="button" class="btn btn-success" ng-click="vm.bodyPartModal()"><i class="fa fa-plus"></i> Add Body Part</button>
+      <div class="form-group" ng-class="{'has-success': vm.device.bodyparts.length}" ng-if="vm.device.bodyparts.length">
+        <table id="bodyparts-table" class="table table-hover" ng-show="vm.device.bodyparts">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Plugin id</th>
+              <th>Options</th>
+              <th>Peripheral</th>
+              <th>Modify</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in vm.device.bodyparts">
+              <td>{{ item.name }}</td>
+              <td>{{ item.pluginId }}</td>
+              <td>
+                <dl ng-repeat="(key, value) in item.options">
+                  <dt>{{ key }}</dt><dd>{{ value }}</dd>
+                </dl>
+              </td>
+              <td>
+                <dl ng-repeat="(key, value) in item.peripheral">
+                  <dt>{{ key }}</dt><dd>{{ value }}</dd>
+                </dl>
+              </td>
+              <td>
+                <i class="fa fa-pencil-square-o fa-lg" style="cursor: pointer" ng-click="vm.bodyPartModal($index)" tooltip="Edit"></i>
+                <i class="fa fa-times fa-lg" style="cursor: pointer" ng-click="vm.removeBodyPart($index)" tooltip="Remove"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
   <button type="submit" class="btn btn-primary" ng-disabled="vm.disableSubmit || deviceForm.$invalid || !vm.selectBoard.selected || !vm.device.bodyparts.length">Submit</button>
   <button type="button" class="btn btn-link" ng-click="vm.resetForm()">Reset</button>
