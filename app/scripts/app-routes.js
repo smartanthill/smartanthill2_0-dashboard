@@ -36,6 +36,9 @@
         controller: 'DeviceAddOrEditController',
         controllerAs: 'vm',
         resolve: {
+          deviceInfo:function(dataService) {
+            return null;
+          },
           devicesList: ['dataService',
             function(dataService) {
               return dataService.devices.query().$promise;
@@ -58,6 +61,13 @@
         controller: 'DeviceAddOrEditController',
         controllerAs: 'vm',
         resolve: {
+          deviceInfo: ['$route', 'dataService',
+            function($route, dataService) {
+              return dataService.devices.get({
+                deviceId: $route.current.params.deviceId
+              }).$promise;
+            }
+          ],
           devicesList: ['dataService',
             function(dataService) {
               return dataService.devices.query().$promise;
@@ -85,11 +95,6 @@
               return dataService.devices.get({
                 deviceId: $route.current.params.deviceId
               }).$promise;
-            }
-          ],
-          operationsList: ['dataService',
-            function(dataService) {
-              return dataService.operations.query().$promise;
             }
           ]
         }

@@ -24,20 +24,6 @@
       <dd>{{ vm.device.name }}</dd>
     </dl>
 
-    <dl class="dl-horizontal">
-      <dt>Operations:</dt>
-      <dd>
-        <span ng-repeat="op in vm.operations">
-          <span
-            class="label label-default"
-            ng-repeat="id in vm.device.operationIds"
-            ng-if="op.id == id"
-            popover="ID: 0x{{ id.toString(16) }}"
-            popover-trigger="mouseenter">{{ op.name }}</span>
-        </span>
-      </dd>
-    </dl>
-
   </div>
 </div>
 

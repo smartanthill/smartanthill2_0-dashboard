@@ -23,11 +23,10 @@
     .controller('DeviceInfoController', DeviceInfoController);
 
   function DeviceInfoController($location, $modal, dataService, notifyUser,
-    deviceResource, operationsList) {
+    deviceResource) {
 
     var vm = this;
 
-    vm.operations = operationsList;
     vm.device = deviceResource;
     vm.board = dataService.boards.get({
       boardId: vm.device.boardId
@@ -72,9 +71,6 @@
         resolve: {
           device: function() {
             return vm.device;
-          },
-          operationsList: function() {
-            return vm.operations;
           },
           serialPortsList: ['dataService',
             function(dataService) {

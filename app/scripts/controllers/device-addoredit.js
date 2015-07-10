@@ -21,8 +21,8 @@
   angular.module('siteApp')
     .controller('DeviceAddOrEditController', DeviceAddOrEditController);
 
-  function DeviceAddOrEditController($scope, $routeParams, $location, $modal,
-    dataService, notifyUser, devicesList, boardsList) {
+  function DeviceAddOrEditController($scope, $location, $modal, dataService,
+    notifyUser, deviceInfo, devicesList, boardsList) {
     var vm = this;
 
     vm.boards = boardsList;
@@ -35,13 +35,8 @@
       usedDevIds[item.id] = true;
     });
 
-    if ($routeParams.deviceId) {
-      angular.forEach(devicesList, function(item) {
-        if (item.id === parseInt($routeParams.deviceId)) {
-          vm.device = item;
-        }
-      });
-
+    if (deviceInfo) {
+      vm.device = deviceInfo;
       angular.forEach(vm.boards, function(item) {
         if (item.id === vm.device.boardId) {
           vm.selectBoard.selected = item;
@@ -107,7 +102,6 @@
       });
 
       modalInstance.result.then(function(result) {
-        console.log('success', result);
         if (index !== -1) {
           vm.device.bodyparts[index] = result;
         } else {
@@ -158,7 +152,6 @@
       $scope.$broadcast('form-reset');
       vm.submitted = false;
     }
-
   }
 
 })();
