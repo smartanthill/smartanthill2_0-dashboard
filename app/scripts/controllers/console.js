@@ -22,13 +22,14 @@
     .module('siteApp')
     .controller('ConsoleController', ConsoleController);
 
-  function ConsoleController($scope, $interval, $filter, ngTableParams, notifyUser, dataService, siteConfig) {
+  function ConsoleController($scope, $interval, $filter, ngTableParams,
+    notifyUser, dataService, siteConfig) {
     var vm = this;
-    vm.updateInterval = 10;  // seconds
+    vm.updateInterval = 10; // seconds
     vm.groupBy = 'level';
     vm.showAdvancedSettings = false;
 
-    vm.tableParams = new ngTableParams({
+    vm.tableParams = new ngTableParams({ // jshint ignore:line
       page: 1,
       count: 10,
       sorting: {
@@ -37,20 +38,21 @@
     }, {
       getData: function($defer, params) {
         var data;
-        dataService.consoleMessages().$promise
+        dataService.consoleMessages().query().$promise
           .then(
-            function(result){
+            function(result) {
               data = params.sorting() ?
                 $filter('orderBy')(result, params.orderBy()) : result;
               data = params.filter() ?
                 $filter('filter')(data, params.filter()) : data;
               params.total(data.length);
               $defer.resolve(data.slice((params.page() - 1) * params.count(),
-                             params.page() * params.count()));
+                params.page() * params.count()));
             },
-            function(result, status){
+            function(result, status) {
               notifyUser('error',
-                         'Error occurred during requesting console messages!');
+                'Error occurred during requesting console messages!'
+              );
             }
           );
       },
@@ -60,12 +62,12 @@
     });
 
     var updater;
-    $scope.$watch('vm.updateInterval', function(value){
-      if ( angular.isDefined(updater) ){
+    $scope.$watch('vm.updateInterval', function(value) {
+      if (angular.isDefined(updater)) {
         $interval.cancel(updater);
         updater = undefined;
       }
-      if (value != 'Disabled') {
+      if (value !== 'Disabled') {
         updater = $interval(function() {
           vm.tableParams.reload();
         }, value * 1000);
@@ -75,5 +77,5 @@
     $scope.$watch('vm.groupBy', function(value) {
       vm.tableParams.reload();
     });
-  };
+  }
 })();
