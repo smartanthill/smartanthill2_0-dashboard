@@ -23,14 +23,14 @@
     .controller('DeviceTrainItController', DeviceTrainItController);
 
   function DeviceTrainItController($q, $resource, $modalInstance,
-    dataService, device, serialPortsList) {
+    dataService, deviceInfo, serialPortsList) {
 
     var vm = this;
 
+    vm.device = deviceInfo;
     vm.serialports = serialPortsList;
-    vm.device = device;
 
-    vm.selectedSerialPort = {};
+    vm.selectSerialPort = {};
     vm.progressbar = {
       value: 0,
       info: ''
@@ -45,84 +45,72 @@
     vm.deferCancalled = false;
     vm.deferred = $q.defer();
     vm.deferred.promise.then(function() {
-      vm.btnDisabled.start = true;
-      vm.progressbar.value = 20;
-      vm.progressbar.info = 'Building...';
+        vm.btnDisabled.start = true;
+        vm.progressbar.value = 20;
+        vm.progressbar.info = 'Building...';
 
-      return dataService.buildDeviceFirmware(device.id).$promise;
-    }, function(failure) {
-      return $q.reject(failure);
-    })
-
-    // building promise
-    .then(function(result) {
-        if (vm.deferCancalled) {
-          return $q.reject();
-        }
-
-        vm.btnDisabled.cancel = true;
-        vm.progressbar.value = 60;
-        vm.progressbar.info = 'Uploading...';
-
-        var data = result;
-        data.uploadport = vm.selectedSerialPort.selected.port;
-        return dataService.deviceUploadFirmware(device.id, data).$promise;
-      },
-      function(failure) {
-        var errMsg = '';
-        if (!failure || angular.isString(failure)) {
-          errMsg = failure;
-        } else {
-          errMsg = 'An unexpected error occurred when building firmware.';
-          if (angular.isObject(failure) && failure.data) {
-            errMsg += ' ' + failure.data;
-          }
-        }
-        return $q.reject(errMsg);
+        return dataService.deviceBuildFirmware(vm.device.id).$promise;
+      }, function(failure) {
+        return $q.reject(failure);
       })
-
-    // uploading promise
-    .then(function(result) {
-        if (vm.deferCancalled) {
-          return $q.reject();
-        }
-        vm.progressbar.value = 100;
-        vm.progressbar.info = 'Completed!';
-        return result.result;
-      },
-      function(failure) {
-        var errMsg = '';
-        if (!failure || angular.isString(failure)) {
-          errMsg = failure;
-        } else {
-          errMsg =
-            'An unexpected error occurred when uploading firmware.';
-          if (angular.isObject(failure) && failure.data) {
-            errMsg += ' ' + failure.data;
+      .then(function(result) { // building promise
+          if (vm.deferCancalled) {
+            return $q.reject();
           }
-        }
-        return $q.reject(errMsg);
-      })
 
-    .then(function(result) {
-        console.log(result);
-        $modalInstance.close(
-          'The device has been successfully Train It!-ed. ' +
-          result);
-      },
-      function(failure) {
-        if (!failure && vm.btnDisabled.start) {
-          failure = 'The Train It! operation has been cancelled!';
-        }
-        $modalInstance.dismiss(failure);
-      });
+          vm.btnDisabled.cancel = true;
+          vm.progressbar.value = 60;
+          vm.progressbar.info = 'Uploading...';
 
-    /**
-     * Preparing defines for Cloud Compiler
-     */
-    var ccDefines = {
-      DEVICE_ID: device.id
-    };
+          var data = result;
+          data.uploadport = vm.selectSerialPort.selected.port;
+          return dataService.deviceUploadFirmware(vm.device.id, data).$promise;
+        },
+        function(failure) {
+          var errMsg = '';
+          if (!failure || angular.isString(failure)) {
+            errMsg = failure;
+          } else {
+            errMsg = 'An unexpected error occurred when building firmware.';
+            if (angular.isObject(failure) && failure.data) {
+              errMsg += ' ' + failure.data;
+            }
+          }
+          return $q.reject(errMsg);
+        })
+      .then(function(result) { // uploading promise
+          if (vm.deferCancalled) {
+            return $q.reject();
+          }
+          vm.progressbar.value = 100;
+          vm.progressbar.info = 'Completed!';
+          return result.result;
+        },
+        function(failure) {
+          var errMsg = '';
+          if (!failure || angular.isString(failure)) {
+            errMsg = failure;
+          } else {
+            errMsg =
+              'An unexpected error occurred when uploading firmware.';
+            if (angular.isObject(failure) && failure.data) {
+              errMsg += ' ' + failure.data;
+            }
+          }
+          return $q.reject(errMsg);
+        })
+      .then(function(result) {
+          console.log(result);
+          $modalInstance.close(
+            'The device has been successfully Train It!-ed. ' +
+            result);
+        },
+        function(failure) {
+          if (!failure && vm.btnDisabled.start) {
+            failure = 'The "Train It!" operation has been cancelled!';
+          }
+          $modalInstance.dismiss(failure);
+        });
 
     vm.start = function() {
       vm.deferred.resolve();

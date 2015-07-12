@@ -90,7 +90,7 @@
         controller: 'DeviceInfoController',
         controllerAs: 'vm',
         resolve: {
-          deviceResource: ['$route', 'dataService',
+          deviceInfo: ['$route', 'dataService',
             function($route, dataService) {
               return dataService.devices.get({
                 deviceId: $route.current.params.deviceId

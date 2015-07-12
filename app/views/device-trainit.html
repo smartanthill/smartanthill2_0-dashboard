@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h3 class="modal-title">Device #{{ device.id }} - Train It!</h3>
+  <h3 class="modal-title">Device #{{ vm.device.id }} - Train It!</h3>
 </div>
 
 <div class="modal-body">
@@ -9,7 +9,7 @@
 
   <div class="form-group">
     <label class="control-label">Device Serial Port</label>
-    <ui-select ng-model="vm.selectedSerialPort.selected" theme="bootstrap">
+    <ui-select ng-model="vm.selectSerialPort.selected" theme="bootstrap">
       <ui-select-match required placeholder="Select or search a device serial port in the list...">{{ $select.selected.port }}</ui-select-match>
       <ui-select-choices repeat="item in vm.serialports | filter:$select.search">
         <div ng-bind-html="item.port | highlight: $select.search"></div>
@@ -25,6 +25,6 @@
 </div>
 
 <div class="modal-footer">
-  <button class="btn btn-primary" ng-click="vm.start()" ng-disabled="!vm.selectedSerialPort.selected || vm.btnDisabled.start">Start</button>
+  <button class="btn btn-primary" ng-click="vm.start()" ng-disabled="!vm.selectSerialPort.selected || vm.btnDisabled.start">Start</button>
   <button class="btn btn-default" ng-click="vm.cancel()" ng-disabled="vm.btnDisabled.cancel">Cancel</button>
 </div>
