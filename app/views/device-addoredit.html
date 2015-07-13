@@ -70,27 +70,27 @@
           <thead>
             <tr>
               <th>Name</th>
-              <th>Plugin id</th>
+              <th>Plugin</th>
               <th>Options</th>
               <th>Peripheral</th>
-              <th>Modify</th>
+              <th class="modify">Modify</th>
             </tr>
           </thead>
           <tbody>
             <tr ng-repeat="item in vm.device.bodyparts">
               <td>{{ item.name }}</td>
-              <td>{{ item.pluginId }}</td>
+              <td>{{ item.pluginId | idToName : vm.idToNameMap }}</td>
               <td>
                 <dl ng-repeat="(key, value) in item.options">
-                  <dt>{{ key }}</dt><dd>{{ value }}</dd>
+                  <dt>{{ key | idToName : vm.idToNameMap : item.pluginId }}</dt><dd>{{ value }}</dd>
                 </dl>
               </td>
               <td>
                 <dl ng-repeat="(key, value) in item.peripheral">
-                  <dt>{{ key }}</dt><dd>{{ value }}</dd>
+                  <dt>{{ key | idToName : vm.idToNameMap : item.pluginId }}</dt><dd>{{ value }}</dd>
                 </dl>
               </td>
-              <td>
+              <td class="modify">
                 <i class="fa fa-pencil-square-o fa-lg" style="cursor: pointer" ng-click="vm.bodyPartModal($index)" tooltip="Edit"></i>
                 <i class="fa fa-times fa-lg" style="cursor: pointer" ng-click="vm.removeBodyPart($index)" tooltip="Remove"></i>
               </td>

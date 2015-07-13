@@ -15,50 +15,21 @@
   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-@media screen and (max-width: 768px) {
-  .collapse {
-    display: block !important;
+(function() {
+  'use strict';
+
+  angular
+    .module('siteApp')
+    .filter('idToName', idToName);
+
+  function idToName() {
+    return function(itemId, container, parentId) {
+      if (typeof(parentId) === 'undefined') {
+        return container[itemId] ? container[itemId] : itemId;
+      }
+      var compositeId = parentId + '_' + itemId;
+      return container[compositeId] ? container[compositeId] : itemId;
+    };
   }
-}
 
-.nav,
-.pagination,
-.carousel,
-.panel-title a {
-  cursor: pointer;
-}
-
-.navbar-nav .fa {
-  margin-right: 5px;
-}
-
-.table-devpins th,
-.table-devpins td {
-  text-align: center;
-}
-
-footer hr {
-  margin: 25px 0 10px 0;
-}
-
-#bodyparts-table td.modify:last-child,
-#bodyparts-table th.modify:last-child{
-  text-align: right;
-}
-
-#bodyparts-table dl {
-  margin-bottom: 5px;
-}
-
-#bodyparts-table dt,
-#bodyparts-table dd {
-  display: inline;
-}
-
-#bodyparts-table dt:after{
-  content:": ";
-}
-
-.console-settings-row {
-  margin-bottom: 5px;
-}
+})();

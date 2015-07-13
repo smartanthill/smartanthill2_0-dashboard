@@ -23,7 +23,7 @@
     .controller('DeviceInfoController', DeviceInfoController);
 
   function DeviceInfoController($location, $modal, dataService, notifyUser,
-    deviceInfo) {
+    deviceInfo, pluginsList, idToNameMapper) {
 
     var vm = this;
 
@@ -31,6 +31,8 @@
     vm.board = dataService.boards.get({
       boardId: vm.device.boardId
     });
+    vm.plugins = pluginsList;
+    vm.idToNameMap = idToNameMapper.mapIdToName(vm.plugins);
 
     vm.deleteDevice = deleteDevice;
     vm.trainIt = trainIt;
@@ -69,7 +71,7 @@
         backdrop: false,
         keyboard: false,
         resolve: {
-          deviceInfo: function() {
+          device: function() {
             return vm.device;
           },
           serialPortsList: ['dataService',

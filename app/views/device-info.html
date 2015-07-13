@@ -37,7 +37,7 @@
       <thead>
         <tr>
           <th>Name</th>
-          <th>Plugin id</th>
+          <th>Plugin</th>
           <th>Options</th>
           <th>Peripheral</th>
         </tr>
@@ -45,15 +45,15 @@
       <tbody>
         <tr ng-repeat="item in vm.device.bodyparts">
           <td>{{ item.name }}</td>
-          <td>{{ item.pluginId }}</td>
+          <td>{{ item.pluginId | idToName : vm.idToNameMap }}</td>
           <td>
             <dl ng-repeat="(key, value) in item.options">
-              <dt>{{ key }}</dt><dd>{{ value }}</dd>
+              <dt>{{ key | idToName : vm.idToNameMap : item.pluginId }}</dt><dd>{{ value }}</dd>
             </dl>
           </td>
           <td>
             <dl ng-repeat="(key, value) in item.peripheral">
-              <dt>{{ key }}</dt><dd>{{ value }}</dd>
+              <dt>{{ key | idToName : vm.idToNameMap : item.pluginId }}</dt><dd>{{ value }}</dd>
             </dl>
           </td>
         </tr>
@@ -133,4 +133,3 @@
 
   </div>
 </div>
-

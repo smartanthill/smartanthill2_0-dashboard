@@ -22,13 +22,16 @@
     .controller('DeviceAddOrEditController', DeviceAddOrEditController);
 
   function DeviceAddOrEditController($scope, $location, $modal, dataService,
-    notifyUser, deviceInfo, devicesList, boardsList) {
+    notifyUser, deviceInfo, devicesList, boardsList, pluginsList,
+    idToNameMapper) {
     var vm = this;
 
     vm.boards = boardsList;
     vm.selectBoard = {};
     vm.editMode = false;
     vm.prevState = {};
+    vm.plugins = pluginsList;
+    vm.idToNameMap = idToNameMapper.mapIdToName(vm.plugins);
 
     var usedDevIds = {};
     angular.forEach(devicesList, function(item) {

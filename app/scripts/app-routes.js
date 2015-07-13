@@ -96,6 +96,11 @@
                 deviceId: $route.current.params.deviceId
               }).$promise;
             }
+          ],
+          pluginsList: ['dataService',
+            function(dataService) {
+              return dataService.plugins.query().$promise;
+            }
           ]
         }
       })
@@ -148,5 +153,4 @@
         redirectTo: '/'
       });
   }
-
 })();
