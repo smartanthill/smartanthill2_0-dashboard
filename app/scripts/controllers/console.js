@@ -22,10 +22,9 @@
     .module('siteApp')
     .controller('ConsoleController', ConsoleController);
 
-  function ConsoleController($scope, $interval, $filter, ngTableParams,
-    notifyUser, dataService, siteConfig) {
+  function ConsoleController($scope, $interval, $filter, ngTableParams, notifyUser, dataService, siteConfig) {
     var vm = this;
-    vm.updateInterval = 10; // seconds
+    vm.updateInterval = 10;  // seconds
     vm.groupBy = 'level';
     vm.showAdvancedSettings = false;
 
@@ -62,12 +61,12 @@
     });
 
     var updater;
-    $scope.$watch('vm.updateInterval', function(value) {
-      if (angular.isDefined(updater)) {
+    $scope.$watch('vm.updateInterval', function(value){
+      if ( angular.isDefined(updater) ){
         $interval.cancel(updater);
         updater = undefined;
       }
-      if (value !== 'Disabled') {
+      if (value != 'Disabled') {
         updater = $interval(function() {
           vm.tableParams.reload();
         }, value * 1000);
@@ -77,5 +76,5 @@
     $scope.$watch('vm.groupBy', function(value) {
       vm.tableParams.reload();
     });
-  }
+  };
 })();
