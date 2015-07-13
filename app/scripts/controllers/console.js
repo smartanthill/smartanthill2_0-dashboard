@@ -61,20 +61,28 @@
     });
 
     var updater;
-    $scope.$watch('vm.updateInterval', function(value){
-      if ( angular.isDefined(updater) ){
-        $interval.cancel(updater);
-        updater = undefined;
-      }
-      if (value != 'Disabled') {
+    $scope.$watch('vm.updateInterval', function(value) {
+      attemptToCancelUpdater();
+      if (value !== 'Disabled') {
         updater = $interval(function() {
           vm.tableParams.reload();
         }, value * 1000);
       }
     });
 
+    $scope.$on('$routeChangeStart', function() {
+      attemptToCancelUpdater();
+    });
+
     $scope.$watch('vm.groupBy', function(value) {
       vm.tableParams.reload();
     });
-  };
+
+    function attemptToCancelUpdater() {
+      if (angular.isDefined(updater)) {
+        $interval.cancel(updater);
+        updater = undefined;
+      }
+    }
+  }
 })();
