@@ -1,6 +1,6 @@
 <h1>Settings</h1>
 
-<form name="settingsForm" ng-submit="vm.submitForm()">
+<form name="settingsForm" ng-submit="vm.submitForm()" role="form">
 
   <section id="logger">
     <div class="page-header">
@@ -14,6 +14,22 @@
           <div ng-bind-html="level"></div>
         </ui-select-choices>
       </ui-select>
+    </div>
+  </section>
+
+  <section id="cc">
+    <div class="page-header">
+      <h2>Compiler</h2>
+    </div>
+    <div class="form-group" show-form-errors>
+      <label class="control-label">Compiler URL</label>
+      <input type="text"
+             name="ccurl"
+             class="form-control"
+             ng-model="vm.settings.ccurl"
+             ng-pattern="/^https?:\/\/.+$/i">
+      <span class="help-block">Empty field means that SmartAnthill will use
+        built-in compiler based on <a href="http://platformio.org/">PlatformIO</a>.</span>
     </div>
   </section>
 
