@@ -71,7 +71,7 @@
         backdrop: false,
         keyboard: false,
         resolve: {
-          device: function() {
+          deviceInfo: function() {
             return vm.device;
           },
           serialPortsList: ['dataService',
