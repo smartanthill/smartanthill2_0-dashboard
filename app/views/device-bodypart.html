@@ -36,10 +36,25 @@
       </select>
     </div>
 
-    <div class="form-group" ng-repeat="option in vm.selectPlugin.selected.options" show-form-errors>
+    <div class="form-group" ng-repeat="option in vm.selectPlugin.selected.options" ng-switch on="option.type | optionTypeToInputType" show-form-errors>
       <label class="control-label">{{ option.title }}</label>
-      <input type="text" name="{{ option.name }}" class="form-control" required ng-model="vm.item.options[option.name]" value="{{ option.default }}">
-      </select>
+      <input ng-switch-when="text"
+             type="text"
+             maxlength="{{ option.type | maxCharLength }}"
+             name="{{ option.name }}"
+             class="form-control"
+             required
+             ng-model="vm.item.options[option.name]">
+      <input ng-switch-when="number"
+             type="number"
+             min="{{ option.type | minOfType }}"
+             max="{{ option.type | maxOfType }}"
+             name="{{ option.name }}"
+             class="form-control"
+             required
+             ng-model="vm.item.options[option.name]"
+             tooltip="Min: {{ option.type | minOfType }}. Max: {{ option.type | maxOfType }}"
+             tooltip-placement="right">
     </div>
   </form>
 
@@ -49,4 +64,3 @@
   <button class="btn btn-primary" ng-click="vm.save()" ng-disabled="bodyPartForm.$invalid || !vm.selectPlugin.selected">Save</button>
   <button class="btn btn-default" ng-click="vm.cancel()">Cancel</button>
 </div>
-
