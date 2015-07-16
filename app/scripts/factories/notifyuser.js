@@ -26,7 +26,6 @@
     return function(type, message) {
       switch (type) {
         case 'success':
-          $log.info(message);
           toaster.pop('success', message);
           break;
 

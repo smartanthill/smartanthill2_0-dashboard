@@ -9,7 +9,7 @@
 
   <div class="form-group">
     <label class="control-label">Device Serial Port</label>
-    <ui-select ng-model="vm.selectSerialPort.selected" theme="bootstrap">
+    <ui-select ng-model="vm.selectSerialPort.selected" theme="bootstrap" ng-disabled="vm.btnDisabled.start">
       <ui-select-match required placeholder="Select or search a device serial port in the list...">{{ $select.selected.port }}</ui-select-match>
       <ui-select-choices repeat="item in vm.serialports | filter:$select.search">
         <div ng-bind-html="item.port | highlight: $select.search"></div>

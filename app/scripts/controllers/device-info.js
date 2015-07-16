@@ -78,6 +78,11 @@
             function(dataService) {
               return dataService.serialports.query().$promise;
             }
+          ],
+          settings: ['dataService',
+            function(dataService) {
+              return dataService.settings.get().$promise;
+            }
           ]
         }
       });

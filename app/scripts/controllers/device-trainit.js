@@ -22,8 +22,8 @@
     .module('siteApp')
     .controller('DeviceTrainItController', DeviceTrainItController);
 
-  function DeviceTrainItController($q, $resource, $modalInstance,
-    dataService, deviceInfo, serialPortsList) {
+  function DeviceTrainItController($q, $resource, $timeout, $modalInstance,
+    dataService, deviceInfo, serialPortsList, settings) {
 
     var vm = this;
 
@@ -49,7 +49,11 @@
         vm.progressbar.value = 20;
         vm.progressbar.info = 'Building...';
 
-        return dataService.deviceBuildFirmware(vm.device.id).$promise;
+        if (settings.ccurl.indexOf('http') !== -1) {
+          return $resource(settings.ccurl).save(deviceInfo).$promise;
+        } else {
+          return dataService.deviceBuildFirmware(vm.device.id).$promise;
+        }
       }, function(failure) {
         return $q.reject(failure);
       })
@@ -100,10 +104,11 @@
           return $q.reject(errMsg);
         })
       .then(function(result) {
-          console.log(result);
-          $modalInstance.close(
-            'The device has been successfully Train It!-ed. ' +
-            result);
+          $timeout(function() {
+            $modalInstance.close(
+              'The device has been successfully Train It!-ed. ' +
+              result);
+          }, 1000);
         },
         function(failure) {
           if (!failure && vm.btnDisabled.start) {
