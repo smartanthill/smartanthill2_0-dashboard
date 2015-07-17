@@ -31,27 +31,27 @@
         return 'number';
       }
       return 'text';
-    }
+    };
   }
 
   function minOfType() {
-    return function(type){
+    return function(type) {
       if (_isUnsigned(type)) {
         return 0;
       }
       var size = _extractSize(type) * 8;
       return -Math.pow(2, size - 1);
-    }
+    };
   }
 
   function maxOfType() {
-    return function(type){
+    return function(type) {
       var size = _extractSize(type) * 8;
       if (_isUnsigned(type)) {
         return Math.pow(2, size) - 1;
       }
       return Math.pow(2, size - 1) - 1;
-    }
+    };
   }
 
   function maxCharLength() {
@@ -59,7 +59,7 @@
   }
 
   function _extractSize(string) {
-    return parseInt(/\[(\d+)\]/.exec(string)[1])
+    return parseInt(/\[(\d+)\]/.exec(string)[1]);
   }
 
   function _isUnsigned(string) {

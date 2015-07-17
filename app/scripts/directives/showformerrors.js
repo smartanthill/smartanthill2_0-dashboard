@@ -37,8 +37,7 @@
               element.toggleClass('has-error', newValue === true);
             });
           } else {
-            var oInput = angular.element(element[0].querySelector(
-              '[name]'));
+            var oInput = angular.element(element[0].querySelector('[name]'));
             if (!oInput) {
               return;
             }

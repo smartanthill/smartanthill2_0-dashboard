@@ -42,8 +42,7 @@
         path = '/dashboard';
       }
       path = path.substring(1);
-      vm.currentPage = path.substring(0, 1).toUpperCase() + path.substring(
-        1);
+      vm.currentPage = path.substring(0, 1).toUpperCase() + path.substring(1);
     }
   }
 

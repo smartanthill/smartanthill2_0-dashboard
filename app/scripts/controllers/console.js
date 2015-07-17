@@ -24,7 +24,7 @@
 
   function ConsoleController($scope, $interval, $filter, ngTableParams, notifyUser, dataService, siteConfig) {
     var vm = this;
-    vm.updateInterval = 10;  // seconds
+    vm.updateInterval = 10; // seconds
     vm.groupBy = 'level';
     vm.showAdvancedSettings = false;
 

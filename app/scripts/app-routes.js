@@ -36,7 +36,7 @@
         controller: 'DeviceAddOrEditController',
         controllerAs: 'vm',
         resolve: {
-          deviceInfo:function(dataService) {
+          deviceInfo: function(dataService) {
             return null;
           },
           devicesList: ['dataService',

@@ -47,7 +47,7 @@
       dataService.runBodyPart(
           'localhost:' + vm.settings.services.api.options.rest.port,
           vm.device.id, vm.bodyPart.name, vm.requestFields)
-        .then(function (data) {
+        .then(function(data) {
           vm.responseContent = data;
           vm.runDisabled = false;
         });

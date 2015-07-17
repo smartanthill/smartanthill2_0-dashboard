@@ -71,7 +71,7 @@
       }).save(data);
     }
 
-    function consoleMessages(){
+    function consoleMessages() {
       return $resource(siteConfig.apiURL + 'console');
     }
 

@@ -111,7 +111,7 @@
           },
           pluginInfo: function() {
             var result;
-            angular.forEach(pluginsList, function(plugin){
+            angular.forEach(pluginsList, function(plugin) {
               if (plugin.id === bodyPart.pluginId) {
                 result = plugin;
               }
