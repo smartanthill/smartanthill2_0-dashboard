@@ -1,0 +1,38 @@
+<div class="modal-header">
+  <h3 class="modal-title">Run {{ vm.bodyPart.name }} on {{ vm.device.name }}</h3>
+</div>
+
+<div class="modal-body">
+
+  <h4 ng-show="vm.plugin.request_fields.length">Request fields:</h4>
+  <form name="bodyPartFieldsForm" novalidate role="form">
+    <div class="form-group" ng-repeat="field in vm.plugin.request_fields" ng-switch on="field.type | optionTypeToInputType" show-form-errors>
+      <label class="control-label">{{ field.name }}</label>
+      <input ng-switch-when="text"
+             type="text"
+             name="{{ field.name }}"
+             class="form-control"
+             required
+             ng-model="vm.requestFields[field.name]">
+      <input ng-switch-when="number"
+             type="number"
+             name="{{ field.name }}"
+             class="form-control"
+             required
+             ng-model="vm.requestFields[field.name]">
+    </div>
+  </form>
+
+  <div class="bodyPartResponse" ng-show="vm.responseContent">
+    <h4>Response:</h4>
+    <pre>{{ vm.responseContent | json }}</pre>
+  </div>
+
+  <span class="help-block">Fill request fields (if any) and press "Run" button to run Body Part.</span>
+
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="vm.runBodyPart()" ng-disabled="vm.runDisabled || (!bodyPartFieldsForm.$valid || !vm.plugin.request_fields)">Run</button>
+  <button class="btn btn-default" ng-click="vm.closeModal()">Close</button>
+</div>

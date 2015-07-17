@@ -40,6 +40,7 @@
           <th>Plugin</th>
           <th>Options</th>
           <th>Peripheral</th>
+          <th>API</th>
         </tr>
       </thead>
       <tbody>
@@ -55,6 +56,9 @@
             <dl ng-repeat="(key, value) in item.peripheral">
               <dt>{{ key | idToName : vm.idToNameMap : item.pluginId }}</dt><dd>{{ value }}</dd>
             </dl>
+          </td>
+          <td>
+            <button class="btn btn-success" role="button" ng-click="vm.runBodyPartModal(item)">Run</button>
           </td>
         </tr>
       </tbody>

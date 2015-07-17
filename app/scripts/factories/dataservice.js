@@ -31,7 +31,8 @@
       settings: settings(),
       deviceBuildFirmware: deviceBuildFirmware,
       deviceUploadFirmware: deviceUploadFirmware,
-      consoleMessages: consoleMessages
+      consoleMessages: consoleMessages,
+      runBodyPart: runBodyPart
     };
 
     function plugins() {
@@ -72,6 +73,23 @@
 
     function consoleMessages(){
       return $resource(siteConfig.apiURL + 'console');
+    }
+
+    // BodyParts REST API
+    function runBodyPart(server, deviceId, bodyPartName, fields) {
+      if (typeof(fields) === 'undefined') {
+        fields = {};
+      }
+      var params = {
+        server: server,
+        deviceId: deviceId,
+        bodyPartName: bodyPartName
+      };
+      angular.forEach(fields, function(value, name) {
+        params[name] = value;
+      });
+      return $resource('//:server/device/:deviceId/:bodyPartName.json', params)
+        .get().$promise;
     }
   }
 

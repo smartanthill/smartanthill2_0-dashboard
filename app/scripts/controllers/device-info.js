@@ -36,6 +36,7 @@
 
     vm.deleteDevice = deleteDevice;
     vm.trainIt = trainIt;
+    vm.runBodyPartModal = runBodyPartModal;
 
     ////////////
 
@@ -68,8 +69,6 @@
         templateUrl: 'views/device-trainit.html',
         controller: 'DeviceTrainItController',
         controllerAs: 'vm',
-        backdrop: false,
-        keyboard: false,
         resolve: {
           deviceInfo: function() {
             return vm.device;
@@ -92,6 +91,38 @@
       }, function(failure) {
         if (failure) {
           notifyUser('error', failure);
+        }
+      });
+    }
+
+    function runBodyPartModal(bodyPart) {
+      var modalInstance = $modal.open({
+        templateUrl: 'views/device-bodypart-run.html',
+        controller: 'RunDeviceBodyPartController',
+        controllerAs: 'vm',
+        backdrop: true,
+        keyboard: false,
+        resolve: {
+          deviceInfo: function() {
+            return vm.device;
+          },
+          bodyPartInfo: function() {
+            return bodyPart;
+          },
+          pluginInfo: function() {
+            var result;
+            angular.forEach(pluginsList, function(plugin){
+              if (plugin.id === bodyPart.pluginId) {
+                result = plugin;
+              }
+            });
+            return result;
+          },
+          settings: ['dataService',
+            function(dataService) {
+              return dataService.settings.get().$promise;
+            }
+          ]
         }
       });
     }
