@@ -7,4 +7,5 @@ before_script:
   - bower install
 
 script:
+  - grunt jshint
   - grunt build
