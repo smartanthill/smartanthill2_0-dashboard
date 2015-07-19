@@ -69,6 +69,8 @@
         templateUrl: 'views/device-trainit.html',
         controller: 'DeviceTrainItController',
         controllerAs: 'vm',
+        backdrop: false,
+        keyboard: false,
         resolve: {
           deviceInfo: function() {
             return vm.device;
@@ -100,8 +102,6 @@
         templateUrl: 'views/device-bodypart-run.html',
         controller: 'RunDeviceBodyPartController',
         controllerAs: 'vm',
-        backdrop: true,
-        keyboard: false,
         resolve: {
           deviceInfo: function() {
             return vm.device;
