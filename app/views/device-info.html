@@ -58,7 +58,7 @@
             </dl>
           </td>
           <td>
-            <button class="btn btn-success" role="button" ng-click="vm.runBodyPartModal(item)">Run</button>
+            <button class="btn btn-success btn-xs" role="button" ng-click="vm.runBodyPartModal(item)">Run</button>
           </td>
         </tr>
       </tbody>
@@ -101,14 +101,16 @@
     </dl>
 
     <table class="table table-hover table-devpins">
-      <tr>
-        <th>Pin</th>
-        <th>Alias</th>
-        <th>Digital</th>
-        <th>Analog</th>
-        <th>PWM</th>
-        <th>External Interrupt</th>
-      </tr>
+      <thead>
+        <tr>
+          <th>Pin</th>
+          <th>Alias</th>
+          <th>Digital</th>
+          <th>Analog</th>
+          <th>PWM</th>
+          <th>External Interrupt</th>
+        </tr>
+      </thead>
       <tr ng-repeat="pin in vm.board.pins">
         <td>{{ pin }}</td>
         <td>
