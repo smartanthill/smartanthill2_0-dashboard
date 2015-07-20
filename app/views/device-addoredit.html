@@ -39,9 +39,9 @@
       class="form-control"
       placeholder="How device will be connected to SmartAnthill?"
       required
-      ng-model="vm.device.connectionUrl"
-      ng-pattern="/^serial(\:[a-z]+=[^\:]+)+$/"
-      tooltip="Examples: serial:port=/dev/ttyUSB0, serial:port=COM1:baudrate=9600"
+      ng-model="vm.device.connectionUri"
+      ng-pattern="/^serial\:\/\/[^\?]+(\?(\&?[a-z]+=[^\:]+)+)?$/"
+      tooltip="Examples: serial:///dev/ttyUSB0, serial://COM1?baudrate=9600"
       tooltip-placement="right">
   </div>
 
