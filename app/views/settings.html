@@ -56,11 +56,33 @@
       <h2>API</h2>
     </div>
     <div class="form-group">
-      <label class="control-label">REST over HTTP Port</label>
-      <input type="number"
-             class="form-control"
-             ng-model="vm.settings.services.api.options.rest.port">
+      <input type="checkbox"
+             ng-model="vm.settings.services.api.enabled">
+      <label class="control-label">API enabled</label>
     </div>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Enabled/Disabled</th>
+          <th>Type</th>
+          <th>Port</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="(api_name, api_config) in vm.settings.services.api.options">
+          <td>
+            <input type="checkbox"
+                   ng-model="api_config.enabled">
+          </td>
+          <td>{{ api_name }}</td>
+          <td class="form-group">
+            <input type="number"
+                   class="form-control"
+                   ng-model="api_config.port">
+          </td>
+        </div>
+      </tbody>
+    </table>
   </section>
 
   <button type="submit" class="btn btn-primary">Submit</button>
