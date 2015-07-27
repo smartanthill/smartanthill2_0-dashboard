@@ -89,11 +89,9 @@
           initialState: function() {
             return state;
           },
-          pluginsList: ['dataService',
-            function(dataService) {
-              return dataService.plugins.query().$promise;
-            }
-          ],
+          pluginsList: function() {
+            return vm.plugins;
+          },
           boardInfo: ['dataService',
             function(dataService) {
               return dataService.boards.get({
