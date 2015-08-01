@@ -37,6 +37,7 @@
     vm.deleteDevice = deleteDevice;
     vm.trainIt = trainIt;
     vm.runBodyPartModal = runBodyPartModal;
+    vm.showBodyPartDocsModal = showBodyPartDocsModal;
 
     ////////////
 
@@ -101,6 +102,36 @@
       var modalInstance = $modal.open({
         templateUrl: 'views/device-bodypart-run.html',
         controller: 'RunDeviceBodyPartController',
+        controllerAs: 'vm',
+        resolve: {
+          deviceInfo: function() {
+            return vm.device;
+          },
+          bodyPartInfo: function() {
+            return bodyPart;
+          },
+          pluginInfo: function() {
+            var result;
+            angular.forEach(pluginsList, function(plugin) {
+              if (plugin.id === bodyPart.pluginId) {
+                result = plugin;
+              }
+            });
+            return result;
+          },
+          settings: ['dataService',
+            function(dataService) {
+              return dataService.settings.get().$promise;
+            }
+          ]
+        }
+      });
+    }
+
+    function showBodyPartDocsModal(bodyPart) {
+      var modalInstance = $modal.open({
+        templateUrl: 'views/device-bodypart-docs.html',
+        controller: 'ShowBodyPartDocsController',
         controllerAs: 'vm',
         resolve: {
           deviceInfo: function() {

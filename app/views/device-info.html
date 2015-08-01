@@ -63,7 +63,21 @@
             </dl>
           </td>
           <td>
-            <button class="btn btn-success btn-xs" role="button" ng-click="vm.runBodyPartModal(item)">Run</button>
+            <div class="btn-group btn-group-sm" dropdown>
+              <button type="button" class="btn btn-success" ng-click="vm.runBodyPartModal(item)">Run</button>
+              <button type="button" class="btn btn-success" dropdown-toggle>
+                <span class="caret"></span>
+                <span class="sr-only">Toggle dropdown</span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li role="menuitem">
+                  <a class="pointer" ng-click="vm.showBodyPartDocsModal(item)">
+                    <i class="fa fa-book"></i>
+                    Help
+                  </a>
+                </li>
+              </ul>
+            </div>
           </td>
         </tr>
       </tbody>

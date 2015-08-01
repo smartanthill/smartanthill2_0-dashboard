@@ -1,0 +1,49 @@
+<div class="modal-header">
+  <h3 class="modal-title">API docs for {{ vm.bodyPart.name }}</h3>
+</div>
+
+<div class="modal-body">
+
+  <tabset>
+    <tab heading="REST">
+      <p>To perform REST request and receive result in JSON format use the
+         folliwing URL:</p>
+      <pre>{{ vm.makeRESTURL(true) }}</pre>
+      <p>The response message will contain <code>status</code> field indicating
+         request status and <code>data</code> field containing whatever
+         BodyPart returned.</p>
+      <pre>{{ {"status": "success", "data": "RESULT*"} | json }}</pre>
+      <hr>
+      <p>Also it is possible to retrieve raw BodyPart response by not appending
+         <code>.json</code> to the URL:</p>
+      <pre>{{ vm.makeRESTURL() }}</pre>
+      <p>In this case server will return raw BodyPart response.</p>
+      <pre>RESULT*</pre>
+
+      <span class="help-block">* RESULT will be replaced with actual response data</span>
+    </tab>
+
+    <tab heading="WebSockets & Sockets">
+      <p>
+        WebSockets & Sockets communication is based on
+        <a href="http://www.jsonrpc.org/specification" target="_blank">JSON-RPC2</a> protocol.
+        The message format for request is:
+      </p>
+      <pre>{{ vm.makeJSONRPCRequestExample() | json }}</pre>
+      <p>The response message will be:</p>
+      <pre>{{ {"jsonrpc": "2.0", "id": 27, "result": "RESULT*"} | json }}</pre>
+      <span class="help-block">* RESULT will be replaced with actual response data</span>
+      <span class="help-block">
+        <code>id</code> of the message may be any unique value. Response message
+        will have the same <code>id</code> as request had. You may consider
+        storing id of last message in some variable and increment it's value
+        each time you make request to make sure that all IDs are unique.
+      </span>
+    </tab>
+  </tabset>
+
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-default" ng-click="vm.closeModal()">Close</button>
+</div>

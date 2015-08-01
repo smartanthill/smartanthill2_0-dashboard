@@ -62,3 +62,12 @@ footer hr {
 .console-settings-row {
   margin-bottom: 5px;
 }
+
+.tab-content {
+  margin-top: 1em;
+}
+
+.pointer {
+  cursor: hand;
+  cursor: pointer;
+}
