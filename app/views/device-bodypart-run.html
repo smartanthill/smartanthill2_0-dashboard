@@ -4,6 +4,9 @@
 
 <div class="modal-body">
 
+  <h4>Plpugin description</h4>
+  <p>{{ vm.plugin.description }}</p>
+
   <h4 ng-show="vm.plugin.request_fields.length">Request fields:</h4>
   <form name="bodyPartFieldsForm" novalidate role="form">
     <div class="form-group" ng-repeat="field in vm.plugin.request_fields" ng-switch on="field.type | optionTypeToInputType" show-form-errors>
