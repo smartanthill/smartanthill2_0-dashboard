@@ -48,23 +48,37 @@
         'id': 27
       };
       if (vm.plugin.request_fields.length) {  // jshint ignore:line
-        request['params'] = 'PARAMS EXPECTED';
+        request['params'] = {};
+        angular.forEach(vm.plugin.request_fields, function(field) { // jshint ignore:line
+          request['params'][field.name] = getFieldValue(field);
+        });
       }
       return request;
     }
 
     function makeRESTURL(isJson) {
-      var format = '';
+      var format = '',  params = '';
       if (typeof isJson !== 'undefined' && isJson) {
         format = '.json';
       }
+      if (vm.plugin.request_fields.length) { // jshint ignore:line
+        params = '?';
+        angular.forEach(vm.plugin.request_fields, function(field) { // jshint ignore:line
+          params += field.name + '=' + getFieldValue(field) + '&';
+        });
+        params = params.slice(0, -1);
+      }
       return 'http://' + vm.serverName + ':' +
         vm.settings.services.api.options.rest.port + '/device/' +
-        vm.device.id + '/' + vm.bodyPart.name + format;
+        vm.device.id + '/' + vm.bodyPart.name + format + params;
     }
 
     function closeModal() {
       $modalInstance.close('close');
+    }
+
+    function getFieldValue(field) {
+      return typeof field.default !== 'undefined' ? field.default : '***';
     }
   }
 

@@ -22,8 +22,8 @@
     .module('siteApp')
     .controller('RunDeviceBodyPartController', RunDeviceBodyPartController);
 
-  function RunDeviceBodyPartController($scope, $modalInstance, dataService,
-    pluginInfo, deviceInfo, bodyPartInfo, settings) {
+  function RunDeviceBodyPartController($scope, $modalInstance, $filter,
+    dataService, pluginInfo, deviceInfo, bodyPartInfo, settings) {
 
     var vm = this;
 
@@ -39,6 +39,17 @@
     // handlers
     vm.closeModal = closeModal;
     vm.runBodyPart = runBodyPart;
+
+    // Populate default request field values
+    angular.forEach(vm.plugin.request_fields, function(field) { // jshint ignore:line
+      if (!angular.isUndefined(field.default)) {
+        if ($filter('optionTypeToInputType')(field.type) === 'number') {
+          vm.requestFields[field.name] = parseInt(field.default);
+        } else {
+          vm.requestFields[field.name] = field.default;
+        }
+      }
+    });
 
     ////////////
 
