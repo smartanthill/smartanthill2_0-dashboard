@@ -47,13 +47,13 @@
              ng-model="vm.item.options[option.name]">
       <input ng-switch-when="number"
              type="number"
-             min="{{ option.type | minOfType }}"
-             max="{{ option.type | maxOfType }}"
+             min="{{ option | minNumberOptionValue }}"
+             max="{{ option | maxNumberOptionValue }}"
              name="{{ option.name }}"
              class="form-control"
              required
              ng-model="vm.item.options[option.name]"
-             tooltip="Min: {{ option.type | minOfType }}. Max: {{ option.type | maxOfType }}"
+             tooltip="Min: {{ option | minNumberOptionValue }}. Max: {{ option | maxNumberOptionValue }}"
              tooltip-placement="right">
     </div>
   </form>

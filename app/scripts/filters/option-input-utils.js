@@ -21,8 +21,8 @@
   angular
     .module('siteApp')
     .filter('optionTypeToInputType', optionTypeToInputType)
-    .filter('minOfType', minOfType)
-    .filter('maxOfType', maxOfType)
+    .filter('minNumberOptionValue', minNumberOptionValue)
+    .filter('maxNumberOptionValue', maxNumberOptionValue)
     .filter('maxCharLength', maxCharLength);
 
   function optionTypeToInputType() {
@@ -34,23 +34,21 @@
     };
   }
 
-  function minOfType() {
-    return function(type) {
-      if (_isUnsigned(type)) {
-        return 0;
+  function minNumberOptionValue() {
+    return function(option) {
+      if (!angular.isUndefined(option.min) && option.min !== null) {
+        return parseInt(option.min);
       }
-      var size = _extractSize(type) * 8;
-      return -Math.pow(2, size - 1);
+      return _minOfType()(option.type);
     };
   }
 
-  function maxOfType() {
-    return function(type) {
-      var size = _extractSize(type) * 8;
-      if (_isUnsigned(type)) {
-        return Math.pow(2, size) - 1;
+  function maxNumberOptionValue() {
+    return function(option) {
+      if (!angular.isUndefined(option.max) && option.max !== null) {
+        return parseInt(option.max);
       }
-      return Math.pow(2, size - 1) - 1;
+      return _maxOfType()(option.type);
     };
   }
 
@@ -64,6 +62,22 @@
 
   function _isUnsigned(string) {
     return string.indexOf('u') === 0;
+  }
+
+  function _minOfType(type) {
+    if (_isUnsigned(type)) {
+      return 0;
+    }
+    var size = _extractSize(type) * 8;
+    return -Math.pow(2, size - 1);
+  }
+
+  function _maxOfType(type) {
+    var size = _extractSize(type) * 8;
+    if (_isUnsigned(type)) {
+      return Math.pow(2, size) - 1;
+    }
+    return Math.pow(2, size - 1) - 1;
   }
 
 })();
