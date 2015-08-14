@@ -42,6 +42,18 @@
     </tab>
   </tabset>
 
+  <div class="params-description" ng-show="vm.plugin.request_fields.length">
+    <h4>Params</h4>
+    <div ng-repeat="field in vm.plugin.request_fields">
+      <h5><code>{{ field.name }}</code></h5>
+      <p ng-show="!angular.isUndefined(field.title)">{{ field.title }}</p>
+      <p ng-show="!angular.isUndefined(field.default)">Default: {{ field.default }}</p>
+      <p ng-show="!angular.isUndefined(field.min)">Min: {{ field.min }}</p>
+      <p ng-show="!angular.isUndefined(field.max)">Max: {{ field.max }}</p>
+      <hr ng-show="!$last">
+    </div>
+  </div>
+
 </div>
 
 <div class="modal-footer">
