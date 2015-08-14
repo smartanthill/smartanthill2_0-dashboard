@@ -6,7 +6,15 @@
   <p><kbd>Train It!</kbd> will generate a special firmware and upload it to your device using a cross-platform code builder and the missing library manager – <a href="http://platformio.org" target="_blank">PlatformIO</a>.</p>
   <p>Please connect your device to computer where this <b>SmartAnthill Dashboard</b> is launched.</p>
 
-  <div class="form-group">
+  <span>Upload Port:</span>
+  <div class="btn-group">
+    <label class="btn btn-default" ng-model="vm.selectedPortType" btn-radio="'auto'">Auto</label>
+    <label class="btn btn-default" ng-model="vm.selectedPortType" btn-radio="'serial'">Serial Port</label>
+    <label class="btn btn-default" ng-model="vm.selectedPortType" btn-radio="'media'">Media Drive</label>
+    <label class="btn btn-default" ng-model="vm.selectedPortType" btn-radio="'manual'">Manual</label>
+  </div>
+
+  <div class="form-group" ng-show="vm.selectedPortType === 'serial'">
     <label class="control-label">Device Serial Port</label>
     <ui-select ng-model="vm.selectSerialPort.selected" theme="bootstrap" ng-disabled="vm.btnDisabled.start">
       <ui-select-match required placeholder="Select or search a device serial port in the list...">{{ $select.selected.port }}</ui-select-match>
@@ -17,6 +25,23 @@
     </ui-select>
   </div>
 
+  <div class="form-group" ng-show="vm.selectedPortType === 'media'">
+    <label class="control-label">Media drive</label>
+    <ui-select ng-model="vm.selectLogicalDisk.selected" theme="bootstrap" ng-disabled="vm.btnDisabled.start">
+      <ui-select-match required placeholder="Select or search a media drive...">{{ $select.selected.disk }}</ui-select-match>
+      <ui-select-choices repeat="item in vm.logicalDisks | filter:$select.search">
+        <div ng-bind-html="item.disk | highlight: $select.search"></div>
+        <small ng-bind-html="item.name | highlight: $select.search"></small>
+      </ui-select-choices>
+    </ui-select>
+  </div>
+
+  <div class="form-group" ng-show="vm.selectedPortType === 'manual'">
+    <label class="control-label">Manual port configuration:</label>
+    <input type="text" name="manual" class="form-control" maxlength="100" ng-model="vm.manualInput">
+  </div>
+
+
   <div class="form-group">
     <label class="control-label">Progress</label>
     <progressbar class="progress-striped active" value="vm.progressbar.value">{{ vm.progressbar.info }}</progressbar>
@@ -24,6 +49,6 @@
 </div>
 
 <div class="modal-footer">
-  <button class="btn btn-primary" ng-click="vm.start()" ng-disabled="!vm.selectSerialPort.selected || vm.btnDisabled.start">Start</button>
+  <button class="btn btn-primary" ng-click="vm.start()" ng-disabled="vm.startDisabled()">Start</button>
   <button class="btn btn-default" ng-click="vm.cancel()" ng-disabled="vm.btnDisabled.cancel">Cancel</button>
 </div>

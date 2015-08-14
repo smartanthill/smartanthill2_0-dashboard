@@ -81,6 +81,11 @@
               return dataService.serialports.query().$promise;
             }
           ],
+          logicalDisksList: ['dataService',
+            function(dataService) {
+              return dataService.logicalDisks.query().$promise;
+            }
+          ],
           settings: ['dataService',
             function(dataService) {
               return dataService.settings.get().$promise;

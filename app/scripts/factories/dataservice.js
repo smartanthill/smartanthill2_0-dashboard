@@ -28,6 +28,7 @@
       plugins: plugins(),
       devices: devices(),
       serialports: serialports(),
+      logicalDisks: logicalDisks(),
       settings: settings(),
       deviceBuildFirmware: deviceBuildFirmware,
       deviceUploadFirmware: deviceUploadFirmware,
@@ -53,6 +54,10 @@
 
     function serialports() {
       return $resource(siteConfig.apiURL + 'serialports');
+    }
+
+    function logicalDisks() {
+      return $resource(siteConfig.apiURL + 'logicaldisks');
     }
 
     function settings() {

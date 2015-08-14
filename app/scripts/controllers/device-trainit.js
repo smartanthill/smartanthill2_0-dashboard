@@ -23,18 +23,21 @@
     .controller('DeviceTrainItController', DeviceTrainItController);
 
   function DeviceTrainItController($q, $resource, $timeout, $modalInstance,
-    dataService, deviceInfo, serialPortsList, settings) {
+    dataService, deviceInfo, serialPortsList, logicalDisksList, settings) {
 
     var vm = this;
 
     vm.device = deviceInfo;
     vm.serialports = serialPortsList;
+    vm.logicalDisks = logicalDisksList;
 
     vm.selectSerialPort = {};
+    vm.selectLogicalDisk = {};
+    vm.selectedPortType = 'auto';
+    vm.manualInput = '';
     vm.progressbar = {
       value: 0,
       info: ''
-
     };
     vm.btnDisabled = {
       start: false,
@@ -67,7 +70,22 @@
           vm.progressbar.info = 'Uploading...';
 
           var data = result;
-          data.uploadport = vm.selectSerialPort.selected.port;
+          switch (vm.selectedPortType) {
+            case 'auto':
+              data.uploadport = null;
+              break;
+            case 'serial':
+              data.uploadport = vm.selectSerialPort.selected.port;
+              break;
+            case 'media':
+              data.uploadport = vm.selectLogicalDisk.selected.disk;
+              break;
+            case 'manual':
+              data.uploadport = vm.manualInput;
+              break;
+            default:
+              throw new Error('Invalid port type');
+          }
           return dataService.deviceUploadFirmware(vm.device.id, data).$promise;
         },
         function(failure) {
@@ -119,6 +137,24 @@
 
     vm.start = function() {
       vm.deferred.resolve();
+    };
+
+    vm.startDisabled = function() {
+      if (vm.btnDisabled.start){
+        return true;
+      }
+      switch (vm.selectedPortType) {
+        case 'auto':
+          return false;
+        case 'serial':
+          return !vm.selectSerialPort.selected;
+        case 'media':
+            return !vm.selectLogicalDisk.selected;
+        case 'manual':
+          return !vm.manualInput.length;
+        default:
+          return true;
+      }
     };
 
     vm.cancel = function() {
