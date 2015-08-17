@@ -101,24 +101,6 @@
       <dd><a href="{{ vm.board.inforUrl }}" target="_blank">{{ vm.board.name }}</a></dd>
     </dl>
 
-    <dl class="dl-horizontal">
-      <dt>Pin Modes:</dt>
-      <dd>
-        <span ng-repeat="(alias, id) in vm.board.pinModeArgParams">
-          <span class="label label-default" popover="Mode: {{ id }}" popover-trigger="mouseenter">{{ alias }}</span>
-        </span>
-      </dd>
-    </dl>
-
-    <dl class="dl-horizontal">
-      <dt>Analog References:</dt>
-      <dd>
-        <span ng-repeat="(alias, id) in vm.board.pinAnalogRefArgParams">
-          <span class="label label-default" popover="Reference: {{ id }}" popover-trigger="mouseenter">{{ alias }}</span>
-        </span>
-      </dd>
-    </dl>
-
     <table class="table table-hover table-devpins">
       <thead>
         <tr>
