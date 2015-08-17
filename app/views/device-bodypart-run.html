@@ -4,8 +4,7 @@
 
 <div class="modal-body">
 
-  <h4>Plpugin description</h4>
-  <p>{{ vm.plugin.description }}</p>
+  <div class="well">{{ vm.plugin.description }}</div>
 
   <h4 ng-show="vm.plugin.request_fields.length">Request fields:</h4>
   <form name="bodyPartFieldsForm" novalidate role="form">
