@@ -8,6 +8,7 @@
     <tr>
       <th>ID</th>
       <th>Name</th>
+      <th>Enabled</th>
     </tr>
     <tr ng-repeat="device in vm.devices">
       <td>
@@ -15,6 +16,9 @@
       </td>
       <td>
         <a href="#!/devices/{{device.id}}">{{device.name}}</a>
+      </td>
+      <td>
+        {{ device.enabled ? 'Yes' : 'No' }}
       </td>
     </tr>
   </table>

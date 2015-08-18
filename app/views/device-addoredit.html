@@ -29,7 +29,7 @@
       ng-pattern="/^[a-z0-9\_\- ]+$/i"
       tooltip="Examples: My first device, Kitchen node, Wireless board (allowed chars: [a-z0-9_- ])"
       tooltip-placement="right">
-    </div>
+  </div>
 
   <div class="form-group" show-form-errors>
     <label class="control-label">Connection URI</label>
@@ -98,6 +98,14 @@
           </tbody>
         </table>
       </div>
+    </div>
+  </div>
+
+  <div class="form-group" show-form-errors>
+    <label class="control-label">Device is enabled</label>
+    <div class="btn-group">
+      <label class="btn btn-default" ng-model="vm.device.enabled" btn-radio="true">Yes</label>
+      <label class="btn btn-default" ng-model="vm.device.enabled" btn-radio="false">No</label>
     </div>
   </div>
 

@@ -50,6 +50,7 @@
     } else {
       vm.device = new dataService.devices();
       vm.device.bodyparts = [];
+      vm.device.enabled = true;
     }
 
     vm.prevState = angular.copy(vm.device);
