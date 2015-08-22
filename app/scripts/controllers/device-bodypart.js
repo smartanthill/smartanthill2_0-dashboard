@@ -22,11 +22,12 @@
     .module('siteApp')
     .controller('DeviceBodyPartController', DeviceBodyPartController);
 
-  function DeviceBodyPartController($scope, $modalInstance, initialState,
-    pluginsList, boardInfo) {
+  function DeviceBodyPartController($scope, $modalInstance, $window,
+    initialState, pluginsList, deviceInfo, boardInfo) {
 
     var vm = this;
 
+    vm.device = deviceInfo;
     vm.plugins = pluginsList;
     vm.item = initialState;
     vm.boardPins = getBoardPins();
@@ -83,6 +84,12 @@
     }
 
     function save() {
+      for (var i = 0; i < vm.device.bodyparts.length; i++) {
+        if (vm.item.name === vm.device.bodyparts[i].name) {
+          $window.alert('BodyPart name must be unique within device.');
+          return false;
+        }
+      }
       $modalInstance.close({
         'name': vm.item.name,
         'pluginId': vm.selectPlugin.selected.id,

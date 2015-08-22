@@ -93,6 +93,9 @@
           pluginsList: function() {
             return vm.plugins;
           },
+          deviceInfo: function() {
+            return vm.device;
+          },
           boardInfo: ['dataService',
             function(dataService) {
               return dataService.boards.get({
