@@ -8,23 +8,18 @@
     </div>
     <div class="form-group">
       <label class="control-label">Logger level</label>
-      <ui-select ng-model="vm.settings.logger.level" theme="bootstrap">
-        <ui-select-match required>{{vm.settings.logger.level}}</ui-select-match>
-        <ui-select-choices repeat="level in vm.validLoggerLevels">
-          <div ng-bind-html="level"></div>
-        </ui-select-choices>
-      </ui-select>
+      <select name="compiler" class="form-control" ng-model="vm.settings.logger.level" ng-options="level for level in vm.validLoggerLevels">
+      </select>
     </div>
 
-    <div class="form-group" show-form-errors>
+    <div class="form-group">
       <label class="control-label">Compiler</label>
-      <input type="text"
-             name="ccurl"
-             class="form-control"
-             ng-model="vm.settings.ccurl"
-             ng-pattern="/^https?:\/\/.+$/i">
-      <span class="help-block">
-        <b>Local Compiler</b> (based on <a href="http://platformio.org" target="_blank">PlatformIO</a>) can take a few minutes for the first firmware building. PlatformIO will install/download required tool chains, frameworks and upload tools. Henceforth <b>"Train It"</b> (firmware building wizard) can work in off-line mode.
+      <select name="compiler" class="form-control" ng-model="vm.settings.compiler">
+        <option value="http://cc.smartanthill.org">SmartAnthill Cloud Compiler</option>
+        <option value="">Local Compiler</option>
+      </select>
+      <span class="help-block" ng-if="!vm.settings.compiler">
+        <b>* Local Compiler</b> (based on <a href="http://platformio.org" target="_blank">PlatformIO</a>) can take a few minutes for the first firmware building. PlatformIO will install/download required tool chains, frameworks and upload tools. Henceforth <b>"Train It"</b> (firmware building wizard) can work in off-line mode.
       </span>
     </div>
   </section>

@@ -52,8 +52,8 @@
         vm.progressbar.value = 20;
         vm.progressbar.info = 'Building...';
 
-        if (settings.ccurl.indexOf('http') !== -1) {
-          return $resource(settings.ccurl).save(deviceInfo).$promise;
+        if (settings.compiler.indexOf('http') !== -1) {
+          return $resource(settings.compiler).save(deviceInfo).$promise;
         } else {
           return dataService.deviceBuildFirmware(vm.device.id).$promise;
         }
