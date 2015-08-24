@@ -2,9 +2,9 @@
 
 <form name="settingsForm" ng-submit="vm.submitForm()" role="form">
 
-  <section id="logger">
+  <section id="general">
     <div class="page-header">
-      <h2>Logger</h2>
+      <h2>General</h2>
     </div>
     <div class="form-group">
       <label class="control-label">Logger level</label>
@@ -15,21 +15,17 @@
         </ui-select-choices>
       </ui-select>
     </div>
-  </section>
 
-  <section id="cc">
-    <div class="page-header">
-      <h2>Compiler</h2>
-    </div>
     <div class="form-group" show-form-errors>
-      <label class="control-label">Compiler URL</label>
+      <label class="control-label">Compiler</label>
       <input type="text"
              name="ccurl"
              class="form-control"
              ng-model="vm.settings.ccurl"
              ng-pattern="/^https?:\/\/.+$/i">
-      <span class="help-block">Empty field means that SmartAnthill will use
-        built-in compiler based on <a href="http://platformio.org/">PlatformIO</a>.</span>
+      <span class="help-block">
+        <b>Local Compiler</b> (based on <a href="http://platformio.org" target="_blank">PlatformIO</a>) can take a few minutes for the first firmware building. PlatformIO will install/download required tool chains, frameworks and upload tools. Henceforth <b>"Train It"</b> (firmware building wizard) can work in off-line mode.
+      </span>
     </div>
   </section>
 
