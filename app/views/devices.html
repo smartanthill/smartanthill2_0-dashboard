@@ -9,6 +9,7 @@
       <th>ID</th>
       <th>Name</th>
       <th>Enabled</th>
+      <th>Status</th>
     </tr>
     <tr ng-repeat="device in vm.devices">
       <td>
@@ -19,6 +20,9 @@
       </td>
       <td>
         {{ device.enabled ? 'Yes' : 'No' }}
+      </td>
+      <td>
+        {{ device.status | statusToText }}
       </td>
     </tr>
   </table>

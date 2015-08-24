@@ -38,6 +38,8 @@
     vm.trainIt = trainIt;
     vm.runBodyPartModal = runBodyPartModal;
     vm.showBodyPartDocsModal = showBodyPartDocsModal;
+    vm.runBodyPartDisabled = runBodyPartDisabled;
+    vm.runBodyPartTooltipText = runBodyPartTooltipText;
 
     ////////////
 
@@ -161,6 +163,20 @@
           ]
         }
       });
+    }
+  }
+
+  function runBodyPartDisabled(device) {
+    return !device.enabled || 2 === device.status;
+  }
+
+  function runBodyPartTooltipText(device) {
+    if (2 === device.status) {
+      return 'You need to perform TrainIt! in order to be able to perform API' +
+             ' requests.';
+    }
+    if (!device.enabled) {
+      return 'You need to enable device in order to perform API requests';
     }
   }
 

@@ -30,6 +30,11 @@
     </dl>
 
     <dl class="dl-horizontal">
+      <dt>Status:</dt>
+      <dd>{{ vm.device.status | statusToText }}</dd>
+    </dl>
+
+    <dl class="dl-horizontal">
       <dt>Connection URI:</dt>
       <dd>{{ vm.device.connectionUri }}</dd>
     </dl>
@@ -69,9 +74,9 @@
           </td>
           <td>
             <div class="btn-group btn-group-sm" dropdown>
-              <button type="button" class="btn btn-success" ng-disabled="!vm.device.enabled" ng-click="vm.runBodyPartModal(item)">Run</button>
-              <div class="disabled-button-tooltip" ng-show="!vm.device.enabled"
-                   tooltip="You need to enable device in order to perform API requests"></div>
+              <button type="button" class="btn btn-success" ng-disabled="vm.runBodyPartDisabled(vm.device)" ng-click="vm.runBodyPartModal(item)">Run</button>
+              <div class="disabled-button-tooltip" ng-show="vm.runBodyPartDisabled(vm.device)"
+                   tooltip="{{ vm.runBodyPartTooltipText(vm.device) }}"></div>
               <button type="button" class="btn btn-success" dropdown-toggle>
                 <span class="caret"></span>
                 <span class="sr-only">Toggle dropdown</span>
