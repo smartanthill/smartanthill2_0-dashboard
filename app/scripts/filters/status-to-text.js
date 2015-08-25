@@ -20,20 +20,11 @@
 
   angular
     .module('siteApp')
-    .filter('statusToText', statusToText);
+    .filter('statusToText', ['statusToTextMap', statusToText]);
 
-  function statusToText() {
+  function statusToText(statusToTextMap) {
     return function(status) {
-      if (0 === status) {
-        return 'Offline';
-      }
-      if (1 === status) {
-        return 'Online';
-      }
-      if (2 === status) {
-        return 'Waiting for TrainIt!';
-      }
-      return 'Unknown';
+      return statusToTextMap[status] || 'Unknown';
     };
   }
 

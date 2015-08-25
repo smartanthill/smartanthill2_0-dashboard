@@ -33,6 +33,15 @@
   .constant('siteConfig', {
     apiURL: (parseInt(location.port) === 9000 ? '//localhost:8138' : '') +
       '/api/'
+  })
+
+  .constant('idleStatusCode', 3)
+
+  .constant('statusToTextMap', {
+    0: 'Offline',
+    1: 'Online',
+    2: 'Waiting for TrainIt!',
+    3: 'Idle',
   });
 
 })();

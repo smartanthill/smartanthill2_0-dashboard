@@ -23,7 +23,7 @@
     .controller('DeviceInfoController', DeviceInfoController);
 
   function DeviceInfoController($location, $modal, dataService, notifyUser,
-    deviceInfo, pluginsList, idToNameMapper) {
+    deviceInfo, pluginsList, idToNameMapper, idleStatusCode) {
 
     var vm = this;
 
@@ -98,6 +98,7 @@
 
       modalInstance.result.then(function(result) {
         notifyUser('success', result);
+        vm.device.status = idleStatusCode;
       }, function(failure) {
         if (failure) {
           notifyUser('error', failure);
