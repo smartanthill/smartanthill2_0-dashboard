@@ -22,15 +22,13 @@
     .module('siteApp')
     .controller('DeviceInfoController', DeviceInfoController);
 
-  function DeviceInfoController($location, $modal, dataService, notifyUser,
-    deviceInfo, pluginsList, idToNameMapper, idleStatusCode) {
+  function DeviceInfoController($location, $modal, notifyUser,
+    deviceInfo, boardInfo, pluginsList, idToNameMapper, idleStatusCode) {
 
     var vm = this;
 
     vm.device = deviceInfo;
-    vm.board = dataService.boards.get({
-      boardId: vm.device.boardId
-    });
+    vm.board = boardInfo;
     vm.plugins = pluginsList;
     vm.idToNameMap = idToNameMapper.mapIdToName(vm.plugins);
 

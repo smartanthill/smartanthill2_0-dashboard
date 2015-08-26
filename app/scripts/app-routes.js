@@ -81,6 +81,11 @@
               deviceId: $stateParams.deviceId
             }).$promise;
           },
+          boardInfo: function(dataService, deviceInfo) {
+            return dataService.boards.get({
+              boardId: deviceInfo.boardId
+            }).$promise;
+          },
           devicesList: function(dataService) {
             return dataService.devices.query().$promise;
           },
