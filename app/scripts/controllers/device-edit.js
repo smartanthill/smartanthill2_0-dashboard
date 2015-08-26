@@ -19,16 +19,15 @@
   'use strict';
 
   angular.module('siteApp')
-    .controller('DeviceAddOrEditController', DeviceAddOrEditController);
+    .controller('DeviceEditController', DeviceEditController);
 
-  function DeviceAddOrEditController($scope, $location, $modal, dataService,
+  function DeviceEditController($scope, $location, $modal, dataService,
     notifyUser, deviceInfo, devicesList, boardsList, pluginsList,
     idToNameMapper) {
     var vm = this;
 
     vm.boards = boardsList;
     vm.selectBoard = {};
-    vm.editMode = false;
     vm.prevState = {};
     vm.plugins = pluginsList;
     vm.idToNameMap = idToNameMapper.mapIdToName(vm.plugins);
@@ -38,20 +37,12 @@
       usedDevIds[item.id] = true;
     });
 
-    if (deviceInfo) {
-      vm.device = deviceInfo;
-      angular.forEach(vm.boards, function(item) {
-        if (item.id === vm.device.boardId) {
-          vm.selectBoard.selected = item;
-        }
-      });
-
-      vm.editMode = true;
-    } else {
-      vm.device = new dataService.devices();
-      vm.device.bodyparts = [];
-      vm.device.enabled = true;
-    }
+    vm.device = deviceInfo;
+    angular.forEach(vm.boards, function(item) {
+      if (item.id === vm.device.boardId) {
+        vm.selectBoard.selected = item;
+      }
+    });
 
     vm.prevState = angular.copy(vm.device);
 
@@ -138,14 +129,11 @@
 
       vm.device.$save()
         .then(function() {
-          notifyUser('success', 'Settings have been successfully ' + (
-            vm.editMode ? 'updated' : 'added'));
+          notifyUser('success', 'Settings have been successfully updated');
           $location.path('/devices/' + vm.device.id);
         }, function(data) {
-          notifyUser('error', ('An unexpected error occurred when ' + (
-              vm.editMode ? 'updating' : 'adding') +
-            ' settings (' +
-            data.data + ')'));
+          notifyUser('error', ('An unexpected error occurred when updating' +
+            ' settings (' + data.data + ')'));
         })
         .finally(function() {
           vm.disableSubmit = false;

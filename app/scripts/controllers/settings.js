@@ -22,12 +22,12 @@
     .module('siteApp')
     .controller('SettingsController', SettingsController);
 
-  function SettingsController(notifyUser, Settings, LoggerLevels) {
+  function SettingsController(notifyUser, settings, loggerLevels) {
     var vm = this;
-    var _prevSettings = angular.copy(Settings);
+    var _prevSettings = angular.copy(settings);
 
-    vm.settings = Settings;
-    vm.validLoggerLevels = LoggerLevels;
+    vm.settings = settings;
+    vm.validLoggerLevels = loggerLevels;
     vm.submitForm = submitFormCallback;
     vm.resetForm = resetFormCallback;
 

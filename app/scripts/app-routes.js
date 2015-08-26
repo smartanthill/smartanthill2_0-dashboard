@@ -22,135 +22,102 @@
     .module('siteApp')
     .config(routeConfig);
 
-  function routeConfig($locationProvider, $routeProvider) {
+  function routeConfig($locationProvider, $stateProvider, $urlRouterProvider) {
     $locationProvider.hashPrefix('!');
 
-    $routeProvider
-      .when('/', {
-        templateUrl: 'views/dashboard.html',
+    $urlRouterProvider.when('/devices', '/devices/list');
+    $urlRouterProvider.otherwise('/');
+
+    $stateProvider
+      .state('dashboard', {
+        url: '/',
+        templateUrl: '/views/dashboard.html',
         controller: 'DashboardController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
       })
-      .when('/devices/add', {
-        templateUrl: 'views/device-addoredit.html',
-        controller: 'DeviceAddOrEditController',
+
+      .state('devices', {
+        url: '/devices',
+        template: '<ui-view/>',
+      })
+
+      .state('devices.list', {
+        url: '/list',
+        templateUrl: '/views/devices-list.html',
+        controller: 'DevicesListController',
         controllerAs: 'vm',
         resolve: {
-          deviceInfo: function(dataService) {
-            return null;
+          devicesList: function(dataService) {
+            return dataService.devices.query().$promise;
           },
-          devicesList: ['dataService',
-            function(dataService) {
-              return dataService.devices.query().$promise;
-            }
-          ],
-          boardsList: ['dataService',
-            function(dataService) {
-              return dataService.boards.query().$promise;
-            }
-          ],
-          pluginsList: ['dataService',
-            function(dataService) {
-              return dataService.plugins.query().$promise;
-            }
-          ]
-        }
+        },
       })
-      .when('/devices/:deviceId/edit', {
-        templateUrl: 'views/device-addoredit.html',
-        controller: 'DeviceAddOrEditController',
-        controllerAs: 'vm',
-        resolve: {
-          deviceInfo: ['$route', 'dataService',
-            function($route, dataService) {
-              return dataService.devices.get({
-                deviceId: $route.current.params.deviceId
-              }).$promise;
-            }
-          ],
-          devicesList: ['dataService',
-            function(dataService) {
-              return dataService.devices.query().$promise;
-            }
-          ],
-          boardsList: ['dataService',
-            function(dataService) {
-              return dataService.boards.query().$promise;
-            }
-          ],
-          pluginsList: ['dataService',
-            function(dataService) {
-              return dataService.plugins.query().$promise;
-            }
-          ]
-        }
-      })
-      .when('/devices/:deviceId', {
-        templateUrl: 'views/device-info.html',
+
+      .state('devices.info', {
+        url: '/:deviceId',
+        templateUrl: '/views/device-info.html',
         controller: 'DeviceInfoController',
         controllerAs: 'vm',
         resolve: {
-          deviceInfo: ['$route', 'dataService',
-            function($route, dataService) {
-              return dataService.devices.get({
-                deviceId: $route.current.params.deviceId
-              }).$promise;
-            }
-          ],
-          pluginsList: ['dataService',
-            function(dataService) {
-              return dataService.plugins.query().$promise;
-            }
-          ]
-        }
+          deviceInfo: function($stateParams, dataService) {
+            return dataService.devices.get({
+              deviceId: $stateParams.deviceId
+            }).$promise;
+          },
+          pluginsList: function(dataService) {
+            return dataService.plugins.query().$promise;
+          }
+        },
       })
-      .when('/devices', {
-        templateUrl: 'views/devices.html',
-        controller: 'DevicesController',
+
+      .state('devices.edit', {
+        url: '/:deviceId/edit',
+        templateUrl: '/views/device-edit.html',
+        controller: 'DeviceEditController',
         controllerAs: 'vm',
         resolve: {
-          devicesList: ['dataService',
-            function(dataService) {
-              return dataService.devices.query().$promise;
-            }
-          ]
-        }
+          deviceInfo: function($stateParams, dataService) {
+            return dataService.devices.get({
+              deviceId: $stateParams.deviceId
+            }).$promise;
+          },
+          devicesList: function(dataService) {
+            return dataService.devices.query().$promise;
+          },
+          boardsList: function(dataService) {
+            return dataService.boards.query().$promise;
+          },
+          pluginsList: function(dataService) {
+            return dataService.plugins.query().$promise;
+          },
+        },
       })
-      .when('/network', {
-        templateUrl: 'views/network.html',
+
+      .state('network', {
+        url: '/network',
+        templateUrl: '/views/network.html',
         controller: 'NetworkController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
       })
-      .when('/console', {
-        templateUrl: 'views/console.html',
+
+      .state('console', {
+        url: '/console',
+        templateUrl: '/views/console.html',
         controller: 'ConsoleController',
         controllerAs: 'vm',
-        resolve: {
-          Messages: ['dataService',
-            function(dataService) {
-              return dataService.consoleMessages().$promise;
-            }
-          ]
-        }
       })
-      .when('/settings', {
+
+      .state('settings', {
+        url: '/settings',
         templateUrl: 'views/settings.html',
         controller: 'SettingsController',
         controllerAs: 'vm',
         resolve: {
-          Settings: ['dataService',
-            function(dataService) {
-              return dataService.settings.get().$promise;
-            }
-          ],
-          LoggerLevels: function getValidLoggerLevels() {
-            // TODO: get available levels via API
-            return ['FATAL', 'ERROR', 'WARN', 'INFO', 'DEBUG'];
-          }
+          settings: function(dataService) {
+            return dataService.settings.get().$promise;
+          },
         }
       })
-      .otherwise({
-        redirectTo: '/'
-      });
+      ;
   }
 })();

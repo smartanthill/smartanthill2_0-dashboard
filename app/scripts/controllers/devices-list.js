@@ -19,9 +19,9 @@
   'use strict';
 
   angular.module('siteApp')
-    .controller('DevicesController', DevicesController);
+    .controller('DevicesListController', DevicesListController);
 
-  function DevicesController(devicesList) {
+  function DevicesListController(devicesList) {
     var vm = this;
     vm.devices = devicesList;
   }

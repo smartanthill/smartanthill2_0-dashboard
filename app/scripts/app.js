@@ -21,11 +21,11 @@
   angular.module('siteApp', [
     'ngAnimate',
     'ngResource',
-    'ngRoute',
     'ngSanitize',
     'ngTouch',
     'ui.bootstrap',
     'ui.select',
+    'ui.router',
     'toaster',
     'ngTable'
   ])
@@ -34,6 +34,8 @@
     apiURL: (parseInt(location.port) === 9000 ? '//localhost:8138' : '') +
       '/api/'
   })
+
+  .constant('loggerLevels', ['FATAL', 'ERROR', 'WARN', 'INFO', 'DEBUG'])
 
   .constant('idleStatusCode', 3)
 
