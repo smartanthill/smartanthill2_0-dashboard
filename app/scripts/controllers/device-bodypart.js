@@ -23,7 +23,7 @@
     .controller('DeviceBodyPartController', DeviceBodyPartController);
 
   function DeviceBodyPartController($scope, $modalInstance, $window,
-    initialState, pluginsList, deviceInfo, boardInfo) {
+    initialState, pluginsList, deviceInfo, boardInfo, editMode) {
 
     var vm = this;
 
@@ -84,10 +84,12 @@
     }
 
     function save() {
-      for (var i = 0; i < vm.device.bodyparts.length; i++) {
-        if (vm.item.name === vm.device.bodyparts[i].name) {
-          $window.alert('BodyPart name must be unique within device.');
-          return false;
+      if (!editMode) {
+        for (var i = 0; i < vm.device.bodyparts.length; i++) {
+          if (vm.item.name === vm.device.bodyparts[i].name) {
+            $window.alert('BodyPart name must be unique within device.');
+            return false;
+          }
         }
       }
       $modalInstance.close({

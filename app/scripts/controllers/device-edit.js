@@ -87,6 +87,9 @@
           deviceInfo: function() {
             return vm.device;
           },
+          editMode: function() {
+            return index !== -1;
+          },
           boardInfo: ['dataService',
             function(dataService) {
               return dataService.boards.get({
