@@ -1,0 +1,8 @@
+<div ng-controller="DeviceEditBodyPartsController as bodyPartsVm"
+     ng-include src="'views/device-edit-bodyparts.html'"></div>
+
+<button ng-click="vm.submit()"
+        ng-disabled="vm.disableSubmit || !vm.device.bodyparts.length"
+        class="btn btn-primary">
+  Submit
+</button>

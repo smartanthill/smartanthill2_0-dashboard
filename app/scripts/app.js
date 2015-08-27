@@ -38,6 +38,7 @@
   .constant('loggerLevels', ['FATAL', 'ERROR', 'WARN', 'INFO', 'DEBUG'])
 
   .constant('idleStatusCode', 3)
+  .constant('maxDeviceId', 255)
 
   .constant('statusToTextMap', {
     0: 'Offline',

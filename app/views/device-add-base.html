@@ -1,0 +1,17 @@
+<h1>Add device</h1>
+
+<div class="text-center add-device-steps-wrapper">
+  <div class="btn-group">
+    <button ng-repeat="step in vm.steps"
+            ng-disabled="step.disabled()"
+            ui-sref-active="active"
+            ui-sref="{{ step.name }}"
+            class="btn btn-primary">
+      {{ step.title }}
+    </button>
+  </div>
+</div>
+
+<form role="form" name="add-device-form" novalidate>
+    <div ui-view></div>
+</form>

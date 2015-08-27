@@ -1,0 +1,13 @@
+<div class="form-group" show-form-errors>
+  <label class="control-label">Connection URI</label>
+  <input
+    type="text"
+    name="netrouter"
+    class="form-control"
+    placeholder="How device will be connected to SmartAnthill?"
+    required
+    ng-model="vm.device.connectionUri"
+    ng-pattern="/^serial\:\/\/[^\?]+(\?(\&?[a-z]+=[^\:]+)+)?$/"
+    tooltip="Examples: serial:///dev/ttyUSB0, serial://COM1?baudrate=9600"
+    tooltip-placement="right">
+</div>

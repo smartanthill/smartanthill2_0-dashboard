@@ -79,3 +79,7 @@ footer hr {
   top: 0;
   bottom: 0;
 }
+
+.add-device-steps-wrapper {
+  margin-bottom: 1em;
+}

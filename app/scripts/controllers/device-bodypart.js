@@ -55,6 +55,19 @@
         });
       }
 
+      if (angular.isUndefined(vm.item.name)) {
+        vm.item.name = newValue.id;
+        var bodyPartsWithSamePluginCount = 1;
+        angular.forEach(vm.device.bodyparts, function(bodypart) {
+          if (bodypart.pluginId === newValue.id) {
+            bodyPartsWithSamePluginCount += 1;
+          }
+        });
+        if (bodyPartsWithSamePluginCount > 1) {
+          vm.item.name += '_' + bodyPartsWithSamePluginCount;
+        }
+      }
+
     });
 
     // handlers

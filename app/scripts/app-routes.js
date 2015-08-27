@@ -26,6 +26,7 @@
     $locationProvider.hashPrefix('!');
 
     $urlRouterProvider.when('/devices', '/devices/list');
+    $urlRouterProvider.when('/devices/add', '/devices/add/board');
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
@@ -93,6 +94,36 @@
             return dataService.boards.query().$promise;
           },
         },
+      })
+
+      .state('devices.add', {
+        url: '/add',
+        templateUrl: '/views/device-add-base.html',
+        controller: 'DeviceAddController',
+        controllerAs: 'vm',
+        resolve: {
+          boardsList: function(dataService) {
+            return dataService.boards.query().$promise;
+          },
+          devicesList: function(dataService) {
+            return dataService.devices.query().$promise;
+          },
+        },
+      })
+
+      .state('devices.add.selectBoard', {
+        url: '/board',
+        templateUrl: '/views/device-add-select-board.html',
+      })
+
+      .state('devices.add.selectTransport', {
+        url: '/transport',
+        templateUrl: '/views/device-add-select-transport.html',
+      })
+
+      .state('devices.add.selectBodyParts', {
+        url: '/bodyparts',
+        templateUrl: '/views/device-add-select-bodyparts.html',
       })
 
       .state('network', {
