@@ -102,10 +102,10 @@
       var deviceNumber = 1;
       for (i = 0; i < deviceNamesWithSameBoard.length; i++) {
         deviceName = deviceNamesWithSameBoard[i];
-        underscoreIndex = deviceName.lastIndefOf('_');
+        underscoreIndex = deviceName.lastIndexOf('_');
         if (underscoreIndex !== -1) {
           existingNumber = parseInt(deviceName.slice(underscoreIndex + 1));
-          if (existingNumber && deviceNumber < existingNumber) {
+          if (existingNumber && deviceNumber <= existingNumber) {
             deviceNumber = existingNumber + 1;
           }
         }
