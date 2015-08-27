@@ -92,9 +92,6 @@
           boardsList: function(dataService) {
             return dataService.boards.query().$promise;
           },
-          pluginsList: function(dataService) {
-            return dataService.plugins.query().$promise;
-          },
         },
       })
 

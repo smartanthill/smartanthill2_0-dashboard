@@ -1,0 +1,45 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      Body Parts
+      <button ng-if="bodyPartsVm.device.bodyparts.length" type="button" class="btn btn-success btn-xs" ng-click="bodyPartsVm.bodyPartModal()"><i class="fa fa-plus"></i> Add</button>
+    </h3>
+  </div>
+
+  <div class="panel-body">
+    <button ng-if="!bodyPartsVm.device.bodyparts.length" ng-class="{disabled: !bodyPartsVm.parent.selectBoard.selected}" type="button" class="btn btn-success" ng-click="bodyPartsVm.bodyPartModal()"><i class="fa fa-plus"></i> Add Body Part</button>
+    <div class="form-group" ng-class="{'has-success': bodyPartsVm.device.bodyparts.length}" ng-if="bodyPartsVm.device.bodyparts.length">
+      <table id="bodyparts-table" class="table table-hover" ng-show="bodyPartsVm.device.bodyparts">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Plugin</th>
+            <th>Options</th>
+            <th>Peripheral</th>
+            <th class="modify">Modify</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in bodyPartsVm.device.bodyparts">
+            <td>{{ item.name }}</td>
+            <td>{{ item.pluginId | idToName : bodyPartsVm.idToNameMap }}</td>
+            <td>
+              <dl ng-repeat="(key, value) in item.options">
+                <dt>{{ key | idToName : bodyPartsVm.idToNameMap : item.pluginId }}</dt><dd>{{ value }}</dd>
+              </dl>
+            </td>
+            <td>
+              <dl ng-repeat="(key, value) in item.peripheral">
+                <dt>{{ key | idToName : bodyPartsVm.idToNameMap : item.pluginId }}</dt><dd>{{ value }}</dd>
+              </dl>
+            </td>
+            <td class="modify">
+              <i class="fa fa-pencil-square-o fa-lg" style="cursor: pointer" ng-click="bodyPartsVm.bodyPartModal($index)" tooltip="Edit"></i>
+              <i class="fa fa-times fa-lg" style="cursor: pointer" ng-click="bodyPartsVm.removeBodyPart($index)" tooltip="Remove"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

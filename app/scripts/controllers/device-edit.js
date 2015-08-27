@@ -22,15 +22,12 @@
     .controller('DeviceEditController', DeviceEditController);
 
   function DeviceEditController($scope, $location, $modal, dataService,
-    notifyUser, deviceInfo, devicesList, boardsList, pluginsList,
-    idToNameMapper) {
+    notifyUser, deviceInfo, devicesList, boardsList) {
     var vm = this;
 
     vm.boards = boardsList;
     vm.selectBoard = {};
     vm.prevState = {};
-    vm.plugins = pluginsList;
-    vm.idToNameMap = idToNameMapper.mapIdToName(vm.plugins);
 
     var usedDevIds = {};
     angular.forEach(devicesList, function(item) {
@@ -58,66 +55,10 @@
     };
 
     // handlers
-    vm.bodyPartModal = bodyPartModal;
-    vm.removeBodyPart = removeBodyPart;
     vm.submitForm = submitForm;
     vm.resetForm = resetForm;
 
     ////////////
-
-    function bodyPartModal(index) {
-      var state = {};
-      if (index === undefined || index === null) {
-        index = -1;
-      } else {
-        angular.copy(vm.device.bodyparts[index], state);
-      }
-
-      var modalInstance = $modal.open({
-        templateUrl: 'views/device-bodypart.html',
-        controller: 'DeviceBodyPartController',
-        controllerAs: 'vm',
-        resolve: {
-          initialState: function() {
-            return state;
-          },
-          pluginsList: function() {
-            return vm.plugins;
-          },
-          deviceInfo: function() {
-            return vm.device;
-          },
-          editMode: function() {
-            return index !== -1;
-          },
-          boardInfo: ['dataService',
-            function(dataService) {
-              return dataService.boards.get({
-                'boardId': vm.device.boardId
-              }).$promise;
-            }
-          ]
-        }
-      });
-
-      modalInstance.result.then(function(result) {
-        if (index !== -1) {
-          vm.device.bodyparts[index] = result;
-        } else {
-          vm.device.bodyparts.push(result);
-        }
-      });
-    }
-
-    function removeBodyPart(index) {
-      if (!window.confirm('Delete this Body Part?')) {
-        return;
-      }
-
-      if (vm.device.bodyparts.length && index > -1) {
-        vm.device.bodyparts.splice(index, 1);
-      }
-    }
 
     function submitForm() {
       vm.submitted = true;
