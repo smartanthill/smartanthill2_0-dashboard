@@ -73,12 +73,19 @@
 
     function submit() {
       vm.disableSubmit = true;
+      var i;
 
       var usedDeviceIds = [];
+      var deviceNamesWithSameBoard = [];
       angular.forEach(devicesList, function(device){
         usedDeviceIds.push(device.id);
+        if (device.boardId === vm.device.boardId) {
+          deviceNamesWithSameBoard.push(device.name);
+        }
       });
-      for (var i = 1; i < maxDeviceId; i++) {
+
+      // Assigning device id
+      for (i = 1; i < maxDeviceId; i++) {
         if (usedDeviceIds.indexOf(i) === -1) {
           vm.device.id = i;
           break;
@@ -89,6 +96,21 @@
                             'exceeded.');
         return false;
       }
+
+      // Assigning device name
+      var underscoreIndex, deviceName, existingNumber;
+      var deviceNumber = 1;
+      for (i = 0; i < deviceNamesWithSameBoard.length; i++) {
+        deviceName = deviceNamesWithSameBoard[i];
+        underscoreIndex = deviceName.lastIndefOf('_');
+        if (underscoreIndex !== -1) {
+          existingNumber = parseInt(deviceName.slice(underscoreIndex + 1));
+          if (existingNumber && deviceNumber < existingNumber) {
+            deviceNumber = existingNumber + 1;
+          }
+        }
+      }
+      vm.device.name = vm.device.boardId + '_' + deviceNumber;
 
       vm.device.$save()
         .then(function() {
