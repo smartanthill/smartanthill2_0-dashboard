@@ -83,3 +83,7 @@ footer hr {
 .pagination > .disabled > a {
   pointer-events: none;
 }
+
+.margin-v-20 {
+  margin: 20px 0px;
+}

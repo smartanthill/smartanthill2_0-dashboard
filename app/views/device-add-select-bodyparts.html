@@ -16,17 +16,10 @@
 </div>
 
 <div id="pagination-wrapper" class="text-center">
-  <ul class="pagination">
-    <li class="pagination-prev">
-      <a ui-sref="{{ vm.steps[1].name }}" >Previous</a>
-    </li>
-    <li ng-repeat="step in vm.steps track by $index" ng-class="{disabled: $index > 0 && !vm.steps[$index - 1].completed()}" class="pagination-page" ui-sref-active="active">
-      <a ui-sref="{{ step.name }}"><i class="fa fa-check" ng-if="step.completed()"></i> {{ step.title }}</a>
-    </li>
-    <li class="pagination-next disabled">
-      <a href >Next</a>
-    </li>
-  </ul>
+  <a ui-sref="{{ vm.steps[1].name }}"
+     class="btn btn-default pull-left margin-v-20">Previous</a>
+  <span ng-include src="'views/device-add-pagination-items.html'"></span>
+  <a href class="btn btn-primary pull-right margin-v-20 disabled">Next</a>
 </div>
 
 <div id="submit-wrapper" class="text-center">
