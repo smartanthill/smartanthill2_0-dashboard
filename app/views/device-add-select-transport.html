@@ -1,13 +1,37 @@
-<div class="form-group" show-form-errors>
-  <label class="control-label">Connection URI</label>
-  <input
-    type="text"
-    name="netrouter"
-    class="form-control"
-    placeholder="How device will be connected to SmartAnthill?"
-    required
-    ng-model="vm.device.connectionUri"
-    ng-pattern="/^serial\:\/\/[^\?]+(\?(\&?[a-z]+=[^\:]+)+)?$/"
-    tooltip="Examples: serial:///dev/ttyUSB0, serial://COM1?baudrate=9600"
-    tooltip-placement="right">
+<div class="panel panel-info">
+  <div class="panel-body">
+    Choose the way your device will communicate with SmartAnthill.
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="form-group" show-form-errors>
+      <label class="control-label">Connection URI</label>
+      <input
+        type="text"
+        name="netrouter"
+        class="form-control"
+        placeholder="How device will be connected to SmartAnthill?"
+        required
+        ng-model="vm.device.connectionUri"
+        ng-pattern="/^serial\:\/\/[^\?]+(\?(\&?[a-z]+=[^\:]+)+)?$/"
+        tooltip="Examples: serial:///dev/ttyUSB0, serial://COM1?baudrate=9600"
+        tooltip-placement="right">
+    </div>
+  </div>
+</div>
+
+<div id="pagination-wrapper" class="text-center">
+  <ul class="pagination">
+    <li class="pagination-prev">
+      <a ui-sref="{{ vm.steps[0].name }}" >Prevoius</a>
+    </li>
+    <li ng-repeat="step in vm.steps track by $index" ng-class="{disabled: $index > 0 && !vm.steps[$index - 1].completed()}" class="pagination-page" ui-sref-active="active">
+      <a ui-sref="{{ step.name }}"><i class="fa fa-check" ng-if="step.completed()"></i> {{ step.title }}</a>
+    </li>
+    <li ng-class="{disabled: !vm.steps[1].completed()}" class="pagination-next">
+      <a ui-sref="{{ vm.steps[2].name }}" >Next</a>
+    </li>
+  </ul>
 </div>

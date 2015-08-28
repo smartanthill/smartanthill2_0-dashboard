@@ -80,6 +80,6 @@ footer hr {
   bottom: 0;
 }
 
-.add-device-steps-wrapper {
-  margin-bottom: 1em;
+.pagination > .disabled > a {
+  pointer-events: none;
 }

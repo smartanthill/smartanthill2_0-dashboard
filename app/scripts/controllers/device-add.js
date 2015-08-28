@@ -38,23 +38,28 @@
       {
         'name': 'devices.add.selectBoard',
         'title': 'Board',
-        'disabled': function() {return false;},
+        'completed': function() {return vm.selectBoard.selected;},
       },
       {
         'name': 'devices.add.selectTransport',
         'title': 'Transport',
-        'disabled': function() {
-          return !vm.selectBoard.selected;
+        'completed': function() {
+          return vm.device.connectionUri && vm.steps[0].completed();
         },
       },
       {
         'name': 'devices.add.selectBodyParts',
         'title': 'BodyParts',
-        'disabled': function() {
-          return !vm.selectBoard.selected;
+        'completed': function() {
+          return vm.device.bodyparts.length && vm.steps[1].completed();
         },
       },
     ];
+
+    if ($state.current.name !== vm.steps[0].name) {
+      // Redirect to first step
+      $state.go(vm.steps[0].name);
+    }
 
     vm.submit = submit;
 

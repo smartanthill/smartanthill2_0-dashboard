@@ -1,8 +1,42 @@
-<div ng-controller="DeviceEditBodyPartsController as bodyPartsVm"
-     ng-include src="'views/device-edit-bodyparts.html'"></div>
+<div class="panel panel-info">
+  <div class="panel-body">
+    <p>Body parts are the main structure unit of devices. Each body part has a
+    plugin which allows to perform some specific actions.</p>
+    <p>Keep in mind that some plugins require presence of specific hardware.</p>
+    <p>You may want to get started by creating body parts with
+      <code>Blink</code> or <code>Write to Digital pin</code> plugins.</p>
+  </div>
+</div>
 
-<button ng-click="vm.submit()"
-        ng-disabled="vm.disableSubmit || !vm.device.bodyparts.length"
-        class="btn btn-primary">
-  Submit
-</button>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div ng-controller="DeviceEditBodyPartsController as bodyPartsVm"
+         ng-include src="'views/device-edit-bodyparts.html'"></div>
+  </div>
+</div>
+
+<div id="pagination-wrapper" class="text-center">
+  <ul class="pagination">
+    <li class="pagination-prev">
+      <a ui-sref="{{ vm.steps[1].name }}" >Previous</a>
+    </li>
+    <li ng-repeat="step in vm.steps track by $index" ng-class="{disabled: $index > 0 && !vm.steps[$index - 1].completed()}" class="pagination-page" ui-sref-active="active">
+      <a ui-sref="{{ step.name }}"><i class="fa fa-check" ng-if="step.completed()"></i> {{ step.title }}</a>
+    </li>
+    <li class="pagination-next disabled">
+      <a href >Next</a>
+    </li>
+  </ul>
+</div>
+
+<div id="submit-wrapper" class="text-center">
+  <span ng-show="vm.steps[2].completed()">All done! You can now proceed adding
+    body parts or press</span>
+  <button ng-click="vm.submit()"
+          ng-disabled="vm.disableSubmit || !vm.steps[2].completed()"
+          class="btn btn-primary btn-lg">
+    Submit
+  </button>
+  <span ng-show="vm.steps[2].completed()">to save the device. You will be able
+    to edit device and add more body parts later.</span>
+</div>
