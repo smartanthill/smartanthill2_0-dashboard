@@ -23,7 +23,7 @@
     .controller('DeviceBodyPartController', DeviceBodyPartController);
 
   function DeviceBodyPartController($scope, $modalInstance, $window,
-    initialState, pluginsList, deviceInfo, boardInfo, editMode) {
+    initialState, pluginsList, deviceInfo, boardInfo, editMode, wizardMode) {
 
     var vm = this;
 
@@ -32,6 +32,7 @@
     vm.item = initialState;
     vm.boardPins = getBoardPins();
     vm.selectPlugin = {};
+    vm.wizardMode = wizardMode;
 
     angular.forEach(vm.plugins, function(item) {
       if (item.id === initialState.pluginId) {
@@ -55,7 +56,7 @@
         });
       }
 
-      if (angular.isUndefined(vm.item.name)) {
+      if (vm.wizardMode || !editMode || !vm.item.name) {
         vm.item.name = newValue.id;
         var bodyPartsWithSamePluginCount = 1;
         angular.forEach(vm.device.bodyparts, function(bodypart) {
@@ -63,9 +64,7 @@
             bodyPartsWithSamePluginCount += 1;
           }
         });
-        if (bodyPartsWithSamePluginCount > 1) {
-          vm.item.name += '_' + bodyPartsWithSamePluginCount;
-        }
+        vm.item.name += '_' + bodyPartsWithSamePluginCount;
       }
 
     });

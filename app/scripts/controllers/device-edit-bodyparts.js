@@ -32,6 +32,7 @@
         vm.idToNameMap = idToNameMapper.mapIdToName(pluginsList);
         return pluginsList;
       });
+    vm.wizardMode = false;
 
     // handlers
     vm.bodyPartModal = bodyPartModal;
@@ -63,6 +64,9 @@
           },
           editMode: function() {
             return index !== -1;
+          },
+          wizardMode: function() {
+            return vm.wizardMode;
           },
           boardInfo: ['dataService',
             function(dataService) {

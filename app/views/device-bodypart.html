@@ -20,7 +20,7 @@
       </ui-select>
     </div>
 
-    <div class="form-group" show-form-errors>
+    <div ng-if="!vm.wizardMode" class="form-group" show-form-errors>
       <label class="control-label">Name</label>
       <input
         type="text"

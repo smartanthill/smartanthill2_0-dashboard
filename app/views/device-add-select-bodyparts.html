@@ -11,7 +11,8 @@
 <div class="panel panel-default">
   <div class="panel-body">
     <div ng-controller="DeviceEditBodyPartsController as bodyPartsVm"
-         ng-include src="'views/device-edit-bodyparts.html'"></div>
+         ng-include src="'views/device-edit-bodyparts.html'"
+         onload="bodyPartsVm.wizardMode = true"></div>
   </div>
 </div>
 
