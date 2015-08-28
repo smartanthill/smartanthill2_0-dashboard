@@ -1,0 +1,10 @@
+<ul class="pagination">
+  <li ng-repeat="step in vm.steps track by $index"
+      ng-class="{disabled: $index > 0 && !vm.steps[$index - 1].completed()}"
+      class="pagination-page"
+      ui-sref-active="active">
+    <a ui-sref="{{ step.name }}">
+      <i class="fa fa-check" ng-if="step.completed()"></i> {{ step.title }}
+    </a>
+  </li>
+</ul>
