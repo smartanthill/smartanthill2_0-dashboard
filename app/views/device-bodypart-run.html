@@ -37,6 +37,6 @@
 </div>
 
 <div class="modal-footer">
+  <button class="btn btn-link" ng-click="vm.closeModal()">Close</button>
   <button class="btn btn-primary" ng-click="vm.runBodyPart()" ng-disabled="vm.runDisabled || (!bodyPartFieldsForm.$valid || !vm.plugin.request_fields)">Run</button>
-  <button class="btn btn-default" ng-click="vm.closeModal()">Close</button>
 </div>
