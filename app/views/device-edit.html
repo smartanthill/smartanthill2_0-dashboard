@@ -58,11 +58,11 @@
        ng-include src="'views/device-edit-bodyparts.html'"></div>
 
   <div class="form-group" show-form-errors>
-    <label class="control-label">Device is enabled</label>
-    <div class="btn-group">
-      <label class="btn btn-default" ng-model="vm.device.enabled" btn-radio="true">Yes</label>
-      <label class="btn btn-default" ng-model="vm.device.enabled" btn-radio="false">No</label>
-    </div>
+    <label class="control-label">Enabled</label>
+    <select name="enabled" class="form-control" ng-model="vm.device.enabled">
+      <option value="true">Yes</option>
+      <option value="false">No</option>
+    </select>
   </div>
 
   <button type="submit" class="btn btn-primary" ng-disabled="vm.disableSubmit || deviceForm.$invalid || !vm.selectBoard.selected || !vm.device.bodyparts.length">Submit</button>
