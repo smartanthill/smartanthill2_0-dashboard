@@ -8,147 +8,160 @@
 
 <br class="clearfix">
 
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">General</h3>
-  </div>
-  <div class="panel-body">
+<tabset>
+  <tab heading="General">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">General</h3>
+      </div>
+      <div class="panel-body">
 
-    <dl class="dl-horizontal">
-      <dt>ID:</dt>
-      <dd>{{ vm.device.id }}</dd>
-    </dl>
+        <dl class="dl-horizontal">
+          <dt>ID:</dt>
+          <dd>{{ vm.device.id }}</dd>
+        </dl>
 
-    <dl class="dl-horizontal">
-      <dt>Name:</dt>
-      <dd>{{ vm.device.name }}</dd>
-    </dl>
+        <dl class="dl-horizontal">
+          <dt>Name:</dt>
+          <dd>{{ vm.device.name }}</dd>
+        </dl>
 
-    <dl class="dl-horizontal">
-      <dt>Enabled:</dt>
-      <dd>{{ vm.device.enabled ? 'Yes' : 'No' }}</dd>
-    </dl>
+        <dl class="dl-horizontal">
+          <dt>Enabled:</dt>
+          <dd>{{ vm.device.enabled ? 'Yes' : 'No' }}</dd>
+        </dl>
 
-    <dl class="dl-horizontal">
-      <dt>Status:</dt>
-      <dd>{{ vm.device.status | statusToText }}</dd>
-    </dl>
+        <dl class="dl-horizontal">
+          <dt>Status:</dt>
+          <dd>{{ vm.device.status | statusToText }}</dd>
+        </dl>
 
-    <dl class="dl-horizontal">
-      <dt>Connection URI:</dt>
-      <dd>{{ vm.device.connectionUri }}</dd>
-    </dl>
+        <dl class="dl-horizontal">
+          <dt>Connection URI:</dt>
+          <dd>{{ vm.device.connectionUri }}</dd>
+        </dl>
 
-  </div>
-</div>
+      </div>
+    </div>
 
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">Body Parts</h3>
-  </div>
-  <div class="panel-body">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Body Parts</h3>
+      </div>
+      <div class="panel-body">
 
-    <table id="bodyparts-table" class="table table-hover">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Plugin</th>
-          <th>Options</th>
-          <th>Peripheral</th>
-          <th>API</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="item in vm.device.bodyparts">
-          <td>{{ item.name }}</td>
-          <td>{{ item.pluginId | idToName : vm.idToNameMap }}</td>
-          <td>
-            <dl ng-repeat="(key, value) in item.options">
-              <dt>{{ key | idToName : vm.idToNameMap : item.pluginId }}</dt><dd>{{ value }}</dd>
-            </dl>
-          </td>
-          <td>
-            <dl ng-repeat="(key, value) in item.peripheral">
-              <dt>{{ key | idToName : vm.idToNameMap : item.pluginId }}</dt><dd>{{ value }}</dd>
-            </dl>
-          </td>
-          <td>
-            <div class="btn-group btn-group-sm" dropdown>
-              <button type="button" class="btn btn-success" ng-disabled="vm.runBodyPartDisabled(vm.device)" ng-click="vm.runBodyPartModal(item)">Run</button>
-              <div class="disabled-button-tooltip" ng-show="vm.runBodyPartDisabled(vm.device)"
-                   tooltip="{{ vm.runBodyPartTooltipText(vm.device) }}"></div>
-              <button type="button" class="btn btn-success" dropdown-toggle>
-                <span class="caret"></span>
-                <span class="sr-only">Toggle dropdown</span>
-              </button>
-              <ul class="dropdown-menu" role="menu">
-                <li role="menuitem">
-                  <a class="pointer" ng-click="vm.showBodyPartDocsModal(item)">
-                    <i class="fa fa-book"></i>
-                    Help
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        <table id="bodyparts-table" class="table table-hover">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Plugin</th>
+              <th>Options</th>
+              <th>Peripheral</th>
+              <th>API</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in vm.device.bodyparts">
+              <td>{{ item.name }}</td>
+              <td>{{ item.pluginId | idToName : vm.idToNameMap }}</td>
+              <td>
+                <dl ng-repeat="(key, value) in item.options">
+                  <dt>{{ key | idToName : vm.idToNameMap : item.pluginId }}</dt><dd>{{ value }}</dd>
+                </dl>
+              </td>
+              <td>
+                <dl ng-repeat="(key, value) in item.peripheral">
+                  <dt>{{ key | idToName : vm.idToNameMap : item.pluginId }}</dt><dd>{{ value }}</dd>
+                </dl>
+              </td>
+              <td>
+                <div class="btn-group btn-group-sm" dropdown>
+                  <button type="button" class="btn btn-success" ng-disabled="vm.runBodyPartDisabled(vm.device)" ng-click="vm.runBodyPartModal(item)">Run</button>
+                  <div class="disabled-button-tooltip" ng-show="vm.runBodyPartDisabled(vm.device)"
+                       tooltip="{{ vm.runBodyPartTooltipText(vm.device) }}"></div>
+                  <button type="button" class="btn btn-success" dropdown-toggle>
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle dropdown</span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li role="menuitem">
+                      <a class="pointer" ng-click="vm.showBodyPartDocsModal(item)">
+                        <i class="fa fa-book"></i>
+                        Help
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-  </div>
-</div>
+      </div>
+    </div>
+  </tab>
 
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">Board</h3>
-  </div>
-  <div class="panel-body">
-    <dl class="dl-horizontal">
-      <dt>Vendor:</dt>
-      <dd>{{ vm.board.vendor }}</dd>
-    </dl>
+  <tab heading="Board">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Info</h3>
+      </div>
+      <div class="panel-body">
+        <dl class="dl-horizontal">
+          <dt>Vendor:</dt>
+          <dd>{{ vm.board.vendor }}</dd>
+        </dl>
 
-    <dl class="dl-horizontal">
-      <dt>Name:</dt>
-      <dd><a href="{{ vm.board.inforUrl }}" target="_blank">{{ vm.board.name }}</a></dd>
-    </dl>
+        <dl class="dl-horizontal">
+          <dt>Name:</dt>
+          <dd><a href="{{ vm.board.inforUrl }}" target="_blank">{{ vm.board.name }}</a></dd>
+        </dl>
+      </div>
+    </div>
 
-    <table class="table table-hover table-devpins">
-      <thead>
-        <tr>
-          <th>Pin</th>
-          <th>Alias</th>
-          <th>Digital</th>
-          <th>Analog</th>
-          <th>PWM</th>
-          <th>External Interrupt</th>
-        </tr>
-      </thead>
-      <tr ng-repeat="pin in vm.board.pins">
-        <td>{{ pin }}</td>
-        <td>
-          <span ng-repeat="(alias, _pin) in vm.board.pinsAlias">
-            <span class="label label-default" ng-if="pin == _pin">{{ alias }}</span>
-          </span>
-        </td>
-        <td><i class="fa fa-check"></i></td>
-        <td>
-          <span ng-repeat="_pin in vm.board.analogPins">
-            <i class="fa fa-check" ng-if="pin == _pin"></i>
-          </span>
-        </td>
-        <td>
-          <span ng-repeat="_pin in vm.board.pwmPins">
-            <i class="fa fa-check" ng-if="pin == _pin"></i>
-          </span>
-        </td>
-        <td>
-          <span ng-repeat="_pin in vm.board.extintPins">
-            <i class="fa fa-check" ng-if="pin == _pin"></i>
-          </span>
-        </td>
-      </tr>
-    </table>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Peripheral</h3>
+      </div>
+      <div class="panel-body">
+        <table class="table table-hover table-devpins">
+          <thead>
+            <tr>
+              <th>Pin</th>
+              <th>Alias</th>
+              <th>Digital</th>
+              <th>Analog</th>
+              <th>PWM</th>
+              <th>External Interrupt</th>
+            </tr>
+          </thead>
+          <tr ng-repeat="pin in vm.board.pins">
+            <td>{{ pin }}</td>
+            <td>
+              <span ng-repeat="(alias, _pin) in vm.board.pinsAlias">
+                <span class="label label-default" ng-if="pin == _pin">{{ alias }}</span>
+              </span>
+            </td>
+            <td><i class="fa fa-check"></i></td>
+            <td>
+              <span ng-repeat="_pin in vm.board.analogPins">
+                <i class="fa fa-check" ng-if="pin == _pin"></i>
+              </span>
+            </td>
+            <td>
+              <span ng-repeat="_pin in vm.board.pwmPins">
+                <i class="fa fa-check" ng-if="pin == _pin"></i>
+              </span>
+            </td>
+            <td>
+              <span ng-repeat="_pin in vm.board.extintPins">
+                <i class="fa fa-check" ng-if="pin == _pin"></i>
+              </span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </tab>
 
-  </div>
-</div>
+</tabset>
