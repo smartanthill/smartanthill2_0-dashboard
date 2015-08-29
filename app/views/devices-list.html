@@ -1,5 +1,5 @@
 <div ng-show="vm.devices.length">
-  <h1>Device</h1>
+  <h1>Devices</h1>
   <p>
     <a ui-sref="devices.add" class="btn btn-primary" role="button">New Device</a>
   </p>
@@ -31,5 +31,5 @@
 <div class="jumbotron" ng-show="!vm.devices.length">
   <h1>Devices</h1>
   <p>You devices list is empty.</p>
-  <p><a href="#!/devices/add" class="btn btn-primary" role="button">Add new Device</a> </p>
+  <p><a ui-sref="devices.add" class="btn btn-primary" role="button">Add new Device</a> </p>
 </div>
