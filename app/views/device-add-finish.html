@@ -1,0 +1,30 @@
+<div class="well">
+  <p>
+    All done! You can now press big blue Submit buttom below to create device.
+    Device wouldn't work yet, actually. You must press green
+    <code>TrainIt!</code> button on
+    <span class="has-tooltip"
+          tooltip="You will be redirected there right after you press Submit
+            button.">
+      device info page
+    </span> first. Pressing <code>TrainIt!</code> button will make SmartAnthill
+    build and upload specific to your board firmware, including plugins for all
+    body parts you added to board on previous step. You will have to press
+    <code>TrainIt!</code> each time you add/remove body parts or modify
+    configuration of any body part.
+  </p>
+  <div id="submit-wrapper" class="text-center">
+    <button ng-click="vm.submit()"
+            ng-disabled="vm.disableSubmit || !vm.steps[2].completed()"
+            class="btn btn-primary btn-lg">
+      Submit
+    </button>
+  </div>
+</div>
+
+<div id="pagination-wrapper" class="text-center">
+  <a ui-sref="{{ vm.steps[2].name }}"
+     class="btn btn-default pull-left margin-v-20">Previous</a>
+  <span ng-include src="'views/device-add-pagination-items.html'"></span>
+  <a href class="btn btn-primary pull-right margin-v-20 disabled">Next</a>
+</div>

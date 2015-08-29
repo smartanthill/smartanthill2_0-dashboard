@@ -20,17 +20,7 @@
   <a ui-sref="{{ vm.steps[1].name }}"
      class="btn btn-default pull-left margin-v-20">Previous</a>
   <span ng-include src="'views/device-add-pagination-items.html'"></span>
-  <a href class="btn btn-primary pull-right margin-v-20 disabled">Next</a>
-</div>
-
-<div id="submit-wrapper" class="text-center">
-  <span ng-show="vm.steps[2].completed()">All done! You can now proceed adding
-    body parts or press</span>
-  <button ng-click="vm.submit()"
-          ng-disabled="vm.disableSubmit || !vm.steps[2].completed()"
-          class="btn btn-primary btn-lg">
-    Submit
-  </button>
-  <span ng-show="vm.steps[2].completed()">to save the device. You will be able
-    to edit device and add more body parts later.</span>
+  <a ui-sref="{{ vm.steps[3].name }}"
+     ng-class="{disabled: !vm.steps[2].completed()}"
+     class="btn btn-primary pull-right margin-v-20">Next</a>
 </div>

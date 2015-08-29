@@ -87,3 +87,12 @@ footer hr {
 .margin-v-20 {
   margin: 20px 0px;
 }
+
+.has-tooltip {
+  text-decoration: underline;
+  text-decoration-style: dashed;
+}
+
+.has-tooltip:hover {
+  cursor: help;
+}

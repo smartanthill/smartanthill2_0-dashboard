@@ -126,6 +126,11 @@
         templateUrl: '/views/device-add-select-bodyparts.html',
       })
 
+      .state('devices.add.finish', {
+        url: '/finish',
+        templateUrl: '/views/device-add-finish.html',
+      })
+
       .state('network', {
         url: '/network',
         templateUrl: '/views/network.html',

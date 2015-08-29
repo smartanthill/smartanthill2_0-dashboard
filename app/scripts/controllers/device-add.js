@@ -54,6 +54,11 @@
           return vm.device.bodyparts.length && vm.steps[1].completed();
         },
       },
+      {
+        'name': 'devices.add.finish',
+        'title': 'Finish',
+        'completed': function() {return false;},
+      },
     ];
 
     if ($state.current.name !== vm.steps[0].name) {
