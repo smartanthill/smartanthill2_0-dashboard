@@ -23,7 +23,7 @@
     .controller('DeviceAddController', DeviceAddController);
 
   function DeviceAddController($scope, $state, dataService, notifyUser,
-    boardsList, devicesList, maxDeviceId) {
+    extractNumberFromName, boardsList, devicesList, maxDeviceId) {
 
     var vm = this;
 
@@ -108,16 +108,12 @@
       }
 
       // Assigning device name
-      var underscoreIndex, deviceName, existingNumber;
-      var deviceNumber = 1;
+      var existingNumber,
+          deviceNumber = 1;
       for (i = 0; i < deviceNamesWithSameBoard.length; i++) {
-        deviceName = deviceNamesWithSameBoard[i];
-        underscoreIndex = deviceName.lastIndexOf('_');
-        if (underscoreIndex !== -1) {
-          existingNumber = parseInt(deviceName.slice(underscoreIndex + 1));
-          if (existingNumber && deviceNumber <= existingNumber) {
-            deviceNumber = existingNumber + 1;
-          }
+        existingNumber = extractNumberFromName(deviceNamesWithSameBoard[i]);
+        if (deviceNumber <= existingNumber) {
+          deviceNumber = existingNumber + 1;
         }
       }
       vm.device.name = vm.device.boardId + '_' + deviceNumber;
