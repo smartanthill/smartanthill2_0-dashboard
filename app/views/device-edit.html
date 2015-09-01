@@ -59,9 +59,8 @@
 
   <div class="form-group" show-form-errors>
     <label class="control-label">Enabled</label>
-    <select name="enabled" class="form-control" ng-model="vm.device.enabled">
-      <option value="true">Yes</option>
-      <option value="false">No</option>
+    <select name="enabled" class="form-control" ng-model="vm.device.enabled"
+      ng-options="option.value as option.name for option in [{name: 'Yes', value: true}, {name: 'No', value: false}]">
     </select>
   </div>
 
