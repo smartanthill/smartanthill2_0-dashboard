@@ -41,21 +41,21 @@ footer hr {
   margin: 25px 0 10px 0;
 }
 
-#bodyparts-table td.modify:last-child,
-#bodyparts-table th.modify:last-child{
+.sa-table td.modify:last-child,
+.sa-table th.modify:last-child{
   text-align: right;
 }
 
-#bodyparts-table dl {
+.sa-table dl {
   margin-bottom: 5px;
 }
 
-#bodyparts-table dt,
-#bodyparts-table dd {
+.sa-table dt,
+.sa-table dd {
   display: inline;
 }
 
-#bodyparts-table dt:after{
+.sa-table dt:after{
   content:": ";
 }
 

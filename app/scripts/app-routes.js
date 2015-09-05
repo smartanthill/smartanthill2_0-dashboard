@@ -136,6 +136,11 @@
         templateUrl: '/views/network.html',
         controller: 'NetworkController',
         controllerAs: 'vm',
+        resolve: {
+          hubsList: function(dataService) {
+            return dataService.hubs().get().$promise;
+          },
+        },
       })
 
       .state('console', {
