@@ -17,15 +17,15 @@
         <div class="form-group">
           <label>Port: </label>
           <div class="btn-group">
-            <label class="btn btn-default" ng-model="vm.serialInputType" btn-radio="'serial'">Serial Port</label>
+            <label class="btn btn-default" ng-model="vm.serialInputType" btn-radio="'serial'">Available Serial Ports</label>
             <label class="btn btn-default" ng-model="vm.serialInputType" btn-radio="'manual'">Manual</label>
           </div>
         </div>
 
         <div class="form-group" ng-show="vm.serialInputType === 'serial'">
-          <label class="control-label">Device Serial Port</label>
+          <label class="control-label">Select available serial port</label>
           <ui-select ng-model="vm.selectedSerialPort" theme="bootstrap">
-            <ui-select-match required placeholder="Select or search a device serial port in the list...">{{ $select.selected.port }}</ui-select-match>
+            <ui-select-match required placeholder="Select or search a serial port in the list...">{{ $select.selected.port }}</ui-select-match>
             <ui-select-choices repeat="item in vm.serialports | filter:$select.search">
               <div ng-bind-html="item.port | highlight: $select.search"></div>
               <small ng-bind-html="item.description | highlight: $select.search"></small>

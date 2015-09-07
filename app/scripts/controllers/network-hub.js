@@ -30,7 +30,8 @@
 
     vm.serialports = serialPortsList;
     vm.hub = initialState;
-    vm.serialInputType = 'manual';
+    vm.serialInputType = 'serial';
+    vm.protocol = 'serial';
 
     angular.forEach(transportsList, function(transport) {
       if ('serial' === transport.id) {
@@ -57,6 +58,7 @@
     });
 
     if (vm.hub.connection) {
+      vm.serialInputType = 'manual';
       var connection = new URI(vm.hub.connection);
       vm.baudrate = parseInt(connection.query(true)['baudrate']) || 9600;
       vm.protocol = connection.protocol() || 'serial';
