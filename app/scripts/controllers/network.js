@@ -26,7 +26,6 @@
     var vm = this;
     vm.hubs = hubsList;
     vm.hubsBackup = angular.copy(hubsList);
-    console.log(angular.equals(vm.hubs, vm.hubsBackup));
     vm.disableSubmit = false;
 
     // handlers

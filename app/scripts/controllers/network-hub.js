@@ -23,8 +23,8 @@
     .module('siteApp')
     .controller('NetworkHubController', NetworkHubController);
 
-  function NetworkHubController($modalInstance, initialState, serialPortsList,
-    transportsList) {
+  function NetworkHubController($window, $log, $modalInstance, notifyUser,
+    initialState, serialPortsList, transportsList) {
 
     var vm = this;
 
@@ -45,7 +45,7 @@
       }
     });
     if (angular.isUndefined(vm.baudrateOptions)) {
-      throw new Error('Baudrate options for serial transport not fould');
+      notifyUser('error', 'Baudrate options for serial transport not fould!');
     }
 
     if (vm.hub.connection) {
@@ -66,7 +66,10 @@
           break;
 
         default:
-          throw new Error('Unsupported port input type');
+          vm.manualPort = currentSerialPort;
+          // Set input to `manual` when source of port is unknown.
+          vm.hub.serialInputType = 'manual';
+          $log.warn('Port input type not supoprted or not specified.');
       }
     }
 
@@ -90,7 +93,9 @@
           break;
 
         default:
-          throw new Error('Unsupported port input type');
+          $window.alert('You must specify port either by selecting one from' +
+            'Serial Port dropdown, or by typing it manually!');
+          return -1;
       }
       var uri = new URI(uriConfig)
         .addQuery('baudrate', vm.baudrate);
