@@ -33,7 +33,9 @@
       deviceBuildFirmware: deviceBuildFirmware,
       deviceUploadFirmware: deviceUploadFirmware,
       consoleMessages: consoleMessages,
-      runBodyPart: runBodyPart
+      runBodyPart: runBodyPart,
+      hubs: hubs,
+      transports: transports,
     };
 
     function plugins() {
@@ -96,6 +98,15 @@
       return $resource('//:server/device/:deviceId/:bodyPartName.json', params)
         .get().$promise;
     }
+
+    function hubs() {
+      return $resource(siteConfig.apiURL + 'hubs');
+    }
+
+    function transports() {
+      return $resource(siteConfig.apiURL + 'transports');
+    }
+
   }
 
 })();

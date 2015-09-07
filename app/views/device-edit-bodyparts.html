@@ -9,7 +9,7 @@
   <div class="panel-body">
     <button ng-if="!bodyPartsVm.device.bodyparts.length" ng-class="{disabled: !bodyPartsVm.parent.selectBoard.selected}" type="button" class="btn btn-success" ng-click="bodyPartsVm.bodyPartModal()"><i class="fa fa-plus"></i> Add Body Part</button>
     <div class="form-group" ng-class="{'has-success': bodyPartsVm.device.bodyparts.length}" ng-if="bodyPartsVm.device.bodyparts.length">
-      <table id="bodyparts-table" class="table table-hover" ng-show="bodyPartsVm.device.bodyparts">
+      <table class="table table-hover sa-table">
         <thead>
           <tr>
             <th>Name</th>

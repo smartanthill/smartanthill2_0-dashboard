@@ -1,0 +1,71 @@
+<div class="modal-header">
+  <h3 class="modal-title">Hub</h3>
+</div>
+
+<div class="modal-body">
+
+  <form name="hubForm" ng-submit="vm.submitForm()" novalidate role="form">
+    <div class="form-group" ng-class="{'has-success': vm.hub.protocol}">
+      <label class="control-label">Protocol</label>
+      <select name="protocol" class="form-control" ng-model="vm.hub.protocol">
+        <option value="serial">serial</option>
+      </select>
+    </div>
+
+    <div id="protocol-specific-fields" ng-switch="vm.hub.protocol">
+      <div ng-switch-when="serial" class="form-group">
+        <div class="form-group">
+          <label>Port: </label>
+          <div class="btn-group">
+            <label class="btn btn-default" ng-model="vm.hub.serialInputType" btn-radio="'serial'">Serial Port</label>
+            <label class="btn btn-default" ng-model="vm.hub.serialInputType" btn-radio="'manual'">Manual</label>
+          </div>
+        </div>
+
+        <div class="form-group" ng-show="vm.hub.serialInputType === 'serial'">
+          <label class="control-label">Device Serial Port</label>
+          <ui-select ng-model="vm.serialPort" theme="bootstrap">
+            <ui-select-match required placeholder="Select or search a device serial port in the list...">{{ $select.selected.port }}</ui-select-match>
+            <ui-select-choices repeat="item in vm.serialports | filter:$select.search">
+              <div ng-bind-html="item.port | highlight: $select.search"></div>
+              <small ng-bind-html="item.description | highlight: $select.search"></small>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+
+        <div class="form-group" ng-show="vm.hub.serialInputType === 'manual'">
+          <label class="control-label">Manual port configuration:</label>
+          <input type="text" name="manual" class="form-control" maxlength="100" ng-model="vm.manualPort">
+        </div>
+
+        <div class="form-group" show-form-errors>
+          <label class="control-label">Baudrate</label>
+          <select name="enabled" class="form-control" ng-model="vm.baudrate"
+            ng-options="option for option in vm.baudrateOptions">
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" show-form-errors>
+      <label class="control-label">Enabled</label>
+      <select name="enabled" class="form-control" ng-model="vm.hub.enabled"
+        ng-options="option.value as option.name for option in [{name: 'Yes', value: true}, {name: 'No', value: false}]">
+      </select>
+    </div>
+
+  </form>
+
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-link" ng-click="vm.cancel()">Cancel</button>
+  <button class="btn btn-primary" ng-click="vm.save()"
+    ng-disabled="hubForm.$invalid ||
+      !vm.hub.protocol ">Save</button>
+
+      <!-- ||
+      !(vm.hub.portInputType === 'serial' && vm.serialPort) ||
+      !(vm.hub.portInputType === 'manual' && vm.manualPort) -->
+
+</div>

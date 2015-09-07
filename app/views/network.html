@@ -1,1 +1,42 @@
 <h1>Network</h1>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      Hubs
+      <button ng-if="vm.hubs.items.length" type="button" class="btn btn-success btn-xs" ng-click="vm.hubModal()">
+        <i class="fa fa-plus"></i> Add
+      </button>
+    </h3>
+  </div>
+
+  <div class="panel-body">
+    <button ng-if="!vm.hubs.items.length" type="button" class="btn btn-success" ng-click="vm.hubModal()">
+      <i class="fa fa-plus"></i> Add Hub
+    </button>
+    <div ng-if="vm.hubs.items.length" class="form-group">
+      <table class="table table-hover sa-table">
+        <thead>
+          <tr>
+            <th>Connection</th>
+            <th>Enabled</th>
+            <th class="modify">Modify</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in vm.hubs.items">
+            <td>{{ item.connection }}</td>
+            <td>{{ item.enabled ? 'Yes' : 'No' }}</td>
+            <td class="modify">
+              <i class="fa fa-pencil-square-o fa-lg pointer" ng-click="vm.hubModal($index)" tooltip="Edit"></i>
+              <i class="fa fa-times fa-lg pointer" ng-click="vm.removeHub($index)" tooltip="Remove"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<button type="submit" class="btn btn-primary" ng-click="vm.submit()" ng-disabled="vm.disableSubmit">Submit</button>
+<button type="button" class="btn btn-link" ng-click="vm.reset()" ng-hide="angular.equals(vm.hubs, vm.hubsBackup)">Reset</button>
