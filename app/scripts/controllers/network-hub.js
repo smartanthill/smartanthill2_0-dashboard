@@ -50,6 +50,9 @@
     }
 
     $scope.$watch('vm.selectedSerialPort', function (newValue) {
+      if (angular.isUndefined(newValue)) {
+        return;
+      }
       vm.serialPort = newValue.port;
     });
 

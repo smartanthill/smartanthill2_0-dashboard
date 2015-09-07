@@ -24,7 +24,7 @@
 
         <div class="form-group" ng-show="vm.serialInputType === 'serial'">
           <label class="control-label">Device Serial Port</label>
-          <ui-select ng-model="vm.selectedSerialPort" theme="bootstrap" on-selected="console.log($item, $model)">
+          <ui-select ng-model="vm.selectedSerialPort" theme="bootstrap">
             <ui-select-match required placeholder="Select or search a device serial port in the list...">{{ $select.selected.port }}</ui-select-match>
             <ui-select-choices repeat="item in vm.serialports | filter:$select.search">
               <div ng-bind-html="item.port | highlight: $select.search"></div>
