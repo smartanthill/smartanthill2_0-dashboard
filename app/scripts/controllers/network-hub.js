@@ -23,13 +23,14 @@
     .module('siteApp')
     .controller('NetworkHubController', NetworkHubController);
 
-  function NetworkHubController($window, $log, $modalInstance, notifyUser,
-    initialState, serialPortsList, transportsList) {
+  function NetworkHubController($window, $log, $scope, $modalInstance,
+    notifyUser, initialState, serialPortsList, transportsList) {
 
     var vm = this;
 
     vm.serialports = serialPortsList;
     vm.hub = initialState;
+    vm.serialInputType = 'manual';
 
     angular.forEach(transportsList, function(transport) {
       if ('serial' === transport.id) {
@@ -48,29 +49,21 @@
       notifyUser('error', 'Baudrate options for serial transport not fould!');
     }
 
+    $scope.$watch('vm.selectedSerialPort', function (newValue) {
+      vm.serialPort = newValue.port;
+    });
+
     if (vm.hub.connection) {
       var connection = new URI(vm.hub.connection);
-      vm.baudrate = parseInt(connection.query(true)['baudrate']);
-      var currentSerialPort = connection.pathname();
-      switch (vm.hub.serialInputType) {
-        case 'serial':
-          angular.forEach(vm.serialports, function(serialPort) {
-            if (currentSerialPort === serialPort.port) {
-              vm.serialPort = serialPort;
-            }
-          });
-          break;
-
-        case 'manual':
-          vm.manualPort = currentSerialPort;
-          break;
-
-        default:
-          vm.manualPort = currentSerialPort;
-          // Set input to `manual` when source of port is unknown.
-          vm.hub.serialInputType = 'manual';
-          $log.warn('Port input type not supoprted or not specified.');
-      }
+      vm.baudrate = parseInt(connection.query(true)['baudrate']) || 9600;
+      vm.protocol = connection.protocol() || 'serial';
+      vm.serialPort = connection.pathname();
+      angular.forEach(vm.serialports, function(serialPort) {
+        if (vm.serialPort === serialPort.port) {
+          vm.selectedSerialPort = serialPort;
+          vm.serialInputType = 'serial';
+        }
+      });
     }
 
     // handlers
@@ -80,24 +73,12 @@
     ////////////
 
     function save() {
-      var uriConfig = {
-        protocol: 'serial',
-      };
-      switch (vm.hub.serialInputType) {
-        case 'serial':
-          uriConfig.path = vm.serialPort.port;
-          break;
-
-        case 'manual':
-          uriConfig.path = vm.manualPort;
-          break;
-
-        default:
-          $window.alert('You must specify port either by selecting one from' +
-            'Serial Port dropdown, or by typing it manually!');
-          return -1;
+      if (!vm.serialPort) {
+        $window.alert('You must specify port either by selecting one from' +
+          'Serial Port dropdown, or by typing it manually!');
+        return -1;
       }
-      var uri = new URI(uriConfig)
+      var uri = new URI({protocol: vm.protocol, path: vm.serialPort})
         .addQuery('baudrate', vm.baudrate);
       vm.hub.connection = uri.toString();
       $modalInstance.close(vm.hub);

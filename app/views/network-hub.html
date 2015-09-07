@@ -5,26 +5,26 @@
 <div class="modal-body">
 
   <form name="hubForm" ng-submit="vm.submitForm()" novalidate role="form">
-    <div class="form-group" ng-class="{'has-success': vm.hub.protocol}">
+    <div class="form-group" ng-class="{'has-success': vm.protocol}">
       <label class="control-label">Protocol</label>
-      <select name="protocol" class="form-control" ng-model="vm.hub.protocol">
+      <select name="protocol" class="form-control" ng-model="vm.protocol">
         <option value="serial">serial</option>
       </select>
     </div>
 
-    <div id="protocol-specific-fields" ng-switch="vm.hub.protocol">
+    <div id="protocol-specific-fields" ng-switch="vm.protocol">
       <div ng-switch-when="serial" class="form-group">
         <div class="form-group">
           <label>Port: </label>
           <div class="btn-group">
-            <label class="btn btn-default" ng-model="vm.hub.serialInputType" btn-radio="'serial'">Serial Port</label>
-            <label class="btn btn-default" ng-model="vm.hub.serialInputType" btn-radio="'manual'">Manual</label>
+            <label class="btn btn-default" ng-model="vm.serialInputType" btn-radio="'serial'">Serial Port</label>
+            <label class="btn btn-default" ng-model="vm.serialInputType" btn-radio="'manual'">Manual</label>
           </div>
         </div>
 
-        <div class="form-group" ng-show="vm.hub.serialInputType === 'serial'">
+        <div class="form-group" ng-show="vm.serialInputType === 'serial'">
           <label class="control-label">Device Serial Port</label>
-          <ui-select ng-model="vm.serialPort" theme="bootstrap">
+          <ui-select ng-model="vm.selectedSerialPort" theme="bootstrap" on-selected="console.log($item, $model)">
             <ui-select-match required placeholder="Select or search a device serial port in the list...">{{ $select.selected.port }}</ui-select-match>
             <ui-select-choices repeat="item in vm.serialports | filter:$select.search">
               <div ng-bind-html="item.port | highlight: $select.search"></div>
@@ -33,9 +33,9 @@
           </ui-select>
         </div>
 
-        <div class="form-group" ng-show="vm.hub.serialInputType === 'manual'">
+        <div class="form-group" ng-show="vm.serialInputType === 'manual'">
           <label class="control-label">Manual port configuration:</label>
-          <input type="text" name="manual" class="form-control" maxlength="100" ng-model="vm.manualPort">
+          <input type="text" name="manual" class="form-control" maxlength="100" ng-model="vm.serialPort">
         </div>
 
         <div class="form-group" show-form-errors>
@@ -62,10 +62,5 @@
   <button class="btn btn-link" ng-click="vm.cancel()">Cancel</button>
   <button class="btn btn-primary" ng-click="vm.save()"
     ng-disabled="hubForm.$invalid ||
-      !vm.hub.protocol ">Save</button>
-
-      <!-- ||
-      !(vm.hub.portInputType === 'serial' && vm.serialPort) ||
-      !(vm.hub.portInputType === 'manual' && vm.manualPort) -->
-
+      !vm.protocol ">Save</button>
 </div>
