@@ -1,0 +1,35 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      Communication Interfaces
+      <button ng-if="busesVm.device.buses.length" type="button" class="btn btn-success btn-xs" ng-click="busesVm.busModal()"><i class="fa fa-plus"></i> Add</button>
+    </h3>
+  </div>
+
+  <div class="panel-body">
+    <button ng-if="!busesVm.device.buses.length" type="button" class="btn btn-success" ng-click="busesVm.busModal()"><i class="fa fa-plus"></i> Add Communication Interface</button>
+    <div class="form-group" ng-class="{'has-success': busesVm.device.buses.length}" ng-if="busesVm.device.buses.length">
+      <table class="table table-hover sa-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Connection</th>
+            <th>Enabled</th>
+            <th class="modify">Modify</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in busesVm.device.buses">
+            <td>{{ item.name }}</th>
+            <td>{{ item.connection }}</td>
+            <td>{{ item.enabled ? 'Yes' : 'No' }}</td>
+            <td class="modify">
+              <i class="fa fa-pencil-square-o fa-lg pointer" ng-click="busesVm.busModal($index)" tooltip="Edit"></i>
+              <i class="fa fa-times fa-lg pointer" ng-click="busesVm.removeBus($index)" tooltip="Remove"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

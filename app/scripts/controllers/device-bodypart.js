@@ -64,7 +64,6 @@
         angular.forEach(vm.device.bodyparts, function(bodypart) {
           if (bodypart.pluginId === newValue.id) {
             existingNumber = extractNumberFromName(bodypart.name);
-            console.log('existingNumber: ' + existingNumber);
             if (bodyPartNumber <= existingNumber) {
               bodyPartNumber = existingNumber + 1;
             }

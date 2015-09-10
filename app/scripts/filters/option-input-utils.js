@@ -61,7 +61,7 @@
   }
 
   function _isUnsigned(string) {
-    return string.indexOf('u') === 0;
+    return !angular.isUndefined(string) && string.indexOf('u') === 0;
   }
 
   function _minOfType(type) {

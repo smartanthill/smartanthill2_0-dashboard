@@ -1,0 +1,112 @@
+<div class="modal-header">
+  <h3 class="modal-title">Communication Interface</h3>
+</div>
+
+<div class="modal-body">
+
+  <div ng-show="vm.transport" class="well">
+    {{ vm.transport.description }}
+  </div>
+
+  <form name="hubForm" novalidate role="form">
+    <div class="form-group" ng-class="{'has-success': vm.transport}">
+      <label class="control-label">Protocol</label>
+      <select name="protocol" class="form-control" ng-model="vm.transport"
+              ng-options="t as t.name for t in vm.transports">
+      </select>
+    </div>
+
+    <div ng-if="!vm.wizardMode" class="form-group" show-form-errors>
+      <label class="control-label">Name</label>
+      <input
+        type="text"
+        name="bus_name"
+        class="form-control"
+        placeholder="Enter Bus name"
+        required
+        ng-model="vm.bus.name"
+        ng-pattern="/^(?![0-9])[a-z0-9\_]+$/i"
+        tooltip="Example: serial_1 (allowed chars: [a-z0-9_], first character can't be numeric)"
+        tooltip-placement="right">
+    </div>
+
+    <div id="transport-specific-fields" ng-switch="vm.transport.id">
+      <div ng-switch-when="serial" class="form-group">
+        <div class="form-group">
+          <label>Port: </label>
+          <div class="btn-group">
+            <label class="btn btn-default" ng-model="vm.serialInputType" btn-radio="'serial'">Available Serial Ports</label>
+            <label class="btn btn-default" ng-model="vm.serialInputType" btn-radio="'manual'">Manual</label>
+          </div>
+        </div>
+
+        <div class="form-group" ng-show="vm.serialInputType === 'serial'">
+          <label class="control-label">Select available serial port</label>
+          <ui-select ng-model="vm.selectedSerialPort" theme="bootstrap">
+            <ui-select-match required placeholder="Select or search a serial port in the list...">{{ $select.selected.port }}</ui-select-match>
+            <ui-select-choices repeat="item in vm.serialports | filter:$select.search">
+              <div ng-bind-html="item.port | highlight: $select.search"></div>
+              <small ng-bind-html="item.description | highlight: $select.search"></small>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+
+        <div class="form-group" ng-show="vm.serialInputType === 'manual'">
+          <label class="control-label">Manual port configuration:</label>
+          <input type="text" name="manual" class="form-control" maxlength="100" ng-model="vm.path">
+        </div>
+      </div>
+      <div ng-switch-default>
+        <div class="form-group">
+          <label class="control-label">Path</label>
+          <input type="text" name="manual" class="form-control" maxlength="100" ng-model="vm.path">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" ng-repeat="option in vm.transport.options" show-form-errors>
+      <label class="control-label">{{ option.title }}</label>
+      <div ng-if="!option._values" ng-switch on="option.type | optionTypeToInputType">
+        <input ng-switch-when="text"
+               type="text"
+               maxlength="{{ option.type | maxCharLength }}"
+               name="{{ option.name }}"
+               class="form-control"
+               required
+               ng-model="vm.busOptions[option.name]">
+        <input ng-switch-when="number"
+               type="number"
+               min="{{ option | minNumberOptionValue }}"
+               max="{{ option | maxNumberOptionValue }}"
+               name="{{ option.name }}"
+               class="form-control"
+               required
+               ng-model="vm.busOptions[option.name]"
+               tooltip="Min: {{ option | minNumberOptionValue }}. Max: {{ option | maxNumberOptionValue }}"
+               tooltip-placement="right">
+      </div>
+      <div ng-if="option._values">
+        <select name="{{ option.name }}"
+                class="form-control"
+                ng-model="vm.busOptions[option.name]"
+                ng-options="value as value.title for value in option._values">
+        </select>
+      </div>
+    </div>
+
+    <div ng-if="!vm.wizardMode" class="form-group" show-form-errors>
+      <label class="control-label">Enabled</label>
+      <select name="enabled" class="form-control" ng-model="vm.bus.enabled"
+        ng-options="option.value as option.name for option in [{name: 'Yes', value: true}, {name: 'No', value: false}]">
+      </select>
+    </div>
+
+  </form>
+
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-link" ng-click="vm.cancel()">Cancel</button>
+  <button class="btn btn-primary" ng-click="vm.save()"
+    ng-disabled="hubForm.$invalid || !vm.path ">Save</button>
+</div>

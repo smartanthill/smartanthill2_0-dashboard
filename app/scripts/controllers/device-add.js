@@ -29,6 +29,7 @@
 
     vm.device = new dataService.devices();
     vm.device.bodyparts = [];
+    vm.device.buses = [];
     vm.device.enabled = true;
 
     vm.boards = boardsList;
@@ -44,7 +45,7 @@
         'name': 'devices.add.selectTransport',
         'title': 'Transport',
         'completed': function() {
-          return vm.device.connectionUri && vm.steps[0].completed();
+          return vm.device.buses.length && vm.steps[0].completed();
         },
       },
       {
