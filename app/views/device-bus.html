@@ -64,6 +64,14 @@
       </div>
     </div>
 
+    <div class="form-group" ng-repeat="pin in vm.transport.peripheral" show-form-errors>
+      <label class="control-label">{{ pin.title }}</label>
+      <select name="{{ pin.name }}" class="form-control" required
+              ng-model="vm.bus.peripheral[pin.name]"
+              ng-options="item.id as item.name for item in vm.boardPins">
+      </select>
+    </div>
+
     <div class="form-group" ng-repeat="option in vm.transport.options" show-form-errors>
       <label class="control-label">{{ option.title }}</label>
       <div ng-if="!option._values" ng-switch on="option.type | optionTypeToInputType">

@@ -37,6 +37,7 @@
     function busModal(index) {
       var state = {
         'enabled': true,
+        'peripheral': {},
       };
       if (index === undefined || index === null) {
         index = -1;
@@ -69,6 +70,13 @@
           serialPortsList: ['dataService',
             function(dataService) {
               return dataService.serialports.query().$promise;
+            }
+          ],
+          boardInfo: ['dataService',
+            function(dataService) {
+              return dataService.boards.get({
+                'boardId': vm.device.boardId
+              }).$promise;
             }
           ],
         }

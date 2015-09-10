@@ -24,14 +24,15 @@
     .controller('DeviceBusController', DeviceBusController);
 
   function DeviceBusController($window, $log, $scope, $filter, $modalInstance,
-    notifyUser, extractNumberFromName, initialState, deviceInfo, editMode,
-    serialPortsList, transportsList, wizardMode) {
+    notifyUser, extractNumberFromName, getBoardPins, initialState, deviceInfo,
+    editMode, serialPortsList, transportsList, wizardMode, boardInfo) {
 
     var vm = this;
 
     vm.device = deviceInfo;
     vm.serialports = serialPortsList;
     vm.transports = transportsList;
+    vm.boardPins = getBoardPins(boardInfo);
     vm.bus = initialState;
     vm.busOptions = {};
     vm.serialInputType = 'serial';
