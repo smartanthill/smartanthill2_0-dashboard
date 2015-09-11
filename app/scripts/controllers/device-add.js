@@ -42,8 +42,8 @@
         'completed': function() {return vm.selectBoard.selected;},
       },
       {
-        'name': 'devices.add.selectTransport',
-        'title': 'Transport',
+        'name': 'devices.add.selectCommunication',
+        'title': 'Communication',
         'completed': function() {
           return vm.device.buses.length && vm.steps[0].completed();
         },
