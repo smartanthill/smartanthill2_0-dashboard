@@ -1,0 +1,18 @@
+<div class="panel panel-info">
+  <div class="panel-body">
+    Choose the way your device will communicate with SmartAnthill.
+  </div>
+</div>
+
+<div ng-controller="DeviceEditBusesController as busesVm"
+     ng-include src="'views/device-edit-buses.html'"
+     onload="busesVm.wizardMode = true"></div>
+
+<div id="pagination-wrapper" class="text-center">
+  <a ui-sref="{{ vm.steps[0].name }}"
+     class="btn btn-default pull-left margin-v-20">Previous</a>
+  <span ng-include src="'views/device-add-pagination-items.html'"></span>
+  <a ui-sref="{{ vm.steps[2].name }}"
+     ng-class="{disabled: !vm.steps[1].completed()}"
+     class="btn btn-primary pull-right margin-v-20">Next</a>
+</div>

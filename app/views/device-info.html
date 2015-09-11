@@ -35,12 +35,6 @@
           <dt>Status:</dt>
           <dd>{{ vm.device.status | statusToText }}</dd>
         </dl>
-
-        <dl class="dl-horizontal">
-          <dt>Connection URI:</dt>
-          <dd>{{ vm.device.connectionUri }}</dd>
-        </dl>
-
       </div>
     </div>
 
@@ -50,7 +44,7 @@
       </div>
       <div class="panel-body">
 
-        <table id="bodyparts-table" class="table table-hover">
+        <table class="table table-hover sa-table">
           <thead>
             <tr>
               <th>Name</th>
@@ -93,6 +87,32 @@
                   </ul>
                 </div>
               </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Communication Interfaces</h3>
+      </div>
+      <div class="panel-body">
+
+        <table class="table table-hover sa-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Connection</th>
+              <th>Enabled</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in vm.device.buses">
+              <td>{{ item.name }}</td>
+              <td>{{ item.connection }}</td>
+              <td>{{ item.enabled ? 'Yes' : 'No' }}</td>
             </tr>
           </tbody>
         </table>

@@ -116,9 +116,9 @@
         templateUrl: '/views/device-add-select-board.html',
       })
 
-      .state('devices.add.selectTransport', {
-        url: '/transport',
-        templateUrl: '/views/device-add-select-transport.html',
+      .state('devices.add.selectCommunication', {
+        url: '/communication',
+        templateUrl: '/views/device-add-select-communication.html',
       })
 
       .state('devices.add.selectBodyParts', {

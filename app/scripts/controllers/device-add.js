@@ -29,6 +29,7 @@
 
     vm.device = new dataService.devices();
     vm.device.bodyparts = [];
+    vm.device.buses = [];
     vm.device.enabled = true;
 
     vm.boards = boardsList;
@@ -41,10 +42,10 @@
         'completed': function() {return vm.selectBoard.selected;},
       },
       {
-        'name': 'devices.add.selectTransport',
-        'title': 'Transport',
+        'name': 'devices.add.selectCommunication',
+        'title': 'Communication',
         'completed': function() {
-          return vm.device.connectionUri && vm.steps[0].completed();
+          return vm.device.buses.length && vm.steps[0].completed();
         },
       },
       {

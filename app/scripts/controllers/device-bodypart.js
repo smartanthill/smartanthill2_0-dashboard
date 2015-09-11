@@ -23,15 +23,15 @@
     .controller('DeviceBodyPartController', DeviceBodyPartController);
 
   function DeviceBodyPartController($scope, $modalInstance, $window,
-    extractNumberFromName, initialState, pluginsList, deviceInfo, boardInfo,
-    editMode, wizardMode) {
+    extractNumberFromName, getBoardPins, initialState, pluginsList, deviceInfo,
+    boardInfo, editMode, wizardMode) {
 
     var vm = this;
 
     vm.device = deviceInfo;
     vm.plugins = pluginsList;
     vm.item = initialState;
-    vm.boardPins = getBoardPins();
+    vm.boardPins = getBoardPins(boardInfo);
     vm.selectPlugin = {};
     vm.wizardMode = wizardMode;
 
@@ -64,7 +64,6 @@
         angular.forEach(vm.device.bodyparts, function(bodypart) {
           if (bodypart.pluginId === newValue.id) {
             existingNumber = extractNumberFromName(bodypart.name);
-            console.log('existingNumber: ' + existingNumber);
             if (bodyPartNumber <= existingNumber) {
               bodyPartNumber = existingNumber + 1;
             }
@@ -80,26 +79,6 @@
     vm.cancel = cancel;
 
     ////////////
-
-    function getBoardPins() {
-      var items = [],
-        aliases;
-      angular.forEach(boardInfo.pins, function(number) {
-        aliases = [];
-        angular.forEach(boardInfo.pinsAlias, function(value, key) {
-          if (value === number) {
-            aliases.push(key);
-          }
-        });
-
-        items.push({
-          'id': number,
-          'name': (aliases.length ? number + ' (' + aliases.join(
-            ', ') + ')' : number)
-        });
-      });
-      return items;
-    }
 
     function save() {
       if (!editMode) {
