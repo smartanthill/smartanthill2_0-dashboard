@@ -22,8 +22,8 @@
     .module('siteApp')
     .controller('DeviceInfoController', DeviceInfoController);
 
-  function DeviceInfoController($location, $modal, notifyUser,
-    deviceInfo, boardInfo, pluginsList, idToNameMapper, idleStatusCode) {
+  function DeviceInfoController($location, $modal, notifyUser, deviceInfo,
+    boardInfo, pluginsList, idToNameMapper, idleStatusCode, transportsList) {
 
     var vm = this;
 
@@ -31,6 +31,7 @@
     vm.board = boardInfo;
     vm.plugins = pluginsList;
     vm.idToNameMap = idToNameMapper.mapIdToName(vm.plugins);
+    angular.extend(vm.idToNameMap, idToNameMapper.mapIdToName(transportsList));
 
     vm.deleteDevice = deleteDevice;
     vm.trainIt = trainIt;

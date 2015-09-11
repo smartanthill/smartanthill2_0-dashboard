@@ -24,7 +24,10 @@
 
   function idToName() {
     return function(itemId, container, parentId) {
-      if (typeof(parentId) === 'undefined') {
+      if (angular.isUndefined(container)) {
+        return itemId;
+      }
+      if (angular.isUndefined(parentId)) {
         return container[itemId] ? container[itemId] : itemId;
       }
       var compositeId = parentId + '_' + itemId;

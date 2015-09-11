@@ -21,12 +21,18 @@
   angular.module('siteApp')
     .controller('DeviceEditBusesController', DeviceEditBusesController);
 
-  function DeviceEditBusesController($scope, $window, $modal, dataService) {
+  function DeviceEditBusesController($scope, $window, $modal, dataService,
+    idToNameMapper) {
 
     var vm = this;
     vm.parent = $scope.vm;
     vm.device = vm.parent.device;
     vm.wizardMode = false;
+    vm.transports = dataService.transports().query().$promise
+      .then(function(transportsList){
+        vm.idToNameMap = idToNameMapper.mapIdToName(transportsList);
+        return transportsList;
+      });
 
     // handlers
     vm.busModal = busModal;
@@ -38,6 +44,7 @@
       var state = {
         'enabled': true,
         'peripheral': {},
+        'options': {},
       };
       if (index === undefined || index === null) {
         index = -1;

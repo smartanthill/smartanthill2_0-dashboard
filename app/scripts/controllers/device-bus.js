@@ -17,7 +17,6 @@
 
 (function() {
   'use strict';
-  /* global URI */
 
   angular
     .module('siteApp')
@@ -41,7 +40,6 @@
     vm.editMode = editMode;
 
     $scope.$watch('vm.transport', function (newValue) {
-      // A place to register/deregister transport-specific watches.
       if (angular.isUndefined(newValue)) {
         return;
       }
@@ -52,11 +50,9 @@
       if (vm.wizardMode || !editMode || !vm.bus.name) {
         vm.bus.name = newValue.id;
         var existingNumber,
-            busNumber = 1,
-            protocol;
+            busNumber = 1;
         angular.forEach(vm.device.buses, function(bus) {
-          protocol = new URI(bus.connection).protocol();
-          if (protocol === newValue.id) {
+          if (vm.bus.transportId === newValue.id) {
             existingNumber = extractNumberFromName(bus.name);
             if (busNumber <= existingNumber) {
               busNumber = existingNumber + 1;
@@ -65,45 +61,15 @@
         });
         vm.bus.name += '_' + busNumber;
       }
-
-      if ('serial' === newValue.id) {
-        if (angular.isUndefined(vm.watchCancelers.serialSelect)) {
-          vm.watchCancelers.serialSelect =
-            $scope.$watch('vm.selectedSerialPort', onSelectedSerialPortChanged);
-        }
-      } else {
-        if (!angular.isUndefined(vm.watchCancelers.serialSelect)) {
-          vm.watchCancelers.serialSelect();
-        }
-      }
     });
 
     vm.transport = getTransportById('serial');
 
     // Assigning default option values
     angular.forEach(vm.transport.options, function(option) {
-      vm.busOptions[option.name] = getOptionValue(option);
+      vm.busOptions[option.name] = getOptionValue(
+        option, vm.bus.options[option.name]);
     });
-
-    if (vm.bus.connection) {
-      var connection = new URI(vm.bus.connection);
-      vm.transport = getTransportById(connection.protocol() || 'serial');
-      vm.serialInputType = 'manual';
-      vm.path = connection.pathname();
-      angular.forEach(vm.serialports, function(serialPort) {
-        if (vm.path === serialPort.port) {
-          vm.selectedSerialPort = serialPort;
-          vm.serialInputType = 'serial';
-        }
-      });
-
-      // Populating transport options
-      var query = connection.query(true),
-          optionValue;
-      angular.forEach(vm.transport.options, function(option) {
-        vm.busOptions[option.name] = getOptionValue(option, query[option.name]);
-      });
-    }
 
     // handlers
     vm.save = save;
@@ -112,18 +78,11 @@
     ////////////
 
     function save() {
-      if (!vm.path) {
-        $window.alert('You must specify port either by selecting one from' +
-          'Serial Port dropdown, or by typing it manually!');
-        return -1;
-      }
-      var uri = new URI({protocol: vm.transport.id, path: vm.path});
       angular.forEach(vm.transport.options, function(spec) {
-        uri.addQuery(spec.name, spec._values ?
-          vm.busOptions[spec.name].value : vm.busOptions[spec.name]);
+        vm.bus.options[spec.name] = spec._values ?
+          vm.busOptions[spec.name].value : vm.busOptions[spec.name];
       });
 
-      vm.bus.connection = uri.toString();
       $modalInstance.close(vm.bus);
     }
 
@@ -147,7 +106,7 @@
     }
 
     function getOptionValue(optionSpec, currentValue) {
-      optionValue = currentValue || optionSpec.default;
+      var optionValue = currentValue || optionSpec.default;
       if ('number' === $filter('optionTypeToInputType')(optionSpec.type)) {
         optionValue = parseInt(optionValue);
       }

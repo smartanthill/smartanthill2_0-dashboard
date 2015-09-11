@@ -13,15 +13,25 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th>Connection</th>
+            <th>Options</th>
+            <th>Peripheral</th>
             <th>Enabled</th>
             <th class="modify">Modify</th>
           </tr>
         </thead>
         <tbody>
           <tr ng-repeat="item in busesVm.device.buses">
-            <td>{{ item.name }}</th>
-            <td>{{ item.connection }}</td>
+            <td>{{ item.name }}</td>
+            <td>
+              <dl ng-repeat="(key, value) in item.options">
+                <dt>{{ key | idToName : busesVm.idToNameMap : item.transportId }}</dt><dd>{{ value }}</dd>
+              </dl>
+            </td>
+            <td>
+              <dl ng-repeat="(key, value) in item.peripheral">
+                <dt>{{ key | idToName : busesVm.idToNameMap : item.transportId }}</dt><dd>{{ value }}</dd>
+              </dl>
+            </td>
             <td>{{ item.enabled ? 'Yes' : 'No' }}</td>
             <td class="modify">
               <i class="fa fa-pencil-square-o fa-lg pointer" ng-click="busesVm.busModal($index)" tooltip="Edit"></i>
