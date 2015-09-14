@@ -62,7 +62,8 @@
       var connection = new URI(vm.hub.connection);
       vm.baudrate = parseInt(connection.query(true)['baudrate']) || 9600;
       vm.protocol = connection.protocol() || 'serial';
-      vm.serialPort = connection.pathname();
+      var path = connection.pathname();
+      vm.serialPort = connection.hostname() + (path !== '/' ? path : '');
       angular.forEach(vm.serialports, function(serialPort) {
         if (vm.serialPort === serialPort.port) {
           vm.selectedSerialPort = serialPort;
