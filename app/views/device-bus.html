@@ -78,26 +78,18 @@
     <div ng-show="vm.hubMayBeAdded()">
       <hr>
       <div class="form-group" show-form-errors>
+        <!-- TODO: link to docs describing what this option means -->
         <label class="control-label">
           Will this device be connected to the machine running SmartAnthill
-          directly via Connection Interface you are currently creating?
+          directly via Connection Interface you are currently creating (used as
+          SmartAnthill Hub)?
         </label>
         <select name="enabled" class="form-control" ng-model="vm.willBeConnectedDirectlyToCore"
           ng-options="option.value as option.name for option in [{name: 'Yes', value: true}, {name: 'No', value: false}]">
         </select>
       </div>
 
-      <div ng-show="vm.willBeConnectedDirectlyToCore" class="form-group" show-form-errors>
-        <label class="control-label">Will this device be used as a hub?</label>
-        <select name="enabled" class="form-control" ng-model="vm.addHub"
-          ng-options="option.value as option.name for option in [{name: 'Yes', value: true}, {name: 'No', value: false}]">
-        </select>
-        <p class="help-block">
-          Choose <code>Yes</code> in order to configure Hub for this device.
-        </p>
-      </div>
-
-      <div ng-show="vm.willBeConnectedDirectlyToCore && vm.addHub">
+      <div ng-show="vm.willBeConnectedDirectlyToCore">
         <p>Please, assign the serial port current device will be connected to.</p>
         <div class="form-group">
           <label>Port: </label>
@@ -132,5 +124,5 @@
 <div class="modal-footer">
   <button class="btn btn-link" ng-click="vm.cancel()">Cancel</button>
   <button class="btn btn-primary" ng-click="vm.save()"
-    ng-disabled="hubForm.$invalid || (vm.willBeConnectedDirectlyToCore && vm.addHub && !vm.serialPort)">Save</button>
+    ng-disabled="hubForm.$invalid || (vm.willBeConnectedDirectlyToCore && !vm.serialPort)">Save</button>
 </div>

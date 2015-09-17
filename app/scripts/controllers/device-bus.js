@@ -41,7 +41,6 @@
     vm.editMode = editMode;
 
     vm.willBeConnectedDirectlyToCore = false;
-    vm.addHub = false;
 
     $scope.$watch('vm.transport', function (newValue) {
       if (angular.isUndefined(newValue)) {
@@ -96,7 +95,7 @@
       });
 
       // Add hub
-      if (vm.willBeConnectedDirectlyToCore && vm.addHub && vm.hubMayBeAdded()) {
+      if (vm.willBeConnectedDirectlyToCore && vm.hubMayBeAdded()) {
         var hubConnection = new URI({protocol: 'serial', path: vm.serialPort})
           .addQuery('baudrate', vm.bus.options['baudrate'])
           .toString();
