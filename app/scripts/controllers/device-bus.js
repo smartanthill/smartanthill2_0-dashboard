@@ -17,14 +17,16 @@
 
 (function() {
   'use strict';
+  /* global URI */
 
   angular
     .module('siteApp')
     .controller('DeviceBusController', DeviceBusController);
 
-  function DeviceBusController($window, $log, $scope, $filter, $modalInstance,
-    notifyUser, extractNumberFromName, getBoardPins, initialState, deviceInfo,
-    editMode, serialPortsList, transportsList, wizardMode, boardInfo) {
+  function DeviceBusController($log, $scope, $filter, $modalInstance,
+    dataService, notifyUser, extractNumberFromName, getBoardPins, initialState,
+    deviceInfo, editMode, serialPortsList, transportsList, wizardMode,
+    boardInfo) {
 
     var vm = this;
 
@@ -35,9 +37,10 @@
     vm.bus = initialState;
     vm.busOptions = {};
     vm.serialInputType = 'serial';
-    vm.watchCancelers = {};
     vm.wizardMode = wizardMode;
     vm.editMode = editMode;
+
+    vm.willBeConnectedDirectlyToCore = false;
 
     $scope.$watch('vm.transport', function (newValue) {
       if (angular.isUndefined(newValue)) {
@@ -63,6 +66,13 @@
       }
     });
 
+    $scope.$watch('vm.selectedSerialPort', function (newValue) {
+      if (angular.isUndefined(newValue)) {
+        return;
+      }
+      vm.serialPort = newValue.port;
+    });
+
     vm.transport = getTransportById('serial');
 
     // Assigning default option values
@@ -74,6 +84,7 @@
     // handlers
     vm.save = save;
     vm.cancel = cancel;
+    vm.hubMayBeAdded = hubMayBeAdded;
 
     ////////////
 
@@ -83,18 +94,48 @@
           vm.busOptions[spec.name].value : vm.busOptions[spec.name];
       });
 
-      $modalInstance.close(vm.bus);
+      // Add hub
+      if (vm.willBeConnectedDirectlyToCore && vm.hubMayBeAdded()) {
+        var hubConnection = new URI({protocol: 'serial', path: vm.serialPort})
+          .addQuery('baudrate', vm.bus.options['baudrate'])
+          .toString();
+        dataService.hubs().get().$promise
+          .then(function(hubsList) {
+            var hubIsUnique = true;
+            angular.forEach(hubsList.items, function(hub) {
+              hubIsUnique = hubIsUnique && hubConnection !== hub.connection;
+            });
+            if (hubIsUnique) {
+              hubsList.items.push({
+                'connection': hubConnection,
+                'enabled': true,
+              });
+              return hubsList.$save()
+                .then(function() {
+                  notifyUser('success', 'Hub for ' + vm.bus.name +
+                   ' bus has been successfully added.');
+                  closeModalWindow();
+                }, function(data) {
+                  notifyUser('error', ('An unexpected error occurred when ' +
+                    'updating hubs list (' + data.data + ')'));
+                });
+            } else {
+              notifyUser('warning', 'Hub with same connection attribute is ' +
+                'already exists.');
+            }
+          });
+
+      } else {
+        closeModalWindow();
+      }
+
+      function closeModalWindow() {
+        $modalInstance.close(vm.bus);
+      }
     }
 
     function cancel() {
       $modalInstance.dismiss('cancel');
-    }
-
-    function onSelectedSerialPortChanged(newValue) {
-      if (angular.isUndefined(newValue)) {
-        return;
-      }
-      vm.path = newValue.port;
     }
 
     function getTransportById(id) {
@@ -118,6 +159,10 @@
         });
       }
       return optionValue;
+    }
+
+    function hubMayBeAdded() {
+      return !vm.editMode && vm.transport.id === 'serial';
     }
 
   }
