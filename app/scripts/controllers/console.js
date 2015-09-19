@@ -70,7 +70,7 @@
       }
     });
 
-    $scope.$on('$routeChangeStart', function() {
+    $scope.$on('$stateChangeStart', function() {
       attemptToCancelUpdater();
     });
 
