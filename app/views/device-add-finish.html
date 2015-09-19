@@ -10,19 +10,15 @@
     to use <code>TrainIt!</code> each time when add/remove body parts or
     modify configuration of any body part.
   </p>
-  <p>
-    <div id="submit-wrapper" class="text-center">
-      <button ng-click="vm.submit()"
-              ng-disabled="vm.disableSubmit || !vm.steps[2].completed()"
-              class="btn btn-primary btn-lg">
-        Add device
-      </button>
-    </div>
-  </p>
 </div>
 
 <div id="pagination-wrapper" class="text-center">
   <a ui-sref="{{ vm.steps[2].name }}"
      class="btn btn-default pull-left margin-v-20">Previous</a>
   <span ng-include src="'views/device-add-pagination-items.html'"></span>
+  <a ng-click="vm.submit()"
+          ng-disabled="vm.disableSubmit || !vm.steps[2].completed()"
+          class="btn btn-success btn-lg pull-right">
+    Add device
+  </a>
 </div>
