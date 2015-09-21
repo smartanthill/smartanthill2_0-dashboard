@@ -22,7 +22,7 @@
     .module('siteApp')
     .controller('MainController', MainController);
 
-  function MainController($scope, $location) {
+  function MainController($scope, $location, $log, $state, notifyUser) {
     var vm = this;
 
     vm.isRouteActive = isRouteActive;
@@ -30,6 +30,12 @@
     $scope.$watch(function() {
       return $location.path();
     }, onPathChange);
+
+    // Prevent circular redirects on certain pages and notify user that SA is
+    // not being run.
+    // $stateChangeError occurs when there are errors in resolve functions,
+    // which usually means that backend is unreachable.
+    $scope.$on('$stateChangeError', onStateChangeError);
 
     ////////////
 
@@ -43,6 +49,18 @@
       }
       path = path.substring(1);
       vm.currentPage = path.substring(0, 1).toUpperCase() + path.substring(1);
+    }
+
+    function onStateChangeError(event, toState, toParams, fromState, fromParams,
+        error) {
+      event.preventDefault();
+
+      $log.error('Unable to perform transition from ', fromState, ' to ',
+        toState, '. Error: ', error);
+      notifyUser('error', 'Unexpected error occured. Please, make sure that ' +
+        'SmartAnthill is running.');
+
+      $state.go('dashboard');
     }
   }
 
