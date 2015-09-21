@@ -41,7 +41,10 @@
     ////////////
 
     function bodyPartModal(index) {
-      var state = {};
+      var state = {
+        'peripheral': {},
+        'options': {},
+      };
       if (index === undefined || index === null) {
         index = -1;
       } else {

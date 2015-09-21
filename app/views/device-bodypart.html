@@ -40,25 +40,34 @@
       </select>
     </div>
 
-    <div class="form-group" ng-repeat="option in vm.selectPlugin.selected.options" ng-switch on="option.type | optionTypeToInputType" show-form-errors>
+    <div class="form-group" ng-repeat="option in vm.selectPlugin.selected.options" show-form-errors>
       <label class="control-label">{{ option.title }}</label>
-      <input ng-switch-when="text"
-             type="text"
-             maxlength="{{ option.type | maxCharLength }}"
-             name="{{ option.name }}"
-             class="form-control"
-             required
-             ng-model="vm.item.options[option.name]">
-      <input ng-switch-when="number"
-             type="number"
-             min="{{ option | minNumberOptionValue }}"
-             max="{{ option | maxNumberOptionValue }}"
-             name="{{ option.name }}"
-             class="form-control"
-             required
-             ng-model="vm.item.options[option.name]"
-             tooltip="Min: {{ option | minNumberOptionValue }}. Max: {{ option | maxNumberOptionValue }}"
-             tooltip-placement="right">
+      <div ng-if="!option._values" ng-switch on="option.type | optionTypeToInputType">
+        <input ng-switch-when="text"
+               type="text"
+               maxlength="{{ option.type | maxCharLength }}"
+               name="{{ option.name }}"
+               class="form-control"
+               required
+               ng-model="vm.itemOptions[option.name]">
+        <input ng-switch-when="number"
+               type="number"
+               min="{{ option | minNumberOptionValue }}"
+               max="{{ option | maxNumberOptionValue }}"
+               name="{{ option.name }}"
+               class="form-control"
+               required
+               ng-model="vm.itemOptions[option.name]"
+               tooltip="Min: {{ option | minNumberOptionValue }}. Max: {{ option | maxNumberOptionValue }}"
+               tooltip-placement="right">
+      </div>
+      <div ng-if="option._values">
+        <select name="{{ option.name }}"
+                class="form-control"
+                ng-model="vm.itemOptions[option.name]"
+                ng-options="value as value.title for value in option._values">
+        </select>
+      </div>
     </div>
   </form>
 

@@ -57,7 +57,7 @@
   }
 
   function _extractSize(string) {
-    return parseInt(/\[(\d+)\]/.exec(string)[1]);
+    return string ? parseInt(/\[(\d+)\]/.exec(string)[1]) : null;
   }
 
   function _isUnsigned(string) {

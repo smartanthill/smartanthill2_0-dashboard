@@ -22,7 +22,7 @@
     .module('siteApp')
     .controller('RunDeviceBodyPartController', RunDeviceBodyPartController);
 
-  function RunDeviceBodyPartController($scope, $modalInstance, $filter,
+  function RunDeviceBodyPartController($scope, $modalInstance, getOptionValue,
     dataService, pluginInfo, deviceInfo, bodyPartInfo, settings) {
 
     var vm = this;
@@ -42,22 +42,23 @@
 
     // Populate default request field values
     angular.forEach(vm.plugin.request_fields, function(field) { // jshint ignore:line
-      if (!angular.isUndefined(field.default)) {
-        if ($filter('optionTypeToInputType')(field.type) === 'number') {
-          vm.requestFields[field.name] = parseInt(field.default);
-        } else {
-          vm.requestFields[field.name] = field.default;
-        }
-      }
+      vm.requestFields[field.name] = getOptionValue(field);
     });
 
     ////////////
 
     function runBodyPart() {
       vm.runDisabled = true;
+
+      var cleanRequestFields = {};
+      angular.forEach(vm.plugin.request_fields, function(field) { // jshint ignore:line
+        cleanRequestFields[field.name] = field._values ?
+          vm.requestFields[field.name].value : vm.requestFields[field.name];
+      });
+
       dataService.runBodyPart(
           'localhost:' + vm.settings.services.api.options.rest.port,
-          vm.device.id, vm.bodyPart.name, vm.requestFields)
+          vm.device.id, vm.bodyPart.name, cleanRequestFields)
         .then(function(data) {
           vm.responseContent = data;
           vm.runDisabled = false;

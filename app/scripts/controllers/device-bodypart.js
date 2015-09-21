@@ -23,39 +23,29 @@
     .controller('DeviceBodyPartController', DeviceBodyPartController);
 
   function DeviceBodyPartController($scope, $modalInstance, $window,
-    extractNumberFromName, getBoardPins, initialState, pluginsList, deviceInfo,
-    boardInfo, editMode, wizardMode) {
+    extractNumberFromName, getBoardPins, getOptionValue, initialState,
+    pluginsList, deviceInfo, boardInfo, editMode, wizardMode) {
 
     var vm = this;
 
     vm.device = deviceInfo;
     vm.plugins = pluginsList;
     vm.item = initialState;
+    vm.itemOptions = {};
     vm.boardPins = getBoardPins(boardInfo);
     vm.selectPlugin = {};
     vm.wizardMode = wizardMode;
 
-    angular.forEach(vm.plugins, function(item) {
-      if (item.id === initialState.pluginId) {
-        vm.selectPlugin.selected = item;
-      }
-    });
-
     $scope.$watch('vm.selectPlugin.selected', function(newValue, oldValue) {
-      if (!angular.isObject(newValue) || newValue === oldValue) {
+      if (!angular.isObject(newValue)) {
         return;
       }
 
-      vm.item.peripheral = {};
-      vm.item.options = {};
-
-      if (angular.isObject(vm.selectPlugin.selected.options)) {
-        angular.forEach(vm.selectPlugin.selected.options, function(item) {
-          if (!angular.isUndefined(item.default)) {
-            vm.item.options[item.name] = item.default;
-          }
-        });
-      }
+      // Assigning default option values
+      angular.forEach(vm.selectPlugin.selected.options, function(option) {
+        vm.itemOptions[option.name] = getOptionValue(
+          option, vm.item.options[option.name]);
+      });
 
       if (vm.wizardMode || !editMode || !vm.item.name) {
         vm.item.name = newValue.id;
@@ -74,6 +64,12 @@
 
     });
 
+    angular.forEach(vm.plugins, function(item) {
+      if (item.id === initialState.pluginId) {
+        vm.selectPlugin.selected = item;
+      }
+    });
+
     // handlers
     vm.save = save;
     vm.cancel = cancel;
@@ -89,6 +85,13 @@
           }
         }
       }
+
+      // Copy option values to item object
+      angular.forEach(vm.selectPlugin.selected.options, function(spec) {
+        vm.item.options[spec.name] = spec._values ?
+          vm.itemOptions[spec.name].value : vm.itemOptions[spec.name];
+      });
+
       $modalInstance.close({
         'name': vm.item.name,
         'pluginId': vm.selectPlugin.selected.id,

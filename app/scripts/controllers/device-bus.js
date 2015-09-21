@@ -23,10 +23,10 @@
     .module('siteApp')
     .controller('DeviceBusController', DeviceBusController);
 
-  function DeviceBusController($log, $scope, $filter, $modalInstance,
-    dataService, notifyUser, extractNumberFromName, getBoardPins, initialState,
-    deviceInfo, editMode, serialPortsList, transportsList, wizardMode,
-    boardInfo) {
+  function DeviceBusController($log, $scope, $modalInstance, dataService,
+    notifyUser, extractNumberFromName, getBoardPins, getOptionValue,
+    initialState, deviceInfo, editMode, serialPortsList, transportsList,
+    wizardMode, boardInfo) {
 
     var vm = this;
 
@@ -144,21 +144,6 @@
           return vm.transports[i];
         }
       }
-    }
-
-    function getOptionValue(optionSpec, currentValue) {
-      var optionValue = currentValue || optionSpec.default;
-      if ('number' === $filter('optionTypeToInputType')(optionSpec.type)) {
-        optionValue = parseInt(optionValue);
-      }
-      if (optionSpec._values) {
-        angular.forEach(optionSpec._values, function(valueObj) {
-          if (valueObj.value === optionValue) {
-            optionValue = valueObj;
-          }
-        });
-      }
-      return optionValue;
     }
 
     function hubMayBeAdded() {

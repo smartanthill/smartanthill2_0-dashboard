@@ -167,7 +167,8 @@
   }
 
   function runBodyPartDisabled(device) {
-    return !device.enabled || 2 === device.status;
+    return false; // _values support debug
+    // return !device.enabled || 2 === device.status;
   }
 
   function runBodyPartTooltipText(device) {

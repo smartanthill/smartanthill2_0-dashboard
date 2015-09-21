@@ -10,22 +10,33 @@
   <form name="bodyPartFieldsForm" novalidate role="form">
     <div class="form-group" ng-repeat="field in vm.plugin.request_fields" ng-switch on="field.type | optionTypeToInputType" show-form-errors>
       <label class="control-label"><code>{{ field.name }}</code><span ng-show="field.title"> - {{ field.title }}</span></label>
-      <input ng-switch-when="text"
-             type="text"
-             name="{{ field.name }}"
-             class="form-control"
-             required
-             ng-model="vm.requestFields[field.name]">
-      <input ng-switch-when="number"
-             type="number"
-             name="{{ field.name }}"
-             class="form-control"
-             required
-             min="{{ field.min }}"
-             max="{{ field.max }}"
-             ng-model="vm.requestFields[field.name]">
+      <div ng-if="!field._values" ng-switch on="field.type | optionTypeToInputType">
+        <input ng-switch-when="text"
+               type="text"
+               name="{{ field.name }}"
+               class="form-control"
+               required
+               ng-model="vm.requestFields[field.name]">
+        <input ng-switch-when="number"
+               type="number"
+               name="{{ field.name }}"
+               class="form-control"
+               required
+               min="{{ field.min }}"
+               max="{{ field.max }}"
+               ng-model="vm.requestFields[field.name]">
+      </div>
+      <div ng-if="field._values">
+        <select name="{{ field.name }}"
+                class="form-control"
+                ng-model="vm.requestFields[field.name]"
+                ng-options="value as value.title for value in field._values">
+        </select>
+      </div>
     </div>
   </form>
+
+  <pre>{{ vm.requestFields | json }}</pre>
 
   <div class="bodyPartResponse" ng-show="vm.responseContent">
     <h4>Response:</h4>
