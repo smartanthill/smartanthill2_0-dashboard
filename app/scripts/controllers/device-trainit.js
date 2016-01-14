@@ -22,7 +22,7 @@
     .module('siteApp')
     .controller('DeviceTrainItController', DeviceTrainItController);
 
-  function DeviceTrainItController($q, $resource, $timeout, $modalInstance,
+  function DeviceTrainItController($q, $resource, $timeout, $uibModalInstance,
     dataService, deviceInfo, serialPortsList, logicalDisksList, settings) {
 
     var vm = this;
@@ -123,7 +123,7 @@
         })
       .then(function(result) {
           $timeout(function() {
-            $modalInstance.close(
+            $uibModalInstance.close(
               'The device has been successfully Train It!-ed. ' +
               result);
           }, 1000);
@@ -132,7 +132,7 @@
           if (!failure && vm.btnDisabled.start) {
             failure = 'The "Train It!" operation has been cancelled!';
           }
-          $modalInstance.dismiss(failure);
+          $uibModalInstance.dismiss(failure);
         });
 
     vm.start = function() {
@@ -163,7 +163,7 @@
     };
 
     vm.finish = function() {
-      $modalInstance.close(
+      $uibModalInstance.close(
         'The device has been successfully Train It!-ed.');
     };
   }

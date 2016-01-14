@@ -21,7 +21,7 @@
   angular.module('siteApp')
     .controller('DeviceEditBusesController', DeviceEditBusesController);
 
-  function DeviceEditBusesController($scope, $window, $modal, dataService,
+  function DeviceEditBusesController($scope, $window, $uibModal, dataService,
     idToNameMapper) {
 
     var vm = this;
@@ -52,7 +52,7 @@
         angular.copy(vm.device.buses[index], state);
       }
 
-      var modalInstance = $modal.open({
+      var modalInstance = $uibModal.open({
         templateUrl: 'views/device-bus.html',
         controller: 'DeviceBusController',
         controllerAs: 'vm',

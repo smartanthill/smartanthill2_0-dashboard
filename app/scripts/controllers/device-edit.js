@@ -21,7 +21,7 @@
   angular.module('siteApp')
     .controller('DeviceEditController', DeviceEditController);
 
-  function DeviceEditController($scope, $location, $modal, dataService,
+  function DeviceEditController($scope, $location, $uibModal, dataService,
     notifyUser, deviceInfo, devicesList, boardsList) {
     var vm = this;
 

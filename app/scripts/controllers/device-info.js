@@ -22,7 +22,7 @@
     .module('siteApp')
     .controller('DeviceInfoController', DeviceInfoController);
 
-  function DeviceInfoController($location, $modal, notifyUser, deviceInfo,
+  function DeviceInfoController($location, $uibModal, notifyUser, deviceInfo,
     boardInfo, pluginsList, idToNameMapper, idleStatusCode, transportsList) {
 
     var vm = this;
@@ -67,7 +67,7 @@
     }
 
     function trainIt() {
-      var modalInstance = $modal.open({
+      var modalInstance = $uibModal.open({
         templateUrl: 'views/device-trainit.html',
         controller: 'DeviceTrainItController',
         controllerAs: 'vm',
@@ -106,7 +106,7 @@
     }
 
     function runBodyPartModal(bodyPart) {
-      var modalInstance = $modal.open({
+      var modalInstance = $uibModal.open({
         templateUrl: 'views/device-bodypart-run.html',
         controller: 'RunDeviceBodyPartController',
         controllerAs: 'vm',
@@ -136,7 +136,7 @@
     }
 
     function showBodyPartDocsModal(bodyPart) {
-      var modalInstance = $modal.open({
+      var modalInstance = $uibModal.open({
         templateUrl: 'views/device-bodypart-docs.html',
         controller: 'ShowBodyPartDocsController',
         controllerAs: 'vm',

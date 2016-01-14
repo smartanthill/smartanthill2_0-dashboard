@@ -21,7 +21,7 @@
   angular.module('siteApp')
     .controller('DeviceEditBodyPartsController', DeviceEditBodyPartsController);
 
-  function DeviceEditBodyPartsController($scope, $modal, idToNameMapper,
+  function DeviceEditBodyPartsController($scope, $uibModal, idToNameMapper,
     dataService) {
 
     var vm = this;
@@ -51,7 +51,7 @@
         angular.copy(vm.device.bodyparts[index], state);
       }
 
-      var modalInstance = $modal.open({
+      var modalInstance = $uibModal.open({
         templateUrl: 'views/device-bodypart.html',
         controller: 'DeviceBodyPartController',
         controllerAs: 'vm',

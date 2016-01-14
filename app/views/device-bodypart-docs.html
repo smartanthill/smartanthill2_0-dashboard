@@ -4,8 +4,8 @@
 
 <div class="modal-body">
 
-  <tabset>
-    <tab heading="REST">
+  <uib-tabset>
+    <uib-tab heading="REST">
       <p>To perform REST request and receive result in JSON format use the
          folliwing URL:</p>
       <pre>{{ vm.makeRESTURL(true) }}</pre>
@@ -21,9 +21,9 @@
       <pre>RESULT*</pre>
 
       <span class="help-block">* RESULT will be replaced with actual response data</span>
-    </tab>
+    </uib-tab>
 
-    <tab heading="WebSockets & Sockets">
+    <uib-tab heading="WebSockets & Sockets">
       <p>
         WebSockets & Sockets communication is based on
         <a href="http://www.jsonrpc.org/specification" target="_blank">JSON-RPC2</a> protocol.
@@ -39,8 +39,8 @@
         storing id of last message in some variable and increment it's value
         each time you make request to make sure that all IDs are unique.
       </span>
-    </tab>
-  </tabset>
+    </uib-tab>
+  </uib-tabset>
 
   <div class="params-description" ng-show="vm.plugin.request_fields.length">
     <h4>Params</h4>

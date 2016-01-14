@@ -22,7 +22,7 @@
     .module('siteApp')
     .controller('ShowBodyPartDocsController', ShowBodyPartDocsController);
 
-  function ShowBodyPartDocsController($scope, $modalInstance, dataService,
+  function ShowBodyPartDocsController($scope, $uibModalInstance, dataService,
     pluginInfo, deviceInfo, bodyPartInfo, settings) {
 
     var vm = this;
@@ -74,7 +74,7 @@
     }
 
     function closeModal() {
-      $modalInstance.close('close');
+      $uibModalInstance.close('close');
     }
 
     function getFieldValue(field) {

@@ -23,7 +23,7 @@
     .module('siteApp')
     .controller('NetworkHubController', NetworkHubController);
 
-  function NetworkHubController($window, $log, $scope, $modalInstance,
+  function NetworkHubController($window, $log, $scope, $uibModalInstance,
     notifyUser, initialState, serialPortsList, transportsList) {
 
     var vm = this;
@@ -87,11 +87,11 @@
       var uri = new URI({protocol: vm.protocol, path: vm.serialPort})
         .addQuery('baudrate', vm.baudrate);
       vm.hub.connection = uri.toString();
-      $modalInstance.close(vm.hub);
+      $uibModalInstance.close(vm.hub);
     }
 
     function cancel() {
-      $modalInstance.dismiss('cancel');
+      $uibModalInstance.dismiss('cancel');
     }
 
   }

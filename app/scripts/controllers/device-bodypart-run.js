@@ -22,7 +22,7 @@
     .module('siteApp')
     .controller('RunDeviceBodyPartController', RunDeviceBodyPartController);
 
-  function RunDeviceBodyPartController($scope, $modalInstance, getOptionValue,
+  function RunDeviceBodyPartController($scope, $uibModalInstance, getOptionValue,
     dataService, pluginInfo, deviceInfo, bodyPartInfo, settings) {
 
     var vm = this;
@@ -66,7 +66,7 @@
     }
 
     function closeModal() {
-      $modalInstance.close('close');
+      $uibModalInstance.close('close');
     }
   }
 

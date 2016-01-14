@@ -22,7 +22,7 @@
     .module('siteApp')
     .controller('NetworkController', NetworkController);
 
-  function NetworkController($window, $modal, $state, notifyUser, hubsList) {
+  function NetworkController($window, $uibModal, $state, notifyUser, hubsList) {
     var vm = this;
     vm.hubs = hubsList;
     vm.hubsBackup = angular.copy(hubsList);
@@ -46,7 +46,7 @@
         angular.copy(vm.hubs.items[index], state);
       }
 
-      var modalInstance = $modal.open({
+      var modalInstance = $uibModal.open({
         templateUrl: 'views/network-hub.html',
         controller: 'NetworkHubController',
         controllerAs: 'vm',

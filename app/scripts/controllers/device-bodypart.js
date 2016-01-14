@@ -22,7 +22,7 @@
     .module('siteApp')
     .controller('DeviceBodyPartController', DeviceBodyPartController);
 
-  function DeviceBodyPartController($scope, $modalInstance, $window,
+  function DeviceBodyPartController($scope, $uibModalInstance, $window,
     extractNumberFromName, getBoardPins, getOptionValue, initialState,
     pluginsList, deviceInfo, boardInfo, editMode, wizardMode) {
 
@@ -92,7 +92,7 @@
           vm.itemOptions[spec.name].value : vm.itemOptions[spec.name];
       });
 
-      $modalInstance.close({
+      $uibModalInstance.close({
         'name': vm.item.name,
         'pluginId': vm.selectPlugin.selected.id,
         'peripheral': vm.item.peripheral,
@@ -101,7 +101,7 @@
     }
 
     function cancel() {
-      $modalInstance.dismiss('cancel');
+      $uibModalInstance.dismiss('cancel');
     }
   }
 

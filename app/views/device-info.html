@@ -8,8 +8,8 @@
 
 <br class="clearfix">
 
-<tabset>
-  <tab heading="General">
+<uib-tabset>
+  <uib-tab heading="General">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">General</h3>
@@ -69,15 +69,15 @@
                 </dl>
               </td>
               <td>
-                <div class="btn-group btn-group-sm" dropdown>
+                <div class="btn-group btn-group-sm" uib-dropdown>
                   <button type="button" class="btn btn-success" ng-disabled="vm.runBodyPartDisabled(vm.device)" ng-click="vm.runBodyPartModal(item)">Run</button>
                   <div class="disabled-button-tooltip" ng-show="vm.runBodyPartDisabled(vm.device)"
                        tooltip="{{ vm.runBodyPartTooltipText(vm.device) }}"></div>
-                  <button type="button" class="btn btn-success" dropdown-toggle>
+                  <button type="button" class="btn btn-success" uib-dropdown-toggle>
                     <span class="caret"></span>
                     <span class="sr-only">Toggle dropdown</span>
                   </button>
-                  <ul class="dropdown-menu" role="menu">
+                  <ul class="dropdown-menu" uib-dropdown-menu role="menu">
                     <li role="menuitem">
                       <a class="pointer" ng-click="vm.showBodyPartDocsModal(item)">
                         <i class="fa fa-book"></i>
@@ -129,9 +129,9 @@
 
       </div>
     </div>
-  </tab>
+  </uib-tab>
 
-  <tab heading="Board">
+  <uib-tab heading="Board">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Info</h3>
@@ -192,6 +192,6 @@
         </table>
       </div>
     </div>
-  </tab>
+  </uib-tab>
 
-</tabset>
+</uib-tabset>

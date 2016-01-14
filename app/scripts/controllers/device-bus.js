@@ -23,7 +23,7 @@
     .module('siteApp')
     .controller('DeviceBusController', DeviceBusController);
 
-  function DeviceBusController($log, $scope, $modalInstance, dataService,
+  function DeviceBusController($log, $scope, $uibModalInstance, dataService,
     notifyUser, extractNumberFromName, getBoardPins, getOptionValue,
     initialState, deviceInfo, editMode, serialPortsList, transportsList,
     wizardMode, boardInfo) {
@@ -130,12 +130,12 @@
       }
 
       function closeModalWindow() {
-        $modalInstance.close(vm.bus);
+        $uibModalInstance.close(vm.bus);
       }
     }
 
     function cancel() {
-      $modalInstance.dismiss('cancel');
+      $uibModalInstance.dismiss('cancel');
     }
 
     function getTransportById(id) {
